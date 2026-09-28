@@ -1,0 +1,32 @@
+{
+  "classification": "unresolved",
+  "classification_inputs": {
+    "lower": -12.004389495935461,
+    "upper": 1.3817906256585344
+  },
+  "classification_rule": {
+    "rank-resolved-high": "upper < 0",
+    "rank-resolved-low": "lower > 0",
+    "unresolved": "lower <= 0 <= upper"
+  },
+  "comparator_selection_rule": "the declared bilinear workload-by-target model, compared unconditionally and independently of which family the primary selection picks; if the bilinear family is unavailable the comparison is reported as unsupported and is never substituted by another model",
+  "computed_unconditionally": true,
+  "effect_definition": "absolute-error(registered comparator) - absolute-error(rank-one baseline)",
+  "multiplicity": "none-descriptive-outside-the-declared-holm-family",
+  "paired_difference_absolute_error_seconds": {
+    "draws": 10000,
+    "estimate": -4.395891766264593,
+    "hierarchy": [
+      "origin"
+    ],
+    "lower": -12.004389495935461,
+    "origin_count": 27,
+    "resampling_unit": "origin",
+    "seeded": true,
+    "status": "evaluated",
+    "upper": 1.3817906256585344
+  },
+  "reference_model": "rank1-target-speed-factor",
+  "registered_comparator": "bilinear",
+  "status": "evaluated"
+}

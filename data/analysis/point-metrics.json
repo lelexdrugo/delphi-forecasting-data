@@ -1,0 +1,1937 @@
+{
+  "feature_ladder": {
+    "W": {
+      "bootstrap_absolute_error_seconds": {
+        "draws": 10000,
+        "estimate": 19.79360250662269,
+        "hierarchy": [
+          "origin"
+        ],
+        "lower": 13.096100627071985,
+        "origin_count": 27,
+        "resampling_unit": "origin",
+        "seeded": true,
+        "status": "evaluated",
+        "upper": 27.556252755499433
+      },
+      "censored_sensitivity": {
+        "bound": "lower",
+        "deadline_seconds": 900.0,
+        "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+        "mae_seconds_lower_bound": 18.179483753276354,
+        "n_censored_rows_excluded_prediction_above_deadline": 0,
+        "n_censored_rows_imputed_at_deadline": 0,
+        "n_complete_rows": 256,
+        "status": "evaluated",
+        "upper_bound_exists": false
+      },
+      "exclusion_accounting": {
+        "n_origins_eligible": 27,
+        "n_origins_fully_excluded": 0,
+        "n_origins_scored": 27,
+        "n_rows_eligible": 256,
+        "n_rows_excluded": 0,
+        "n_rows_excluded_by_reason": {
+          "driver-interrupted": 0,
+          "failed": 0,
+          "not-run": 0,
+          "timed_out": 0
+        },
+        "n_rows_scored": 256,
+        "reconciled": true
+      },
+      "governing_decision": "DEC-F22",
+      "mae_seconds": 18.179483753276354,
+      "mape": 0.35035016324144674,
+      "median_absolute_error_seconds": 6.803489476900202,
+      "n": 256,
+      "negative_prediction_clip_count": 0,
+      "origin_count": 27,
+      "p90_absolute_error_seconds": 60.83941831978351,
+      "p95_absolute_error_seconds": 79.1877740469238,
+      "rmse_seconds": 34.5371908911302,
+      "status": "evaluated"
+    },
+    "W+H": {
+      "bootstrap_absolute_error_seconds": {
+        "draws": 10000,
+        "estimate": 19.522168185785745,
+        "hierarchy": [
+          "origin"
+        ],
+        "lower": 12.106763966452643,
+        "origin_count": 27,
+        "resampling_unit": "origin",
+        "seeded": true,
+        "status": "evaluated",
+        "upper": 28.123779500623964
+      },
+      "censored_sensitivity": {
+        "bound": "lower",
+        "deadline_seconds": 900.0,
+        "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+        "mae_seconds_lower_bound": 17.970882040097386,
+        "n_censored_rows_excluded_prediction_above_deadline": 0,
+        "n_censored_rows_imputed_at_deadline": 0,
+        "n_complete_rows": 256,
+        "status": "evaluated",
+        "upper_bound_exists": false
+      },
+      "exclusion_accounting": {
+        "n_origins_eligible": 27,
+        "n_origins_fully_excluded": 0,
+        "n_origins_scored": 27,
+        "n_rows_eligible": 256,
+        "n_rows_excluded": 0,
+        "n_rows_excluded_by_reason": {
+          "driver-interrupted": 0,
+          "failed": 0,
+          "not-run": 0,
+          "timed_out": 0
+        },
+        "n_rows_scored": 256,
+        "reconciled": true
+      },
+      "governing_decision": "DEC-F22",
+      "mae_seconds": 17.970882040097386,
+      "mape": 0.2831432129962903,
+      "median_absolute_error_seconds": 5.685325001497752,
+      "n": 256,
+      "negative_prediction_clip_count": 0,
+      "origin_count": 27,
+      "p90_absolute_error_seconds": 50.22427669719002,
+      "p95_absolute_error_seconds": 78.63134474659853,
+      "rmse_seconds": 35.28694747048374,
+      "status": "evaluated"
+    },
+    "W+H+C": {
+      "bootstrap_absolute_error_seconds": {
+        "draws": 10000,
+        "estimate": 18.93930386349999,
+        "hierarchy": [
+          "origin"
+        ],
+        "lower": 11.5055445289378,
+        "origin_count": 27,
+        "resampling_unit": "origin",
+        "seeded": true,
+        "status": "evaluated",
+        "upper": 27.58252560240729
+      },
+      "censored_sensitivity": {
+        "bound": "lower",
+        "deadline_seconds": 900.0,
+        "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+        "mae_seconds_lower_bound": 17.41870063123539,
+        "n_censored_rows_excluded_prediction_above_deadline": 0,
+        "n_censored_rows_imputed_at_deadline": 0,
+        "n_complete_rows": 256,
+        "status": "evaluated",
+        "upper_bound_exists": false
+      },
+      "exclusion_accounting": {
+        "n_origins_eligible": 27,
+        "n_origins_fully_excluded": 0,
+        "n_origins_scored": 27,
+        "n_rows_eligible": 256,
+        "n_rows_excluded": 0,
+        "n_rows_excluded_by_reason": {
+          "driver-interrupted": 0,
+          "failed": 0,
+          "not-run": 0,
+          "timed_out": 0
+        },
+        "n_rows_scored": 256,
+        "reconciled": true
+      },
+      "governing_decision": "DEC-F22",
+      "mae_seconds": 17.41870063123539,
+      "mape": 0.27551760140514014,
+      "median_absolute_error_seconds": 4.854201158410721,
+      "n": 256,
+      "negative_prediction_clip_count": 0,
+      "origin_count": 27,
+      "p90_absolute_error_seconds": 48.60734367508272,
+      "p95_absolute_error_seconds": 78.32704167700135,
+      "rmse_seconds": 34.49103124659433,
+      "status": "evaluated"
+    },
+    "W+H+C+S": {
+      "bootstrap_absolute_error_seconds": {
+        "draws": 10000,
+        "estimate": 18.813679492045917,
+        "hierarchy": [
+          "origin"
+        ],
+        "lower": 11.411303052261568,
+        "origin_count": 27,
+        "resampling_unit": "origin",
+        "seeded": true,
+        "status": "evaluated",
+        "upper": 27.42680343585081
+      },
+      "censored_sensitivity": {
+        "bound": "lower",
+        "deadline_seconds": 900.0,
+        "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+        "mae_seconds_lower_bound": 17.28923143289137,
+        "n_censored_rows_excluded_prediction_above_deadline": 0,
+        "n_censored_rows_imputed_at_deadline": 0,
+        "n_complete_rows": 256,
+        "status": "evaluated",
+        "upper_bound_exists": false
+      },
+      "exclusion_accounting": {
+        "n_origins_eligible": 27,
+        "n_origins_fully_excluded": 0,
+        "n_origins_scored": 27,
+        "n_rows_eligible": 256,
+        "n_rows_excluded": 0,
+        "n_rows_excluded_by_reason": {
+          "driver-interrupted": 0,
+          "failed": 0,
+          "not-run": 0,
+          "timed_out": 0
+        },
+        "n_rows_scored": 256,
+        "reconciled": true
+      },
+      "governing_decision": "DEC-F22",
+      "mae_seconds": 17.28923143289137,
+      "mape": 0.27396239386761423,
+      "median_absolute_error_seconds": 5.017969916216314,
+      "n": 256,
+      "negative_prediction_clip_count": 0,
+      "origin_count": 27,
+      "p90_absolute_error_seconds": 47.74452717369287,
+      "p95_absolute_error_seconds": 78.14445479051236,
+      "rmse_seconds": 34.34057562610571,
+      "status": "evaluated"
+    }
+  },
+  "feature_ladder_contract": {
+    "adjacent_steps": [
+      "W->W+H",
+      "W+H->W+H+C",
+      "W+H+C->W+H+C+S"
+    ],
+    "adjacent_steps_only": true,
+    "confidence_level": 0.95,
+    "draws": 10000,
+    "effect_definition": "absolute error(later rung) - absolute error(earlier rung)",
+    "hierarchy": [
+      "origin"
+    ],
+    "interval_scope": "identical to the primary comparison bootstrap",
+    "ladder": [
+      "W",
+      "W+H",
+      "W+H+C",
+      "W+H+C+S"
+    ],
+    "multiplicity": "none-descriptive-outside-the-declared-holm-family",
+    "per_row_predictions": "fold-predictions.csv",
+    "random_seed": 20260921,
+    "resampling_unit": "origin"
+  },
+  "feature_ladder_steps": {
+    "W+H+C->W+H+C+S": {
+      "effect_definition": "absolute error(W+H+C+S) - absolute error(W+H+C)",
+      "from_rung": "W+H+C",
+      "paired_difference_absolute_error_seconds": {
+        "draws": 10000,
+        "estimate": -0.12562437145407498,
+        "hierarchy": [
+          "origin"
+        ],
+        "lower": -0.19995463310583517,
+        "origin_count": 27,
+        "resampling_unit": "origin",
+        "seeded": true,
+        "status": "evaluated",
+        "upper": -0.05325870951011361
+      },
+      "to_rung": "W+H+C+S"
+    },
+    "W+H->W+H+C": {
+      "effect_definition": "absolute error(W+H+C) - absolute error(W+H)",
+      "from_rung": "W+H",
+      "paired_difference_absolute_error_seconds": {
+        "draws": 10000,
+        "estimate": -0.582864322285752,
+        "hierarchy": [
+          "origin"
+        ],
+        "lower": -0.7999907620424377,
+        "origin_count": 27,
+        "resampling_unit": "origin",
+        "seeded": true,
+        "status": "evaluated",
+        "upper": -0.3868430541240976
+      },
+      "to_rung": "W+H+C"
+    },
+    "W->W+H": {
+      "effect_definition": "absolute error(W+H) - absolute error(W)",
+      "from_rung": "W",
+      "paired_difference_absolute_error_seconds": {
+        "draws": 10000,
+        "estimate": -0.27143432083694524,
+        "hierarchy": [
+          "origin"
+        ],
+        "lower": -1.73673021785727,
+        "origin_count": 27,
+        "resampling_unit": "origin",
+        "seeded": true,
+        "status": "evaluated",
+        "upper": 1.1660826745687292
+      },
+      "to_rung": "W+H"
+    }
+  },
+  "metrics": {
+    "family-median": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 44.68181818181818,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 44.68181818181818,
+        "mape": 0.5822648665818405,
+        "median_absolute_error_seconds": 14.0,
+        "n": 176,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 111.0,
+        "p95_absolute_error_seconds": 133.25,
+        "rmse_seconds": 90.8847296904661,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.0,
+        "median_kendall_tau": 0.0,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.2222222222222222,
+        "top1_target_hit_rate_all_targets_measured": 0.2222222222222222
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 29.75308641975309,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 22.225154320987652,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 38.134375
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 27.74609375,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 27.74609375,
+        "mape": 0.5386827358024691,
+        "median_absolute_error_seconds": 13.0,
+        "n": 256,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 85.0,
+        "p95_absolute_error_seconds": 97.25,
+        "rmse_seconds": 47.62393371509749,
+        "skill_vs_strongest_selected_baseline": -0.9171390013495277,
+        "status": "evaluated"
+      }
+    },
+    "family-target-log-log-size": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 35.7096051292134,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 35.7096051292134,
+        "mape": 0.42985564247763103,
+        "median_absolute_error_seconds": 7.980610993633755,
+        "n": 176,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 83.86222979548671,
+        "p95_absolute_error_seconds": 115.54512636181428,
+        "rmse_seconds": 83.66247311141694,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.8296296296296296,
+        "median_kendall_tau": 1.0,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.6666666666666666,
+        "top1_target_hit_rate_all_targets_measured": 0.6666666666666666
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 17.214176124212557,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 10.501167243675475,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 25.210646139409096
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 15.802181871786312,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 15.802181871786312,
+        "mape": 0.3230089194787702,
+        "median_absolute_error_seconds": 5.185617057489833,
+        "n": 256,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 51.90739133540907,
+        "p95_absolute_error_seconds": 67.87718892223461,
+        "rmse_seconds": 29.191992015864624,
+        "skill_vs_strongest_selected_baseline": -0.09186465834744828,
+        "status": "evaluated"
+      }
+    },
+    "family-target-median": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 32.57954545454545,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 32.57954545454545,
+        "mape": 0.3418497833782234,
+        "median_absolute_error_seconds": 9.0,
+        "n": 176,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 84.5,
+        "p95_absolute_error_seconds": 115.125,
+        "rmse_seconds": 79.83621372990626,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.8444444444444444,
+        "median_kendall_tau": 1.0,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.37037037037037035,
+        "top1_target_hit_rate_all_targets_measured": 0.37037037037037035
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 15.612654320987653,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 8.907175925925927,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 23.673148148148147
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 14.47265625,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 14.47265625,
+        "mape": 0.25345774517974995,
+        "median_absolute_error_seconds": 5.0,
+        "n": 256,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 41.0,
+        "p95_absolute_error_seconds": 68.0,
+        "rmse_seconds": 28.763447941788897,
+        "skill_vs_strongest_selected_baseline": 0.0,
+        "status": "evaluated"
+      }
+    },
+    "global-median": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 43.125,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 43.125,
+        "mape": 0.5574292514913435,
+        "median_absolute_error_seconds": 14.0,
+        "n": 176,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 102.5,
+        "p95_absolute_error_seconds": 128.25,
+        "rmse_seconds": 88.95964355716687,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.0,
+        "median_kendall_tau": 0.0,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.2222222222222222,
+        "top1_target_hit_rate_all_targets_measured": 0.2222222222222222
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 31.73456790123457,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 23.55995370370371,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 41.13445216049382
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 29.60546875,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 29.60546875,
+        "mape": 0.6301473258309805,
+        "median_absolute_error_seconds": 13.0,
+        "n": 256,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 80.0,
+        "p95_absolute_error_seconds": 122.25,
+        "rmse_seconds": 51.08162126685096,
+        "skill_vs_strongest_selected_baseline": -1.0456140350877194,
+        "status": "evaluated"
+      }
+    },
+    "ladder:W": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 33.98969557892656,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 33.98969557892656,
+        "mape": 0.4330773245774129,
+        "median_absolute_error_seconds": 10.90025457520371,
+        "n": 176,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 74.32077249182802,
+        "p95_absolute_error_seconds": 120.10585292063531,
+        "rmse_seconds": 73.25487748310256,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.817283950617284,
+        "median_kendall_tau": 1.0,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5555555555555556,
+        "top1_target_hit_rate_all_targets_measured": 0.5555555555555556
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 19.79360250662269,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 13.096100627071985,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 27.556252755499433
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 18.179483753276354,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 18.179483753276354,
+        "mape": 0.35035016324144674,
+        "median_absolute_error_seconds": 6.803489476900202,
+        "n": 256,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 60.83941831978351,
+        "p95_absolute_error_seconds": 79.1877740469238,
+        "rmse_seconds": 34.5371908911302,
+        "skill_vs_strongest_selected_baseline": -0.2561262728309708,
+        "status": "evaluated"
+      }
+    },
+    "ladder:W+H": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 33.8172253265405,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 33.8172253265405,
+        "mape": 0.40857040602873834,
+        "median_absolute_error_seconds": 10.503526758476795,
+        "n": 176,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 76.08738216503077,
+        "p95_absolute_error_seconds": 120.13741943643663,
+        "rmse_seconds": 73.42932840798899,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.817283950617284,
+        "median_kendall_tau": 1.0,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5555555555555556,
+        "top1_target_hit_rate_all_targets_measured": 0.5555555555555556
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 19.522168185785745,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 12.106763966452643,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 28.123779500623964
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 17.970882040097386,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 17.970882040097386,
+        "mape": 0.2831432129962903,
+        "median_absolute_error_seconds": 5.685325001497752,
+        "n": 256,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 50.22427669719002,
+        "p95_absolute_error_seconds": 78.63134474659853,
+        "rmse_seconds": 35.28694747048374,
+        "skill_vs_strongest_selected_baseline": -0.24171276714303125,
+        "status": "evaluated"
+      }
+    },
+    "ladder:W+H+C": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 34.28188589473503,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 34.28188589473503,
+        "mape": 0.4048389710664051,
+        "median_absolute_error_seconds": 10.630130577048401,
+        "n": 176,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 74.81495632592723,
+        "p95_absolute_error_seconds": 120.64422631361354,
+        "rmse_seconds": 76.50584578010755,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.817283950617284,
+        "median_kendall_tau": 1.0,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5555555555555556,
+        "top1_target_hit_rate_all_targets_measured": 0.5555555555555556
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 18.93930386349999,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 11.5055445289378,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 27.58252560240729
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 17.41870063123539,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 17.41870063123539,
+        "mape": 0.27551760140514014,
+        "median_absolute_error_seconds": 4.854201158410721,
+        "n": 256,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 48.60734367508272,
+        "p95_absolute_error_seconds": 78.32704167700135,
+        "rmse_seconds": 34.49103124659433,
+        "skill_vs_strongest_selected_baseline": -0.20355934186133862,
+        "status": "evaluated"
+      }
+    },
+    "ladder:W+H+C+S": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 34.36575575330468,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 34.36575575330468,
+        "mape": 0.40359601015971136,
+        "median_absolute_error_seconds": 10.11440455997094,
+        "n": 176,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 74.8409691842364,
+        "p95_absolute_error_seconds": 120.96647818477125,
+        "rmse_seconds": 77.21987986332772,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.817283950617284,
+        "median_kendall_tau": 1.0,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5555555555555556,
+        "top1_target_hit_rate_all_targets_measured": 0.5555555555555556
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 18.813679492045917,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 11.411303052261568,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 27.42680343585081
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 17.28923143289137,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 17.28923143289137,
+        "mape": 0.27396239386761423,
+        "median_absolute_error_seconds": 5.017969916216314,
+        "n": 256,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 47.74452717369287,
+        "p95_absolute_error_seconds": 78.14445479051236,
+        "rmse_seconds": 34.34057562610571,
+        "skill_vs_strongest_selected_baseline": -0.1946135618947884,
+        "status": "evaluated"
+      }
+    },
+    "learned:bilinear": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 34.36575575330468,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 34.36575575330468,
+        "mape": 0.40359601015971136,
+        "median_absolute_error_seconds": 10.11440455997094,
+        "n": 176,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 74.8409691842364,
+        "p95_absolute_error_seconds": 120.96647818477125,
+        "rmse_seconds": 77.21987986332772,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.817283950617284,
+        "median_kendall_tau": 1.0,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5555555555555556,
+        "top1_target_hit_rate_all_targets_measured": 0.5555555555555556
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 18.813679492045917,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 11.411303052261568,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 27.42680343585081
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 17.28923143289137,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 17.28923143289137,
+        "mape": 0.27396239386761423,
+        "median_absolute_error_seconds": 5.017969916216314,
+        "n": 256,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 47.74452717369287,
+        "p95_absolute_error_seconds": 78.14445479051236,
+        "rmse_seconds": 34.34057562610571,
+        "skill_vs_strongest_selected_baseline": -0.1946135618947884,
+        "status": "evaluated"
+      }
+    },
+    "learned:random_forest": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 37.28575112815105,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 37.28575112815105,
+        "mape": 0.46866964687611057,
+        "median_absolute_error_seconds": 13.781258000975116,
+        "n": 176,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 91.02157514639347,
+        "p95_absolute_error_seconds": 115.9353155904428,
+        "rmse_seconds": 80.71532598894441,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.7679012345679012,
+        "median_kendall_tau": 1.0,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5925925925925926,
+        "top1_target_hit_rate_all_targets_measured": 0.5925925925925926
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 22.368624108835334,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 15.70279302249201,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 30.23637982165149
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 21.111463894610324,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 21.111463894610324,
+        "mape": 0.41431849949272004,
+        "median_absolute_error_seconds": 10.779110253894693,
+        "n": 256,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 53.31458425299814,
+        "p95_absolute_error_seconds": 78.44235416454723,
+        "rmse_seconds": 35.582249485148196,
+        "skill_vs_strongest_selected_baseline": -0.4587138345533719,
+        "status": "evaluated"
+      }
+    },
+    "learned:ridge": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 38.21485962158835,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 38.21485962158835,
+        "mape": 0.43776418519787424,
+        "median_absolute_error_seconds": 10.071366280263735,
+        "n": 176,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 82.47626354891091,
+        "p95_absolute_error_seconds": 117.8755608431242,
+        "rmse_seconds": 85.94156925807748,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.7679012345679012,
+        "median_kendall_tau": 0.6666666666666666,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5555555555555556,
+        "top1_target_hit_rate_all_targets_measured": 0.5555555555555556
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 27.99684513496077,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 19.192142530194573,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 38.11469260859124
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 26.652025979768233,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 26.652025979768233,
+        "mape": 0.5420738532731257,
+        "median_absolute_error_seconds": 12.442110378844124,
+        "n": 256,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 72.66888240421848,
+        "p95_absolute_error_seconds": 100.23031061849366,
+        "rmse_seconds": 44.60091943192041,
+        "skill_vs_strongest_selected_baseline": -0.841543495498156,
+        "status": "evaluated"
+      }
+    },
+    "learned:xgboost": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 36.60291731421077,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 36.60291731421077,
+        "mape": 0.4571298366121787,
+        "median_absolute_error_seconds": 9.761567363266806,
+        "n": 176,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 89.51357382777564,
+        "p95_absolute_error_seconds": 106.14342939208731,
+        "rmse_seconds": 82.03419414732252,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.7432098765432097,
+        "median_kendall_tau": 0.6666666666666666,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5925925925925926,
+        "top1_target_hit_rate_all_targets_measured": 0.5925925925925926
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 20.48827181139315,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 12.962863431693984,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 29.45585946904183
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 18.87280060116068,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 18.87280060116068,
+        "mape": 0.35267339896885097,
+        "median_absolute_error_seconds": 6.5422059571794655,
+        "n": 256,
+        "negative_prediction_clip_count": 0,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 45.33453012908913,
+        "p95_absolute_error_seconds": 78.55205681075394,
+        "rmse_seconds": 36.182367202313344,
+        "skill_vs_strongest_selected_baseline": -0.3040315665039499,
+        "status": "evaluated"
+      }
+    },
+    "rank1-target-speed-factor": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 37.07776025674699,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 37.07776025674699,
+        "mape": 0.4783907998122016,
+        "median_absolute_error_seconds": 11.657474050483538,
+        "n": 176,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 77.07306724145745,
+        "p95_absolute_error_seconds": 119.50267622239197,
+        "rmse_seconds": 85.15213330012617,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.7530864197530862,
+        "median_kendall_tau": 0.6666666666666666,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5555555555555556,
+        "top1_target_hit_rate_all_targets_measured": 0.5555555555555556
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 23.209571258310508,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 15.431660553685902,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 32.508964069455004
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 21.116527886193715,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 21.116527886193715,
+        "mape": 0.44098924640224946,
+        "median_absolute_error_seconds": 9.698225108759381,
+        "n": 256,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 59.170029881022245,
+        "p95_absolute_error_seconds": 70.57271198024588,
+        "rmse_seconds": 37.42684202178518,
+        "skill_vs_strongest_selected_baseline": -0.45906373518639443,
+        "status": "evaluated"
+      }
+    },
+    "recency-last": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 23.994318181818183,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 23.994318181818183,
+        "mape": 0.41277849034161707,
+        "median_absolute_error_seconds": 8.0,
+        "n": 176,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 51.0,
+        "p95_absolute_error_seconds": 90.0,
+        "rmse_seconds": 60.07301428640439,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.8382716049382716,
+        "median_kendall_tau": 1.0,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5555555555555556,
+        "top1_target_hit_rate_all_targets_measured": 0.5555555555555556
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 24.03086419753086,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 15.106442901234567,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 35.494020061728385
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 23.91796875,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 23.91796875,
+        "mape": 0.5611171162657885,
+        "median_absolute_error_seconds": 11.0,
+        "n": 256,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 54.0,
+        "p95_absolute_error_seconds": 84.0,
+        "rmse_seconds": 49.62889625762394,
+        "skill_vs_strongest_selected_baseline": -0.6526315789473685,
+        "status": "evaluated"
+      }
+    },
+    "recency-last-two-mean": {
+      "calibration": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 26.18465909090909,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 176,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 19,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 19,
+          "n_rows_eligible": 176,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 176,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 26.18465909090909,
+        "mape": 0.470887225159448,
+        "median_absolute_error_seconds": 8.5,
+        "n": 176,
+        "origin_count": 19,
+        "p90_absolute_error_seconds": 56.25,
+        "p95_absolute_error_seconds": 113.75,
+        "rmse_seconds": 62.834570410215775,
+        "status": "evaluated"
+      },
+      "ranking": {
+        "all_targets_measured_origin_count": 27,
+        "all_targets_measured_reference_source": "declared-acquisition-spec-targets",
+        "all_targets_measured_target_count": 4,
+        "denominator": "test origins with at least the declared minimum of complete targets",
+        "governing_decision": "DEC-F22-section-6",
+        "mean_kendall_tau": 0.8382716049382716,
+        "median_kendall_tau": 1.0,
+        "observed_maximum_target_count": 4,
+        "origin_count": 27,
+        "top1_excluded_origin_count": 0,
+        "top1_minimum_complete_targets": 2,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5555555555555556,
+        "top1_target_hit_rate_all_targets_measured": 0.5555555555555556
+      },
+      "test": {
+        "bootstrap_absolute_error_seconds": {
+          "draws": 10000,
+          "estimate": 23.88271604938271,
+          "hierarchy": [
+            "origin"
+          ],
+          "lower": 14.982947530864196,
+          "origin_count": 27,
+          "resampling_unit": "origin",
+          "seeded": true,
+          "status": "evaluated",
+          "upper": 35.30802469135801
+        },
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 23.787109375,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 23.787109375,
+        "mape": 0.5548775567029298,
+        "median_absolute_error_seconds": 11.0,
+        "n": 256,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 54.5,
+        "p95_absolute_error_seconds": 85.75,
+        "rmse_seconds": 49.53692790800112,
+        "skill_vs_strongest_selected_baseline": -0.6435897435897435,
+        "status": "evaluated"
+      }
+    }
+  },
+  "refit_splits": [
+    "train",
+    "model-selection"
+  ],
+  "selected_learned_model": "learned:bilinear",
+  "selected_strongest_baseline": "family-target-median"
+}

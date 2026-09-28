@@ -1,0 +1,68 @@
+{
+  "check_count": 8,
+  "checks": [
+    {
+      "check": "unique-row-key",
+      "disposition": "ported-to-v3",
+      "runs_in_this_reduction": true,
+      "status": "pass",
+      "violations": []
+    },
+    {
+      "check": "group-isolation",
+      "disposition": "ported-to-v3",
+      "runs_in_this_reduction": true,
+      "status": "pass",
+      "violations": []
+    },
+    {
+      "check": "split-manifest-consistency",
+      "disposition": "enforced-by-dataset-builder",
+      "reason": "the v1 auditor reads campaign_id, a list-shaped split manifest and a feature_columns manifest, none of which the v3 dataset emits; the condition is enforced where the disposition says",
+      "runs_in_this_reduction": false,
+      "status": "not-run-here"
+    },
+    {
+      "check": "chronological-boundaries",
+      "disposition": "ported-to-v3",
+      "runs_in_this_reduction": true,
+      "status": "pass",
+      "violations": []
+    },
+    {
+      "check": "causal-history",
+      "disposition": "enforced-by-dataset-builder",
+      "reason": "the v1 auditor reads campaign_id, a list-shaped split manifest and a feature_columns manifest, none of which the v3 dataset emits; the condition is enforced where the disposition says",
+      "runs_in_this_reduction": false,
+      "status": "not-run-here"
+    },
+    {
+      "check": "causal-state",
+      "disposition": "ported-to-v3",
+      "runs_in_this_reduction": true,
+      "status": "pass",
+      "violations": []
+    },
+    {
+      "check": "feature-target-separation",
+      "disposition": "ported-to-v3",
+      "runs_in_this_reduction": true,
+      "status": "pass",
+      "violations": []
+    },
+    {
+      "check": "feature-manifest-disjointness",
+      "disposition": "enforced-by-dataset-builder",
+      "reason": "the v1 auditor reads campaign_id, a list-shaped split manifest and a feature_columns manifest, none of which the v3 dataset emits; the condition is enforced where the disposition says",
+      "runs_in_this_reduction": false,
+      "status": "not-run-here"
+    }
+  ],
+  "checks_run_here": 5,
+  "feature_column_count": 68,
+  "note": "campaign-level grouping does not exist in v3: the dataset emits no campaign_id, so the campaign arm of group-isolation is replaced by the block arm",
+  "schema_version": 3,
+  "status": "pass",
+  "v1_auditor_runs_on_v3": false,
+  "violation_count": 0
+}

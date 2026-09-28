@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below, together with the article it accompanies."
+type: dataset
+title: "Paired runtime dataset: which machine meets the deadline? (FCAST-EXP-REPLAY-V4)"
+version: 1.0.0
+license: CC-BY-4.0
+authors:
+  - family-names: Scaffidi Militone
+    given-names: Gabriele
+    orcid: "https://orcid.org/0009-0002-2462-8778"
+    affiliation: "Department of Control and Computer Engineering (DAUIN), Politecnico di Torino"
+    email: gabriele.scaffidi@polito.it
+  - family-names: Apiletti
+    given-names: Daniele
+    orcid: "https://orcid.org/0000-0003-0538-9775"
+    affiliation: "Department of Control and Computer Engineering (DAUIN), Politecnico di Torino"
+  - family-names: Malnati
+    given-names: Giovanni
+    orcid: "https://orcid.org/0000-0002-6798-2761"
+    affiliation: "Department of Control and Computer Engineering (DAUIN), Politecnico di Torino"
+abstract: >-
+  Runtimes of 704 container executions from a campaign in which every job ran on every machine of a
+  four-machine cloud-edge fleet (two amd64 servers and two Raspberry Pi boards) under controlled
+  background load, at 70 chronological forecast origins over seven workload families. The archive
+  holds the paired dataset with its issue-time features, the outputs of the confirmatory
+  forecasting and placement analysis, the frozen acquisition and analysis specifications, and the
+  scripts that rebuild the tables and figures of the accompanying article.
+keywords:
+  - runtime forecasting
+  - cloud-edge computing continuum
+  - heterogeneous computing
+  - deadline-aware placement
+  - conformal prediction
+  - Kubernetes

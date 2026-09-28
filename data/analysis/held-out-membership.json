@@ -1,0 +1,77 @@
+{
+  "derivation": "a point is unseen at a test origin iff it appears in no split-train row; an unseen point is an interpolation iff its primary size lies within its family's fitted range; the drift monitor is excluded; role_hint is not read",
+  "drift_monitor_origins_by_block": {
+    "block-01": [
+      "v4-05-f0-cpu-45k"
+    ],
+    "block-02": [
+      "v4-18-f0-cpu-45k"
+    ],
+    "block-03": [
+      "v4-43-f0-cpu-45k"
+    ],
+    "block-04": [
+      "v4-44-f0-cpu-45k"
+    ],
+    "block-05": [
+      "v4-53-f0-cpu-45k"
+    ],
+    "block-06": [
+      "v4-69-f0-cpu-45k"
+    ]
+  },
+  "drift_monitor_point_id": "f0-cpu-45k",
+  "points_by_membership": {
+    "excluded-drift-monitor": [
+      "f0-cpu-45k"
+    ],
+    "seen": [
+      "f2-mixed-zstd1-aes-1024",
+      "f2-random-zstd1-aes-1152",
+      "f2-random-zstd1-aes-768",
+      "f2-random-zstd1-chacha-1152",
+      "f2-random-zstd1-chacha-768",
+      "f3-mnv2-fp32-224-1500",
+      "f3-mnv2-int8-224-1500",
+      "f3-mnv2-int8-224-2000",
+      "f3-r50-int8-224-128",
+      "f5-sf1-q1-r2",
+      "f5-sf1-q9-r2"
+    ],
+    "unseen-extrapolation": [
+      "f1-x265-720p-mandelbrot-med-500",
+      "f1-x265-720p-testsrc2-med-400",
+      "f3-r50-fp32-288-96",
+      "f4-tc-kron-20-n1"
+    ],
+    "unseen-interpolation": [
+      "f1-x264-720p-testsrc2-veryfast-2400",
+      "f1-x265-720p-testsrc2-med-1100",
+      "f1-x265-720p-testsrc2-med-1500",
+      "f3-r50-fp32-224-288",
+      "f3-r50-fp32-224-384",
+      "f3-r50-int8-224-192",
+      "f3-r50-int8-224-288",
+      "f4-pr-kron-22-n1",
+      "f4-pr-uniform-21-n1"
+    ]
+  },
+  "test_completed_rows_by_membership": {
+    "excluded-drift-monitor": 24,
+    "seen": 120,
+    "unseen-extrapolation": 32,
+    "unseen-interpolation": 80
+  },
+  "test_points_by_membership": {
+    "excluded-drift-monitor": 1,
+    "seen": 11,
+    "unseen-extrapolation": 4,
+    "unseen-interpolation": 9
+  },
+  "test_rows_by_membership": {
+    "excluded-drift-monitor": 24,
+    "seen": 120,
+    "unseen-extrapolation": 32,
+    "unseen-interpolation": 80
+  }
+}

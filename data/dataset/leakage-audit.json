@@ -1,0 +1,9 @@
+{
+  "history_rule": "source k8s_completion_time_utc strictly precedes forecast_origin_utc",
+  "no_origin_split_across_blocks": true,
+  "problems": [],
+  "schema_version": 3,
+  "selection_rule": "test outcomes are not consumed by dataset construction",
+  "status": "pass",
+  "zero_future_derived_features": true
+}

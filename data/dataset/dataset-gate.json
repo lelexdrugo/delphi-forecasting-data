@@ -1,0 +1,16 @@
+{
+  "all_targets_repetitions_recorded": true,
+  "calibration_origin_count": 19,
+  "completed_row_count": 655,
+  "completion_counted_over": "measured executions",
+  "completion_fraction": 0.9984756097560976,
+  "minimum_independent_calibration_origins": 19,
+  "no_origin_split_across_blocks": true,
+  "observed_row_count": 704,
+  "planned_row_count": 704,
+  "problems": [],
+  "schema_version": 4,
+  "startup_calibration_completion_fraction": 1.0,
+  "status": "pass",
+  "zero_future_derived_features": true
+}

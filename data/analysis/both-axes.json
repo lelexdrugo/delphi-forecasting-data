@@ -1,0 +1,226 @@
+{
+  "adjacent_steps": {
+    "W+H+C->W+H+C+S": {
+      "axes_disagree": false,
+      "delta_mae_seconds": -0.12946919834401882,
+      "delta_mean_regret_seconds": 0.0,
+      "delta_top1_target_hit_rate": 0.0
+    },
+    "W+H->W+H+C": {
+      "axes_disagree": false,
+      "delta_mae_seconds": -0.5521814088619976,
+      "delta_mean_regret_seconds": 0.0,
+      "delta_top1_target_hit_rate": 0.0
+    },
+    "W->W+H": {
+      "axes_disagree": false,
+      "delta_mae_seconds": -0.20860171317896814,
+      "delta_mean_regret_seconds": 0.0,
+      "delta_top1_target_hit_rate": 0.0
+    }
+  },
+  "axes": [
+    "error",
+    "selection"
+  ],
+  "by_label": {
+    "W": {
+      "error": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 18.179483753276354,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 18.179483753276354,
+        "mape": 0.35035016324144674,
+        "median_absolute_error_seconds": 6.803489476900202,
+        "n": 256,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 60.83941831978351,
+        "p95_absolute_error_seconds": 79.1877740469238,
+        "rmse_seconds": 34.5371908911302,
+        "status": "evaluated"
+      },
+      "selection": {
+        "deadline_feasible_point_forecast_mean_regret_seconds": 0.6481481481481481,
+        "deadline_feasible_point_forecast_median_regret_seconds": 0.0,
+        "deadline_feasible_point_forecast_violation_rate": 0.037037037037037035,
+        "mean_kendall_tau": 0.817283950617284,
+        "origins_scored": 27,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5555555555555556
+      }
+    },
+    "W+H": {
+      "error": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 17.970882040097386,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 17.970882040097386,
+        "mape": 0.2831432129962903,
+        "median_absolute_error_seconds": 5.685325001497752,
+        "n": 256,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 50.22427669719002,
+        "p95_absolute_error_seconds": 78.63134474659853,
+        "rmse_seconds": 35.28694747048374,
+        "status": "evaluated"
+      },
+      "selection": {
+        "deadline_feasible_point_forecast_mean_regret_seconds": 0.6481481481481481,
+        "deadline_feasible_point_forecast_median_regret_seconds": 0.0,
+        "deadline_feasible_point_forecast_violation_rate": 0.037037037037037035,
+        "mean_kendall_tau": 0.817283950617284,
+        "origins_scored": 27,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5555555555555556
+      }
+    },
+    "W+H+C": {
+      "error": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 17.41870063123539,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 17.41870063123539,
+        "mape": 0.27551760140514014,
+        "median_absolute_error_seconds": 4.854201158410721,
+        "n": 256,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 48.60734367508272,
+        "p95_absolute_error_seconds": 78.32704167700135,
+        "rmse_seconds": 34.49103124659433,
+        "status": "evaluated"
+      },
+      "selection": {
+        "deadline_feasible_point_forecast_mean_regret_seconds": 0.6481481481481481,
+        "deadline_feasible_point_forecast_median_regret_seconds": 0.0,
+        "deadline_feasible_point_forecast_violation_rate": 0.037037037037037035,
+        "mean_kendall_tau": 0.817283950617284,
+        "origins_scored": 27,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5555555555555556
+      }
+    },
+    "W+H+C+S": {
+      "error": {
+        "censored_sensitivity": {
+          "bound": "lower",
+          "deadline_seconds": 900.0,
+          "interpretation": "a lower bound on the true MAE: every right-censored row contributes at least deadline minus prediction, and the true runtime is unbounded above",
+          "mae_seconds_lower_bound": 17.28923143289137,
+          "n_censored_rows_excluded_prediction_above_deadline": 0,
+          "n_censored_rows_imputed_at_deadline": 0,
+          "n_complete_rows": 256,
+          "status": "evaluated",
+          "upper_bound_exists": false
+        },
+        "exclusion_accounting": {
+          "n_origins_eligible": 27,
+          "n_origins_fully_excluded": 0,
+          "n_origins_scored": 27,
+          "n_rows_eligible": 256,
+          "n_rows_excluded": 0,
+          "n_rows_excluded_by_reason": {
+            "driver-interrupted": 0,
+            "failed": 0,
+            "not-run": 0,
+            "timed_out": 0
+          },
+          "n_rows_scored": 256,
+          "reconciled": true
+        },
+        "governing_decision": "DEC-F22",
+        "mae_seconds": 17.28923143289137,
+        "mape": 0.27396239386761423,
+        "median_absolute_error_seconds": 5.017969916216314,
+        "n": 256,
+        "origin_count": 27,
+        "p90_absolute_error_seconds": 47.74452717369287,
+        "p95_absolute_error_seconds": 78.14445479051236,
+        "rmse_seconds": 34.34057562610571,
+        "status": "evaluated"
+      },
+      "selection": {
+        "deadline_feasible_point_forecast_mean_regret_seconds": 0.6481481481481481,
+        "deadline_feasible_point_forecast_median_regret_seconds": 0.0,
+        "deadline_feasible_point_forecast_violation_rate": 0.037037037037037035,
+        "mean_kendall_tau": 0.817283950617284,
+        "origins_scored": 27,
+        "top1_scored_origin_count": 27,
+        "top1_target_hit_rate": 0.5555555555555556
+      }
+    }
+  },
+  "decision": "DEC-F24-section-7",
+  "single_axis_feature_decisions": "forbidden"
+}

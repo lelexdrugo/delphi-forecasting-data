@@ -1,0 +1,72 @@
+{
+  "agent_samples": {
+    "path": "<local-path>/samples.jsonl",
+    "sha256": "08edad49c44029b65599799fe96fcf4dced4fa92bfc631b97d4c31a41d4d63b3"
+  },
+  "cluster_contacted": false,
+  "derivations": {
+    "agent_state": "latest node-agent sample the collector received at or before the issue-time snapshot, used only if at most 60 s old",
+    "deadline": "origin intent.latency_budget_seconds from the acquisition spec",
+    "history": "completed outcomes with completion strictly before forecast origin",
+    "issue_time_state": "the candidate target entry in snapshot-manifest.json",
+    "platform_fingerprint": "the driver's platform_fingerprint ledger event per execution",
+    "row_unit": "origin x target x repetition"
+  },
+  "input_run_dir": "<local-path>/fcast-v4-campaign-evidence-001",
+  "input_spec": {
+    "path": "<local-path>/controlled-replay-v4.yaml",
+    "sha256": "48ccdf6d199180fb0e57ef2435d27aab40b46e9270e38803bcdf739c15b9d234"
+  },
+  "registry_contacted": false,
+  "schema_version": 3,
+  "sources": {
+    "deployment-manifest.json": {
+      "bytes": 1159,
+      "sha256": "d7bf2a918a79689f81da49264ea6f5ed2d1bd005bb095b8adcb34a7add64bc3c"
+    },
+    "failure-manifest.json": {
+      "bytes": 517729,
+      "sha256": "fab05a5ba3d178a75ceecf116a432dd8bcb6dfcd3161e580d967a0ba9df11c78"
+    },
+    "image-manifest.json": {
+      "bytes": 1182,
+      "sha256": "3a75ae0f200c635cc1c82ed6833a209e2ce72cb17545ab288e3dd25ec736d4ea"
+    },
+    "origin-manifest.json": {
+      "bytes": 87593,
+      "sha256": "c298594ec57b68415b210d129b127d0818293e0698ff8d3d2514e81ec65f65cd"
+    },
+    "outcome-manifest.json": {
+      "bytes": 510323,
+      "sha256": "31b47025a5621181d301a7706497b08a461a064d87d378329e9ac8639cce1d18"
+    },
+    "provenance-manifest.json": {
+      "bytes": 17641955,
+      "sha256": "0f784105e7683dc46d6ddf85586b9e34a2faee27433905675e166c1832831c2e"
+    },
+    "registry-manifest.json": {
+      "bytes": 2212,
+      "sha256": "5f2cf708edcb58099ba5caf3e3059e702cc68c38f028e9110be6c3da7c56852f"
+    },
+    "repetition-manifest.json": {
+      "bytes": 829482,
+      "sha256": "d3fd0e926dce9fed5f439a0b69d7d060a767d6a48345d9c49e0419b1dc99d901"
+    },
+    "run-manifest.json": {
+      "bytes": 7735,
+      "sha256": "b8845b9c479d430edb3bc0c302afa9d5a43ded53958f5f494893c6897145ced8"
+    },
+    "snapshot-manifest.json": {
+      "bytes": 541122,
+      "sha256": "0b4239aed4ed8374623cd43b3a2617ad33e9cec42f3c330ddafe2b3755164cc1"
+    },
+    "support-manifest.json": {
+      "bytes": 96994,
+      "sha256": "31411b54489927983385761b2ddd0b456c5c08c77dc67f15fb79075855cc597f"
+    },
+    "target-order-manifest.json": {
+      "bytes": 20971,
+      "sha256": "b278ff84f1628ad3eeadcc654cf8a9a3b5d7751d91adc2092736a4e120044918"
+    }
+  }
+}

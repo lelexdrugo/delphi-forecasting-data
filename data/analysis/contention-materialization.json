@@ -1,0 +1,206 @@
+{
+  "by_target": {
+    "edge-1": {
+      "heavy_cell_count": 8,
+      "max": 1.45,
+      "median_slowdown_ratio": 1.3629310344827585,
+      "meets_threshold": true,
+      "min": 1.2758620689655173,
+      "minimum_paired_cells_per_target": 2,
+      "paired_point_count": 2,
+      "status": "pass"
+    },
+    "edge-2": {
+      "heavy_cell_count": 7,
+      "max": 1.2449999999999999,
+      "median_slowdown_ratio": 1.1826694915254237,
+      "meets_threshold": true,
+      "min": 1.1203389830508474,
+      "minimum_paired_cells_per_target": 2,
+      "paired_point_count": 2,
+      "status": "pass"
+    },
+    "on-prem": {
+      "heavy_cell_count": 9,
+      "materialisation_claim": "withdrawn",
+      "minimum_paired_cells_per_target": 2,
+      "paired_point_count": 1,
+      "reason": "insufficient paired support",
+      "status": "not-assessed"
+    },
+    "public-cloud": {
+      "heavy_cell_count": 20,
+      "max": 1.2222222222222223,
+      "median_slowdown_ratio": 1.1379310344827587,
+      "meets_threshold": true,
+      "min": 1.1126760563380282,
+      "minimum_paired_cells_per_target": 2,
+      "paired_point_count": 3,
+      "status": "pass"
+    }
+  },
+  "decision": "DEC-F24-section-3",
+  "heavy_regime": "r2-heavy",
+  "materialisation_claim_withdrawn_for": [
+    "on-prem"
+  ],
+  "minimum_heavy_slowdown_ratio": 1.1,
+  "minimum_paired_cells_per_target": 2,
+  "reference": "same workload point, same target, declared regime none",
+  "status": "pass",
+  "targets_assessed": [
+    "edge-1",
+    "edge-2",
+    "public-cloud"
+  ],
+  "targets_failing_the_gate": [],
+  "targets_not_assessed_insufficient_paired_support": [
+    "on-prem"
+  ],
+  "unpaired_loaded_cells": [
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f1-x264-480p-testsrc2-med-2000"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f1-x264-720p-noise-med-1000"
+    },
+    {
+      "candidate_cluster": "on-prem",
+      "point_id": "f1-x264-720p-testsrc2-med-1100"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f1-x264-720p-testsrc2-med-1400"
+    },
+    {
+      "candidate_cluster": "edge-2",
+      "point_id": "f1-x264-720p-testsrc2-med-2400"
+    },
+    {
+      "candidate_cluster": "edge-1",
+      "point_id": "f1-x264-720p-testsrc2-med-3600"
+    },
+    {
+      "candidate_cluster": "edge-1",
+      "point_id": "f1-x265-720p-mandelbrot-med-500"
+    },
+    {
+      "candidate_cluster": "on-prem",
+      "point_id": "f1-x265-720p-testsrc2-med-1100"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f1-x265-720p-testsrc2-med-1100"
+    },
+    {
+      "candidate_cluster": "on-prem",
+      "point_id": "f1-x265-720p-testsrc2-med-1500"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f2-mixed-zstd1-aes-1024"
+    },
+    {
+      "candidate_cluster": "on-prem",
+      "point_id": "f2-random-zstd1-aes-1152"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f3-mnv2-fp32-224-1500"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f3-mnv2-fp32-224-2500"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f3-mnv2-int8-224-2000"
+    },
+    {
+      "candidate_cluster": "edge-2",
+      "point_id": "f3-r50-fp32-224-128"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f3-r50-fp32-224-192"
+    },
+    {
+      "candidate_cluster": "edge-1",
+      "point_id": "f3-r50-fp32-224-288"
+    },
+    {
+      "candidate_cluster": "edge-1",
+      "point_id": "f3-r50-fp32-224-384"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f3-r50-fp32-224-384"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f3-r50-fp32-288-96"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f3-r50-int8-224-128"
+    },
+    {
+      "candidate_cluster": "edge-2",
+      "point_id": "f3-r50-int8-224-288"
+    },
+    {
+      "candidate_cluster": "on-prem",
+      "point_id": "f4-bfs-kron-21-n4"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f4-bfs-kron-21-n8"
+    },
+    {
+      "candidate_cluster": "on-prem",
+      "point_id": "f4-bfs-kron-22-n4"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f4-bfs-kron-22-n6"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f4-bfs-uniform-21-n4"
+    },
+    {
+      "candidate_cluster": "edge-1",
+      "point_id": "f4-pr-kron-21-n1"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f4-pr-kron-22-n1"
+    },
+    {
+      "candidate_cluster": "on-prem",
+      "point_id": "f4-pr-uniform-21-n1"
+    },
+    {
+      "candidate_cluster": "public-cloud",
+      "point_id": "f4-tc-kron-20-n1"
+    },
+    {
+      "candidate_cluster": "edge-1",
+      "point_id": "f5-sf1-q1-r2"
+    },
+    {
+      "candidate_cluster": "edge-2",
+      "point_id": "f5-sf1-q1-r2"
+    },
+    {
+      "candidate_cluster": "on-prem",
+      "point_id": "f5-sf2-q1-r2"
+    },
+    {
+      "candidate_cluster": "edge-2",
+      "point_id": "f5-sf2-q9-r2"
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "by_split": {
+    "calibration": {
+      "n_origins_eligible": 19,
+      "n_origins_fully_excluded": 0,
+      "n_origins_scored": 19,
+      "n_rows_eligible": 176,
+      "n_rows_excluded": 0,
+      "n_rows_excluded_by_reason": {
+        "driver-interrupted": 0,
+        "failed": 0,
+        "not-run": 0,
+        "timed_out": 0
+      },
+      "n_rows_scored": 176,
+      "reconciled": true
+    },
+    "startup-calibration": {
+      "n_origins_eligible": 12,
+      "n_origins_fully_excluded": 0,
+      "n_origins_scored": 12,
+      "n_rows_eligible": 48,
+      "n_rows_excluded": 0,
+      "n_rows_excluded_by_reason": {
+        "driver-interrupted": 0,
+        "failed": 0,
+        "not-run": 0,
+        "timed_out": 0
+      },
+      "n_rows_scored": 48,
+      "reconciled": true
+    },
+    "test": {
+      "n_origins_eligible": 27,
+      "n_origins_fully_excluded": 0,
+      "n_origins_scored": 27,
+      "n_rows_eligible": 256,
+      "n_rows_excluded": 0,
+      "n_rows_excluded_by_reason": {
+        "driver-interrupted": 0,
+        "failed": 0,
+        "not-run": 0,
+        "timed_out": 0
+      },
+      "n_rows_scored": 256,
+      "reconciled": true
+    },
+    "train": {
+      "n_origins_eligible": 24,
+      "n_origins_fully_excluded": 0,
+      "n_origins_scored": 24,
+      "n_rows_eligible": 224,
+      "n_rows_excluded": 1,
+      "n_rows_excluded_by_reason": {
+        "driver-interrupted": 1,
+        "failed": 0,
+        "not-run": 0,
+        "timed_out": 0
+      },
+      "n_rows_scored": 223,
+      "reconciled": true
+    }
+  },
+  "class_of_outcome_status": {
+    "censored": "driver-interrupted",
+    "completed": "completed",
+    "failed": "failed",
+    "timeout": "timed_out"
+  },
+  "classes": {
+    "driver-interrupted": {
+      "assumption": "weakly-length-biased",
+      "imputable": false,
+      "note": "administrative loss external to the workload",
+      "reachable": true,
+      "treatment": "excluded-complete-case"
+    },
+    "failed": {
+      "imputable": false,
+      "note": "the declared work never completed, so no runtime exists to bound",
+      "reachable": true,
+      "treatment": "excluded-never-imputed"
+    },
+    "not-run": {
+      "assumption": "weakly-length-biased",
+      "imputable": false,
+      "note": "declared so the taxonomy is complete; absence of a declared cell is a dataset-gate failure rather than an exclusion, so it cannot reach a metric",
+      "reachable": false,
+      "treatment": "excluded-complete-case"
+    },
+    "timed_out": {
+      "imputable": true,
+      "note": "the job ran and was killed at the deadline, so its true runtime is at least D",
+      "reachable": true,
+      "treatment": "right-censored-label-lower-bound-only"
+    }
+  },
+  "dataset": {
+    "n_origins_eligible": 82,
+    "n_origins_fully_excluded": 0,
+    "n_origins_scored": 82,
+    "n_rows_eligible": 704,
+    "n_rows_excluded": 1,
+    "n_rows_excluded_by_reason": {
+      "driver-interrupted": 1,
+      "failed": 0,
+      "not-run": 0,
+      "timed_out": 0
+    },
+    "n_rows_scored": 703,
+    "reconciled": true
+  },
+  "deadline_seconds": 900.0,
+  "decision": "DEC-F22",
+  "declared_matrix_completeness_note": "absence of a declared cell is a dataset-gate failure, not an exclusion class",
+  "declared_matrix_completeness_owner": "dataset_gate",
+  "excluded_rows": [
+    {
+      "block_id": "block-02",
+      "candidate_cluster": "on-prem",
+      "exclusion_reason": "driver-interrupted",
+      "execution_id": "v4-13-f3-mnv2-int8-224-2000::on-prem::r3",
+      "family": "onnx-inference-int8",
+      "origin_id": "v4-13-f3-mnv2-int8-224-2000",
+      "outcome_status": "censored",
+      "recorded_reason": "driver-interrupted",
+      "split": "train"
+    }
+  ],
+  "exclusion_reasons": [
+    "timed_out",
+    "failed",
+    "driver-interrupted",
+    "not-run"
+  ],
+  "governing_decisions": {
+    "decision_replay": "DEC-F20",
+    "interval": "DEC-F22",
+    "point_error": "DEC-F22",
+    "ranking": "DEC-F22-section-6"
+  },
+  "identity": "scored-plus-excluded-equals-eligible",
+  "identity_scope": "rows-present-in-slice"
+}

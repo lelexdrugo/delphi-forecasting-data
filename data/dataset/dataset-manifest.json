@@ -1,0 +1,35 @@
+{
+  "artifacts": {
+    "dataset-gate.json": {
+      "bytes": 506,
+      "sha256": "90416797901f0c6f738ef1eef769e9a852fc052deb9ba667bea9274bafc1a779"
+    },
+    "dataset.csv": {
+      "bytes": 1773264,
+      "sha256": "9cef19fd331db98308ac97b8a00b73a056eb0cbde2c662b4a921bf432615c42c"
+    },
+    "feature-manifest.json": {
+      "bytes": 2464,
+      "sha256": "bd94989406d865c25663f837fde6100c833cd5d3a02162a6ae1941491dfbcfae"
+    },
+    "leakage-audit.json": {
+      "bytes": 313,
+      "sha256": "867cc564e590f11a6b13de479b0e36f16c49a441f823b8d1f750461987a406a2"
+    },
+    "provenance-manifest.json": {
+      "bytes": 2913,
+      "sha256": "85a1825d4db807ffacc1828246c08827972c1df357b1242a0a8df0c81934e9e4"
+    },
+    "split-manifest.json": {
+      "bytes": 528,
+      "sha256": "d34299fb4aaca5590656d0559f414e747df92e2ab495ded7977b6a685b7f0d11"
+    }
+  },
+  "cluster_contacted": false,
+  "code_revision": "791e6729d60d3f7a62164bd524fef8569ac6fe34",
+  "dataset_gate": "pass",
+  "registry_contacted": false,
+  "row_count": 704,
+  "schema_version": 3,
+  "spec_id": "fcast-controlled-replay-v4"
+}

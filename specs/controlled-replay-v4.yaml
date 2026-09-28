@@ -1,0 +1,3598 @@
+schema_version: 4
+spec_id: fcast-controlled-replay-v4
+experiment_id: FCAST-EXP-REPLAY-V4
+status: frozen
+generated_from: controlled-replay-v3.yaml
+enumeration_seed: 20260921
+freeze_note: frozen on the author's instruction after the return-to-course plan. The SHA-256 is recorded
+  in controlled-analysis-v4.yaml, in experiments/forecasting/manifest.yaml and in the header of controlled-replay-v4-review.md,
+  and the reduction verifies it at run time and fails closed. The author's final read of the review document
+  is the remaining gate before launch; the freeze is what makes that read meaningful, because nothing
+  can move underneath it
+targets:
+- id: public-cloud
+  architecture: amd64
+  cores: 12
+  memory_bytes: 67180756992
+  baseline_allocated_cpu_mcores: 6140
+  static_descriptors:
+    model_name: Intel Xeon E-2136
+    nominal_clock_ghz: 3.3
+    cpu_features:
+      aes: true
+      avx2: true
+      avx512_vnni: false
+      asimd: false
+      asimddp: false
+      crypto: false
+- id: on-prem
+  architecture: amd64
+  cores: 8
+  memory_bytes: 33607151616
+  baseline_allocated_cpu_mcores: 4135
+  static_descriptors:
+    model_name: Intel Xeon E5-1620 v2
+    nominal_clock_ghz: 3.7
+    cpu_features:
+      aes: true
+      avx2: false
+      avx512_vnni: false
+      asimd: false
+      asimddp: false
+      crypto: false
+- id: edge-1
+  architecture: arm64
+  cores: 4
+  memory_bytes: 8454668288
+  baseline_allocated_cpu_mcores: 850
+  static_descriptors:
+    model_name: Raspberry Pi 5 Model B Rev 1.0 Cortex-A76
+    nominal_clock_ghz: 2.4
+    cpu_features: &id001
+      aes: true
+      avx2: false
+      avx512_vnni: false
+      asimd: true
+      asimddp: true
+      crypto: true
+- id: edge-2
+  architecture: arm64
+  cores: 4
+  memory_bytes: 8191807488
+  baseline_allocated_cpu_mcores: 850
+  static_descriptors:
+    model_name: Raspberry Pi 4 Model B Rev 1.5 Cortex-A72
+    nominal_clock_ghz: 1.8
+    cpu_features:
+      aes: false
+      avx2: false
+      avx512_vnni: false
+      asimd: true
+      asimddp: false
+      crypto: false
+resource_tiers:
+  large: public-cloud
+  medium: on-prem
+  small:
+  - edge-1
+  - edge-2
+  stratified_by: 'resource scale: cores, memory and clock'
+  ownership_plays_no_role: true
+  elastic_capacity_not_modelled: the study is scoped to a BOUNDED fleet; for a genuinely elastic cloud
+    with zero queueing delay the send-it-to-the-biggest-machine objection holds and the problem is a different
+    one
+  capability_is_not_monotone_in_capacity: 'measured: the medium tier (on-prem) lacks avx2 while the Pi
+    5 in the small tier (edge-1) has asimddp. Both are dot-product paths, so INT8 inference has an accelerated
+    path on the SMALL tier that the MEDIUM tier does not. This is an instruction with a name, and it is
+    the mechanism behind the one reordering the pilot found'
+descriptor_provenance:
+  artifact: experiments/preflight/target-descriptor-measurements.json
+  why: the v3 spec declared both single-board targets as one Raspberry Pi 4 / Cortex-A72 / 1.5 GHz node
+    with no cryptographic extensions and no dot-product instruction. edge-1 is a Pi 5 with a Cortex-A76
+    at 2.4 GHz that has both, and edge-2 runs at 1.8 GHz. These are C-group covariates, so a wrong descriptor
+    was a wrong feature value and not a wrong sentence
+  method: 'read from each node by the first-party agent: CPU part and flags from /proc/cpuinfo, board
+    from its Model field, clock from cpufreq on arm64 and from the nameplate on x86, memory from MemTotal'
+  v3_spec_untouched: controlled-replay-v3.yaml is hashed into the paused campaign run manifest and records
+    what that campaign declared, including what it declared wrongly; the correction is applied only here
+  divergence_by_target:
+    public-cloud:
+      memory_bytes:
+        v3_declared: 68719476736
+        v4_measured: 67180756992
+        class: definition made uniform, not a wrong fact
+    on-prem:
+      memory_bytes:
+        v3_declared: 34359738368
+        v4_measured: 33607151616
+        class: definition made uniform, not a wrong fact
+    edge-1:
+      static_descriptors.model_name:
+        v3_declared: Raspberry Pi 4 BCM2711 Cortex-A72
+        v4_measured: Raspberry Pi 5 Model B Rev 1.0 Cortex-A76
+      static_descriptors.nominal_clock_ghz:
+        v3_declared: 1.5
+        v4_measured: 2.4
+      static_descriptors.cpu_features:
+        v3_declared:
+          aes: false
+          avx2: false
+          avx512_vnni: false
+          asimd: true
+          asimddp: false
+          crypto: false
+        v4_measured: *id001
+      memory_bytes:
+        v3_declared: 8375185408
+        v4_measured: 8454668288
+        class: definition made uniform, not a wrong fact
+    edge-2:
+      static_descriptors.model_name:
+        v3_declared: Raspberry Pi 4 BCM2711 Cortex-A72
+        v4_measured: Raspberry Pi 4 Model B Rev 1.5 Cortex-A72
+      static_descriptors.nominal_clock_ghz:
+        v3_declared: 1.5
+        v4_measured: 1.8
+      memory_bytes:
+        v3_declared: 8375185408
+        v4_measured: 8191807488
+        class: definition made uniform, not a wrong fact
+families:
+- id: stress-ng-cpu
+  kind: stress-ng-cpu-control
+  image_key: stress-ng-control
+  env_template:
+    THREADS: '{THREADS}'
+    BENCHMARK_TYPE: forecasting-v3/f0-cpu-control
+    TASK_TYPE: cpu
+    WORK_MODE: ops
+    CPU_LOAD: '{THREADS}'
+    CPU_OPS: '{cpu_ops}'
+  resources:
+    requests_equal_limits: true
+    cpu_millicores_per_thread: 1000
+    memory: 3Gi
+  primary_size_descriptor: cpu_ops
+  descriptor_definitions:
+    cpu_ops:
+      source_param: cpu_ops
+      transform: log-if-positive
+      available_at: issue-time
+- id: video-transcode
+  kind: ffmpeg-transcode
+  image_key: forecast-workloads
+  env_template:
+    THREADS: '{THREADS}'
+    WORKLOAD: transcode
+    CLIP: '{clip}'
+    WIDTH: '{width}'
+    HEIGHT: '{height}'
+    FRAMES: '{frames}'
+    FPS: '{fps}'
+    ENCODER: '{encoder}'
+    PRESET: '{preset}'
+    CRF: '{crf}'
+  resources:
+    requests_equal_limits: true
+    cpu_millicores_per_thread: 1000
+    memory: 3Gi
+  primary_size_descriptor: frames
+  descriptor_definitions:
+    frames:
+      source_param: frames
+      transform: log-if-positive
+      available_at: issue-time
+    width:
+      source_param: width
+      transform: log-if-positive
+      available_at: issue-time
+    height:
+      source_param: height
+      transform: log-if-positive
+      available_at: issue-time
+- id: compress-encrypt
+  kind: compress-then-encrypt-pipeline
+  image_key: forecast-workloads
+  env_template:
+    THREADS: '{THREADS}'
+    WORKLOAD: compress-encrypt
+    CORPUS: '{corpus}'
+    SIZE_MB: '{SIZE_MB}'
+    CODEC: '{codec}'
+    LEVEL: '{level}'
+    CIPHER: '{cipher}'
+    WORK_DIR: /dev/shm
+    SEED: '{seed}'
+  resources:
+    requests_equal_limits: true
+    cpu_millicores_per_thread: 1000
+    memory: 3Gi
+  primary_size_descriptor: size_mib
+  descriptor_definitions:
+    size_mib:
+      source_param: SIZE_MB
+      transform: log-if-positive
+      available_at: issue-time
+    level:
+      source_param: level
+      transform: log-if-positive
+      available_at: issue-time
+  volumes:
+  - name: shm
+    emptyDir:
+      medium: Memory
+      sizeLimit: 2Gi
+  volume_mounts:
+  - name: shm
+    mountPath: /dev/shm
+- id: onnx-inference-fp32
+  kind: onnx-runtime-inference
+  image_key: forecast-workloads
+  env_template:
+    THREADS: '{THREADS}'
+    WORKLOAD: inference
+    MODEL: '{model}'
+    PRECISION: fp32
+    ITEMS: '{items}'
+    BATCH: '{batch}'
+    INPUT_SIZE: '{input_size}'
+    SEED: '{seed}'
+  resources:
+    requests_equal_limits: true
+    cpu_millicores_per_thread: 1000
+    memory: 3Gi
+  primary_size_descriptor: items
+  descriptor_definitions:
+    items:
+      source_param: items
+      transform: log-if-positive
+      available_at: issue-time
+    batch:
+      source_param: batch
+      transform: log-if-positive
+      available_at: issue-time
+    input_size:
+      source_param: input_size
+      transform: log-if-positive
+      available_at: issue-time
+- id: onnx-inference-int8
+  kind: onnx-runtime-inference
+  image_key: forecast-workloads
+  env_template:
+    THREADS: '{THREADS}'
+    WORKLOAD: inference
+    MODEL: '{model}'
+    PRECISION: int8
+    ITEMS: '{items}'
+    BATCH: '{batch}'
+    INPUT_SIZE: '{input_size}'
+    SEED: '{seed}'
+  resources:
+    requests_equal_limits: true
+    cpu_millicores_per_thread: 1000
+    memory: 3Gi
+  primary_size_descriptor: items
+  descriptor_definitions:
+    items:
+      source_param: items
+      transform: log-if-positive
+      available_at: issue-time
+    batch:
+      source_param: batch
+      transform: log-if-positive
+      available_at: issue-time
+    input_size:
+      source_param: input_size
+      transform: log-if-positive
+      available_at: issue-time
+- id: graph-kernel
+  kind: gap-graph-kernel
+  image_key: forecast-workloads
+  env_template:
+    THREADS: '{THREADS}'
+    WORKLOAD: graph
+    KERNEL: '{kernel}'
+    GENERATOR: '{generator}'
+    SCALE: '{scale}'
+    DEGREE: '{degree}'
+    TRIALS: '{trials}'
+    PR_ITERS: '{pr_iters}'
+  resources:
+    requests_equal_limits: true
+    cpu_millicores_per_thread: 1000
+    memory: 3Gi
+  primary_size_descriptor: scale
+  descriptor_definitions:
+    scale:
+      source_param: scale
+      transform: log-if-positive
+      available_at: issue-time
+    degree:
+      source_param: degree
+      transform: log-if-positive
+      available_at: issue-time
+    trials:
+      source_param: trials
+      transform: log-if-positive
+      available_at: issue-time
+- id: duckdb-tpch
+  kind: duckdb-tpch-query
+  image_key: forecast-workloads
+  env_template:
+    THREADS: '{THREADS}'
+    WORKLOAD: sql
+    SF: '{sf}'
+    QUERY: '{query}'
+    REPEAT: '{repeat}'
+  resources:
+    requests_equal_limits: true
+    cpu_millicores_per_thread: 1000
+    memory: 3Gi
+  primary_size_descriptor: sf
+  descriptor_definitions:
+    sf:
+      source_param: sf
+      transform: log-if-positive
+      available_at: issue-time
+    query:
+      source_param: query
+      transform: log-if-positive
+      available_at: issue-time
+    repeat:
+      source_param: repeat
+      transform: log-if-positive
+      available_at: issue-time
+- id: startup-calibration
+  kind: forecast-workloads-probe
+  image_key: forecast-workloads
+  env_template:
+    WORKLOAD: probe
+    THREADS: '{THREADS}'
+  resources:
+    requests_equal_limits: true
+    cpu_millicores_per_thread: 1000
+    memory: 256Mi
+  primary_size_descriptor: threads
+  descriptor_definitions:
+    threads:
+      source_param: THREADS
+      transform: identity
+      available_at: issue-time
+regimes:
+- id: none
+  description: No experiment-owned background workload on the target.
+  background_job_template: null
+  expected_state_delta:
+    cpu_allocated_mcores: 0
+    memory_allocated_bytes: 0
+    ready_nodes_delta: 0
+  stabilisation:
+    consecutive_snapshots: 2
+    interval_seconds: 15
+    max_wait_seconds: 300
+- id: r1-moderate
+  description: stress-ng --vm 1 --vm-bytes 256M --cpu 1 --cpu-load 50 at 500m on every target.
+  background_job_template:
+    image_key: stress-ng-control
+    active_deadline_seconds: 7200
+    environment:
+      BENCHMARK_TYPE: forecasting-v3/r1-moderate
+      TASK_TYPE: memory
+      WORK_MODE: time
+      DURATION: 7200s
+      MEMORY_LOAD: 256M
+      EXTRA_STRESS_NG_ARGS: --cpu 1 --cpu-load 50
+    resources:
+      requests:
+        cpu: 500m
+        memory: 2Gi
+      limits:
+        cpu: 500m
+        memory: 2Gi
+    annotations:
+      sidecar-collector/inject: 'false'
+  expected_state_delta:
+    cpu_allocated_mcores: 500
+    memory_allocated_bytes: 2147483648
+    ready_nodes_delta: 0
+  stabilisation:
+    consecutive_snapshots: 2
+    interval_seconds: 15
+    max_wait_seconds: 600
+- id: r2-heavy
+  description: stress-ng --vm 1 --vm-bytes 256M --memrate N. Base form is the Raspberry Pi variant at
+    1000m; amd64 targets take a heavier per-target override that still fits beside the 2000m foreground.
+  background_job_template:
+    image_key: stress-ng-control
+    active_deadline_seconds: 7200
+    environment:
+      BENCHMARK_TYPE: forecasting-v3/r2-heavy
+      TASK_TYPE: memory
+      WORK_MODE: time
+      DURATION: 7200s
+      MEMORY_LOAD: 256M
+      EXTRA_STRESS_NG_ARGS: --memrate 3 --memrate-bytes 256M
+    resources:
+      requests:
+        cpu: 1000m
+        memory: 2Gi
+      limits:
+        cpu: 1000m
+        memory: 2Gi
+    target_overrides:
+      public-cloud:
+        environment:
+          BENCHMARK_TYPE: forecasting-v3/r2-heavy
+          TASK_TYPE: memory
+          WORK_MODE: time
+          DURATION: 7200s
+          MEMORY_LOAD: 256M
+          EXTRA_STRESS_NG_ARGS: --memrate 4 --memrate-bytes 256M
+        resources:
+          requests:
+            cpu: 3000m
+            memory: 2Gi
+          limits:
+            cpu: 3000m
+            memory: 2Gi
+        expected_state_delta:
+          cpu_allocated_mcores: 3000
+          memory_allocated_bytes: 2147483648
+          ready_nodes_delta: 0
+      on-prem:
+        environment:
+          BENCHMARK_TYPE: forecasting-v3/r2-heavy
+          TASK_TYPE: memory
+          WORK_MODE: time
+          DURATION: 7200s
+          MEMORY_LOAD: 256M
+          EXTRA_STRESS_NG_ARGS: --memrate 4 --memrate-bytes 256M
+        resources:
+          requests:
+            cpu: 1500m
+            memory: 2Gi
+          limits:
+            cpu: 1500m
+            memory: 2Gi
+        expected_state_delta:
+          cpu_allocated_mcores: 1500
+          memory_allocated_bytes: 2147483648
+          ready_nodes_delta: 0
+    annotations:
+      sidecar-collector/inject: 'false'
+  expected_state_delta:
+    cpu_allocated_mcores: 1000
+    memory_allocated_bytes: 2147483648
+    ready_nodes_delta: 0
+  stabilisation:
+    consecutive_snapshots: 2
+    interval_seconds: 15
+    max_wait_seconds: 600
+- id: r3-cpu-pressure
+  description: stress-ng --cpu N --cpu-load 100. Never present in a refit block, so the analysis new-regime
+    subgroup keeps real test support.
+  background_job_template:
+    image_key: stress-ng-control
+    active_deadline_seconds: 7200
+    environment:
+      BENCHMARK_TYPE: forecasting-v3/r3-cpu-pressure
+      TASK_TYPE: cpu
+      WORK_MODE: time
+      DURATION: 7200s
+      CPU_LOAD: '1'
+      EXTRA_STRESS_NG_ARGS: --cpu-load 100
+    resources:
+      requests:
+        cpu: 1000m
+        memory: 2Gi
+      limits:
+        cpu: 1000m
+        memory: 2Gi
+    target_overrides:
+      public-cloud:
+        environment:
+          BENCHMARK_TYPE: forecasting-v3/r3-cpu-pressure
+          TASK_TYPE: cpu
+          WORK_MODE: time
+          DURATION: 7200s
+          CPU_LOAD: '3'
+          EXTRA_STRESS_NG_ARGS: --cpu-load 100
+        resources:
+          requests:
+            cpu: 3000m
+            memory: 2Gi
+          limits:
+            cpu: 3000m
+            memory: 2Gi
+        expected_state_delta:
+          cpu_allocated_mcores: 3000
+          memory_allocated_bytes: 2147483648
+          ready_nodes_delta: 0
+      on-prem:
+        environment:
+          BENCHMARK_TYPE: forecasting-v3/r3-cpu-pressure
+          TASK_TYPE: cpu
+          WORK_MODE: time
+          DURATION: 7200s
+          CPU_LOAD: '1'
+          EXTRA_STRESS_NG_ARGS: --cpu-load 100
+        resources:
+          requests:
+            cpu: 1500m
+            memory: 2Gi
+          limits:
+            cpu: 1500m
+            memory: 2Gi
+        expected_state_delta:
+          cpu_allocated_mcores: 1500
+          memory_allocated_bytes: 2147483648
+          ready_nodes_delta: 0
+    annotations:
+      sidecar-collector/inject: 'false'
+  expected_state_delta:
+    cpu_allocated_mcores: 1000
+    memory_allocated_bytes: 2147483648
+    ready_nodes_delta: 0
+  stabilisation:
+    consecutive_snapshots: 2
+    interval_seconds: 15
+    max_wait_seconds: 600
+background_job_corrections:
+  active_deadline_seconds:
+    v3: 3000
+    v4: 7200
+  stress_duration_seconds:
+    v3: 3000
+    v4: 7200
+  why_lifetime: at gate 3 all three backgrounds expired mid-origin at 3000 s; the slowest v4 origin at
+    the worst v3 per-execution overhead is ~4266 s, and 7200 s covers it with margin, including two genuine
+    900 s foreground timeouts. Cleanup deletes backgrounds explicitly, so the deadline is only a crash
+    safety net
+  annotations:
+    sidecar-collector/inject: 'false'
+  why_sidecar_opt_out: 'the webhook''s 50m sidecar is counted by the scheduler and not by Karmada; on
+    a background Job it only publishes stress-ng metrics nothing here reads. Opting out the agent and
+    the backgrounds takes a loaded Pi from 4020m of 4000m to 3920m. Foreground Jobs keep their sidecar:
+    it is part of the system under study'
+workload_points:
+- point_id: f0-cpu-45k
+  family: stress-ng-cpu
+  params:
+    THREADS: 2
+    cpu_ops: 45000
+  descriptors:
+    cpu_ops: 45000
+  role_hint: control
+  runtime_basis: measured
+- point_id: f0-cpu-70k
+  family: stress-ng-cpu
+  params:
+    THREADS: 2
+    cpu_ops: 70000
+  descriptors:
+    cpu_ops: 70000
+  role_hint: history
+  runtime_basis: measured
+- point_id: f0-cpu-110k
+  family: stress-ng-cpu
+  params:
+    THREADS: 2
+    cpu_ops: 110000
+  descriptors:
+    cpu_ops: 110000
+  role_hint: history
+  runtime_basis: measured
+- point_id: f1-x264-720p-testsrc2-med-800
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: testsrc2
+    width: 1280
+    height: 720
+    frames: 800
+    fps: 30
+    encoder: libx264
+    preset: medium
+    crf: 23
+  descriptors:
+    frames: 800
+    width: 1280
+    height: 720
+  role_hint: history
+  runtime_basis: measured
+- point_id: f1-x264-720p-testsrc2-med-1400
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: testsrc2
+    width: 1280
+    height: 720
+    frames: 1400
+    fps: 30
+    encoder: libx264
+    preset: medium
+    crf: 23
+  descriptors:
+    frames: 1400
+    width: 1280
+    height: 720
+  role_hint: history
+  runtime_basis: measured
+- point_id: f1-x264-720p-testsrc2-med-2400
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: testsrc2
+    width: 1280
+    height: 720
+    frames: 2400
+    fps: 30
+    encoder: libx264
+    preset: medium
+    crf: 23
+  descriptors:
+    frames: 2400
+    width: 1280
+    height: 720
+  role_hint: history
+  runtime_basis: measured
+- point_id: f1-x264-480p-testsrc2-med-2000
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: testsrc2
+    width: 854
+    height: 480
+    frames: 2000
+    fps: 30
+    encoder: libx264
+    preset: medium
+    crf: 23
+  descriptors:
+    frames: 2000
+    width: 854
+    height: 480
+  role_hint: heldout-interpolation
+  runtime_basis: estimated
+  runtime_note: 480p pixel-area scaling; only 720p was measured on the cluster
+- point_id: f1-x264-720p-noise-med-1000
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: noise
+    width: 1280
+    height: 720
+    frames: 1000
+    fps: 30
+    encoder: libx264
+    preset: medium
+    crf: 23
+  descriptors:
+    frames: 1000
+    width: 1280
+    height: 720
+  role_hint: history
+  runtime_basis: estimated
+  runtime_note: noise clip cost factor 5.5x testsrc2 from the image calibration table, not the cluster
+- point_id: f1-x264-720p-testsrc2-veryfast-2400
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: testsrc2
+    width: 1280
+    height: 720
+    frames: 2400
+    fps: 30
+    encoder: libx264
+    preset: veryfast
+    crf: 23
+  descriptors:
+    frames: 2400
+    width: 1280
+    height: 720
+  role_hint: heldout-interpolation
+  runtime_basis: estimated
+  runtime_note: veryfast/medium preset factor 0.44 from the image calibration table, not the cluster
+- point_id: f1-x264-720p-testsrc2-med-1100
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: testsrc2
+    width: 1280
+    height: 720
+    frames: 1100
+    fps: 30
+    encoder: libx264
+    preset: medium
+    crf: 23
+  descriptors:
+    frames: 1100
+    width: 1280
+    height: 720
+  role_hint: heldout-interpolation
+  runtime_basis: measured
+- point_id: f1-x264-720p-testsrc2-med-3600
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: testsrc2
+    width: 1280
+    height: 720
+    frames: 3600
+    fps: 30
+    encoder: libx264
+    preset: medium
+    crf: 23
+  descriptors:
+    frames: 3600
+    width: 1280
+    height: 720
+  role_hint: heldout-extrapolation
+  runtime_basis: measured
+- point_id: f1-x265-720p-testsrc2-med-400
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: testsrc2
+    width: 1280
+    height: 720
+    frames: 400
+    fps: 30
+    encoder: libx265
+    preset: medium
+    crf: 28
+  descriptors:
+    frames: 400
+    width: 1280
+    height: 720
+  role_hint: history
+  runtime_basis: measured
+- point_id: f1-x265-720p-testsrc2-med-700
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: testsrc2
+    width: 1280
+    height: 720
+    frames: 700
+    fps: 30
+    encoder: libx265
+    preset: medium
+    crf: 28
+  descriptors:
+    frames: 700
+    width: 1280
+    height: 720
+  role_hint: history
+  runtime_basis: measured
+- point_id: f1-x265-720p-testsrc2-med-1100
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: testsrc2
+    width: 1280
+    height: 720
+    frames: 1100
+    fps: 30
+    encoder: libx265
+    preset: medium
+    crf: 28
+  descriptors:
+    frames: 1100
+    width: 1280
+    height: 720
+  role_hint: history
+  runtime_basis: measured
+- point_id: f1-x265-720p-testsrc2-med-900
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: testsrc2
+    width: 1280
+    height: 720
+    frames: 900
+    fps: 30
+    encoder: libx265
+    preset: medium
+    crf: 28
+  descriptors:
+    frames: 900
+    width: 1280
+    height: 720
+  role_hint: heldout-interpolation
+  runtime_basis: measured
+- point_id: f1-x265-720p-testsrc2-med-1500
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: testsrc2
+    width: 1280
+    height: 720
+    frames: 1500
+    fps: 30
+    encoder: libx265
+    preset: medium
+    crf: 28
+  descriptors:
+    frames: 1500
+    width: 1280
+    height: 720
+  role_hint: heldout-extrapolation
+  runtime_basis: measured
+- point_id: f1-x265-720p-mandelbrot-med-500
+  family: video-transcode
+  params:
+    THREADS: 2
+    clip: mandelbrot
+    width: 1280
+    height: 720
+    frames: 500
+    fps: 30
+    encoder: libx265
+    preset: medium
+    crf: 28
+  descriptors:
+    frames: 500
+    width: 1280
+    height: 720
+  role_hint: heldout-interpolation
+  runtime_basis: estimated
+  runtime_note: mandelbrot/testsrc2 cost factor 2.05 from the image calibration table, not the cluster
+- point_id: f2-random-zstd1-aes-768
+  family: compress-encrypt
+  params:
+    THREADS: 2
+    corpus: random
+    SIZE_MB: 768
+    codec: zstd
+    level: 1
+    cipher: aes-256-ctr
+    seed: 20260917
+  descriptors:
+    size_mib: 768
+    level: 1
+  role_hint: history
+  runtime_basis: measured
+- point_id: f2-random-zstd1-chacha-768
+  family: compress-encrypt
+  params:
+    THREADS: 2
+    corpus: random
+    SIZE_MB: 768
+    codec: zstd
+    level: 1
+    cipher: chacha20
+    seed: 20260917
+  descriptors:
+    size_mib: 768
+    level: 1
+  role_hint: history
+  runtime_basis: measured
+- point_id: f2-random-zstd1-aes-1152
+  family: compress-encrypt
+  params:
+    THREADS: 2
+    corpus: random
+    SIZE_MB: 1152
+    codec: zstd
+    level: 1
+    cipher: aes-256-ctr
+    seed: 20260917
+  descriptors:
+    size_mib: 1152
+    level: 1
+  role_hint: history
+  resource_overrides:
+    memory: 5Gi
+  volume_overrides:
+    shm:
+      sizeLimit: 3Gi
+  runtime_basis: estimated
+  runtime_note: edge-1 raised to the cross-family median edge-1/edge-2 work ratio; its 768 MiB anchor
+    is anomalously fast
+- point_id: f2-random-zstd1-chacha-1152
+  family: compress-encrypt
+  params:
+    THREADS: 2
+    corpus: random
+    SIZE_MB: 1152
+    codec: zstd
+    level: 1
+    cipher: chacha20
+    seed: 20260917
+  descriptors:
+    size_mib: 1152
+    level: 1
+  role_hint: history
+  resource_overrides:
+    memory: 5Gi
+  volume_overrides:
+    shm:
+      sizeLimit: 3Gi
+  runtime_basis: estimated
+  runtime_note: edge-1 raised to the cross-family median edge-1/edge-2 work ratio
+- point_id: f2-text-zstd12-aes-512
+  family: compress-encrypt
+  params:
+    THREADS: 2
+    corpus: text
+    SIZE_MB: 512
+    codec: zstd
+    level: 12
+    cipher: aes-256-ctr
+    seed: 20260917
+  descriptors:
+    size_mib: 512
+    level: 12
+  role_hint: history
+  runtime_basis: estimated
+  runtime_note: zstd-12 on a text corpus is unmeasured on the cluster; conservative amd64 1.6x / Pi 10x
+    factors
+- point_id: f2-text-zstd12-chacha-512
+  family: compress-encrypt
+  params:
+    THREADS: 2
+    corpus: text
+    SIZE_MB: 512
+    codec: zstd
+    level: 12
+    cipher: chacha20
+    seed: 20260917
+  descriptors:
+    size_mib: 512
+    level: 12
+  role_hint: heldout-interpolation
+  runtime_basis: estimated
+  runtime_note: zstd-12 on a text corpus is unmeasured on the cluster; conservative amd64 1.6x / Pi 10x
+    factors
+- point_id: f2-mixed-zstd1-aes-1024
+  family: compress-encrypt
+  params:
+    THREADS: 2
+    corpus: mixed
+    SIZE_MB: 1024
+    codec: zstd
+    level: 1
+    cipher: aes-256-ctr
+    seed: 20260917
+  descriptors:
+    size_mib: 1024
+    level: 1
+  role_hint: heldout-interpolation
+  resource_overrides:
+    memory: 5Gi
+  volume_overrides:
+    shm:
+      sizeLimit: 3Gi
+  runtime_basis: estimated
+  runtime_note: mixed corpus generation taken as 2.5x random at equal size; unmeasured on the cluster
+- point_id: f3-r50-fp32-224-128
+  family: onnx-inference-fp32
+  params:
+    THREADS: 2
+    model: resnet50
+    items: 128
+    batch: 8
+    input_size: 224
+    seed: 20260917
+  descriptors:
+    items: 128
+    batch: 8
+    input_size: 224
+  role_hint: history
+  runtime_basis: measured
+- point_id: f3-r50-fp32-224-192
+  family: onnx-inference-fp32
+  params:
+    THREADS: 2
+    model: resnet50
+    items: 192
+    batch: 8
+    input_size: 224
+    seed: 20260917
+  descriptors:
+    items: 192
+    batch: 8
+    input_size: 224
+  role_hint: history
+  runtime_basis: measured
+- point_id: f3-r50-fp32-224-288
+  family: onnx-inference-fp32
+  params:
+    THREADS: 2
+    model: resnet50
+    items: 288
+    batch: 8
+    input_size: 224
+    seed: 20260917
+  descriptors:
+    items: 288
+    batch: 8
+    input_size: 224
+  role_hint: history
+  runtime_basis: measured
+- point_id: f3-r50-fp32-224-224
+  family: onnx-inference-fp32
+  params:
+    THREADS: 2
+    model: resnet50
+    items: 224
+    batch: 8
+    input_size: 224
+    seed: 20260917
+  descriptors:
+    items: 224
+    batch: 8
+    input_size: 224
+  role_hint: heldout-interpolation
+  runtime_basis: measured
+- point_id: f3-r50-fp32-224-384
+  family: onnx-inference-fp32
+  params:
+    THREADS: 2
+    model: resnet50
+    items: 384
+    batch: 8
+    input_size: 224
+    seed: 20260917
+  descriptors:
+    items: 384
+    batch: 8
+    input_size: 224
+  role_hint: heldout-extrapolation
+  runtime_basis: measured
+- point_id: f3-r50-fp32-160-256
+  family: onnx-inference-fp32
+  params:
+    THREADS: 2
+    model: resnet50
+    items: 256
+    batch: 8
+    input_size: 160
+    seed: 20260917
+  descriptors:
+    items: 256
+    batch: 8
+    input_size: 160
+  role_hint: heldout-extrapolation
+  runtime_basis: estimated
+  runtime_note: INPUT_SIZE scaling by the quadratic FLOPs ratio; only 224 was measured
+- point_id: f3-r50-fp32-288-96
+  family: onnx-inference-fp32
+  params:
+    THREADS: 2
+    model: resnet50
+    items: 96
+    batch: 8
+    input_size: 288
+    seed: 20260917
+  descriptors:
+    items: 96
+    batch: 8
+    input_size: 288
+  role_hint: heldout-extrapolation
+  runtime_basis: estimated
+  runtime_note: INPUT_SIZE scaling by the quadratic FLOPs ratio; only 224 was measured
+- point_id: f3-mnv2-fp32-224-1500
+  family: onnx-inference-fp32
+  params:
+    THREADS: 2
+    model: mobilenetv2
+    items: 1500
+    batch: 8
+    input_size: 224
+    seed: 20260917
+  descriptors:
+    items: 1500
+    batch: 8
+    input_size: 224
+  role_hint: history
+  runtime_basis: estimated
+  runtime_note: MobileNetV2 unmeasured on the cluster; per-item cost 0.1087x ResNet-50 from the image
+    calibration
+- point_id: f3-mnv2-fp32-224-2500
+  family: onnx-inference-fp32
+  params:
+    THREADS: 2
+    model: mobilenetv2
+    items: 2500
+    batch: 8
+    input_size: 224
+    seed: 20260917
+  descriptors:
+    items: 2500
+    batch: 8
+    input_size: 224
+  role_hint: history
+  runtime_basis: estimated
+  runtime_note: MobileNetV2 unmeasured on the cluster; per-item cost 0.1087x ResNet-50 from the image
+    calibration
+- point_id: f3-r50-int8-224-128
+  family: onnx-inference-int8
+  params:
+    THREADS: 2
+    model: resnet50
+    items: 128
+    batch: 8
+    input_size: 224
+    seed: 20260917
+  descriptors:
+    items: 128
+    batch: 8
+    input_size: 224
+  role_hint: history
+  runtime_basis: measured
+- point_id: f3-r50-int8-224-192
+  family: onnx-inference-int8
+  params:
+    THREADS: 2
+    model: resnet50
+    items: 192
+    batch: 8
+    input_size: 224
+    seed: 20260917
+  descriptors:
+    items: 192
+    batch: 8
+    input_size: 224
+  role_hint: history
+  runtime_basis: estimated
+  runtime_note: edge-1 raised to the cross-family median edge-1/edge-2 work ratio
+- point_id: f3-r50-int8-224-288
+  family: onnx-inference-int8
+  params:
+    THREADS: 2
+    model: resnet50
+    items: 288
+    batch: 8
+    input_size: 224
+    seed: 20260917
+  descriptors:
+    items: 288
+    batch: 8
+    input_size: 224
+  role_hint: history
+  runtime_basis: estimated
+  runtime_note: edge-1 raised to the cross-family median edge-1/edge-2 work ratio
+- point_id: f3-mnv2-int8-224-1500
+  family: onnx-inference-int8
+  params:
+    THREADS: 2
+    model: mobilenetv2
+    items: 1500
+    batch: 8
+    input_size: 224
+    seed: 20260917
+  descriptors:
+    items: 1500
+    batch: 8
+    input_size: 224
+  role_hint: history
+  runtime_basis: estimated
+  runtime_note: MobileNetV2 INT8 unmeasured on the cluster; per-item cost 0.1087x ResNet-50 INT8
+- point_id: f3-mnv2-int8-224-2000
+  family: onnx-inference-int8
+  params:
+    THREADS: 2
+    model: mobilenetv2
+    items: 2000
+    batch: 8
+    input_size: 224
+    seed: 20260917
+  descriptors:
+    items: 2000
+    batch: 8
+    input_size: 224
+  role_hint: heldout-extrapolation
+  runtime_basis: estimated
+  runtime_note: MobileNetV2 INT8 unmeasured on the cluster; per-item cost 0.1087x ResNet-50 INT8
+- point_id: f4-bfs-kron-21-n4
+  family: graph-kernel
+  params:
+    THREADS: 2
+    kernel: bfs
+    generator: kron
+    scale: 21
+    degree: 16
+    trials: 4
+    pr_iters: 10
+  descriptors:
+    scale: 21
+    degree: 16
+    trials: 4
+  role_hint: history
+  runtime_basis: measured
+- point_id: f4-bfs-kron-22-n4
+  family: graph-kernel
+  params:
+    THREADS: 2
+    kernel: bfs
+    generator: kron
+    scale: 22
+    degree: 16
+    trials: 4
+    pr_iters: 10
+  descriptors:
+    scale: 22
+    degree: 16
+    trials: 4
+  role_hint: history
+  runtime_basis: measured
+- point_id: f4-bfs-kron-21-n8
+  family: graph-kernel
+  params:
+    THREADS: 2
+    kernel: bfs
+    generator: kron
+    scale: 21
+    degree: 16
+    trials: 8
+    pr_iters: 10
+  descriptors:
+    scale: 21
+    degree: 16
+    trials: 8
+  role_hint: heldout-interpolation
+  runtime_basis: estimated
+  runtime_note: trial-count scaling uses the 0.69 build / 0.31 trials split from the image calibration
+- point_id: f4-bfs-kron-22-n6
+  family: graph-kernel
+  params:
+    THREADS: 2
+    kernel: bfs
+    generator: kron
+    scale: 22
+    degree: 16
+    trials: 6
+    pr_iters: 10
+  descriptors:
+    scale: 22
+    degree: 16
+    trials: 6
+  role_hint: heldout-extrapolation
+  runtime_basis: estimated
+  runtime_note: trial-count scaling uses the 0.69 build / 0.31 trials split from the image calibration
+- point_id: f4-pr-kron-21-n1
+  family: graph-kernel
+  params:
+    THREADS: 2
+    kernel: pr
+    generator: kron
+    scale: 21
+    degree: 16
+    trials: 1
+    pr_iters: 10
+  descriptors:
+    scale: 21
+    degree: 16
+    trials: 1
+  role_hint: history
+  runtime_basis: measured
+- point_id: f4-pr-kron-22-n1
+  family: graph-kernel
+  params:
+    THREADS: 2
+    kernel: pr
+    generator: kron
+    scale: 22
+    degree: 16
+    trials: 1
+    pr_iters: 10
+  descriptors:
+    scale: 22
+    degree: 16
+    trials: 1
+  role_hint: history
+  runtime_basis: measured
+- point_id: f4-cc-kron-21-n1
+  family: graph-kernel
+  params:
+    THREADS: 2
+    kernel: cc
+    generator: kron
+    scale: 21
+    degree: 16
+    trials: 1
+    pr_iters: 10
+  descriptors:
+    scale: 21
+    degree: 16
+    trials: 1
+  role_hint: history
+  runtime_basis: estimated
+  runtime_note: cc kernel unmeasured on the cluster; taken as 1.2x bfs kron 21 n4
+- point_id: f4-tc-kron-20-n1
+  family: graph-kernel
+  params:
+    THREADS: 2
+    kernel: tc
+    generator: kron
+    scale: 20
+    degree: 16
+    trials: 1
+    pr_iters: 10
+  descriptors:
+    scale: 20
+    degree: 16
+    trials: 1
+  role_hint: history
+  runtime_basis: estimated
+  runtime_note: tc on a kron graph is unmeasured anywhere; deliberately taken as 5x bfs kron 21 n4
+- point_id: f4-bfs-uniform-21-n4
+  family: graph-kernel
+  params:
+    THREADS: 2
+    kernel: bfs
+    generator: uniform
+    scale: 21
+    degree: 16
+    trials: 4
+    pr_iters: 10
+  descriptors:
+    scale: 21
+    degree: 16
+    trials: 4
+  role_hint: heldout-interpolation
+  runtime_basis: estimated
+  runtime_note: uniform generator unmeasured; conservatively taken as equal to kron at the same scale
+- point_id: f4-pr-uniform-21-n1
+  family: graph-kernel
+  params:
+    THREADS: 2
+    kernel: pr
+    generator: uniform
+    scale: 21
+    degree: 16
+    trials: 1
+    pr_iters: 10
+  descriptors:
+    scale: 21
+    degree: 16
+    trials: 1
+  role_hint: heldout-interpolation
+  runtime_basis: estimated
+  runtime_note: uniform generator unmeasured; conservatively taken as equal to kron at the same scale
+- point_id: f5-sf1-q1-r2
+  family: duckdb-tpch
+  params:
+    THREADS: 2
+    sf: 1
+    query: 1
+    repeat: 2
+  descriptors:
+    sf: 1
+    query: 1
+    repeat: 2
+  role_hint: history
+  runtime_basis: measured
+- point_id: f5-sf1-q9-r2
+  family: duckdb-tpch
+  params:
+    THREADS: 2
+    sf: 1
+    query: 9
+    repeat: 2
+  descriptors:
+    sf: 1
+    query: 9
+    repeat: 2
+  role_hint: history
+  runtime_basis: estimated
+  runtime_note: Q9 unmeasured on the cluster; 1.25x Q1 at equal SF
+- point_id: f5-sf2-q1-r2
+  family: duckdb-tpch
+  params:
+    THREADS: 2
+    sf: 2
+    query: 1
+    repeat: 2
+  descriptors:
+    sf: 2
+    query: 1
+    repeat: 2
+  role_hint: history
+  runtime_basis: measured
+- point_id: f5-sf2-q9-r2
+  family: duckdb-tpch
+  params:
+    THREADS: 2
+    sf: 2
+    query: 9
+    repeat: 2
+  descriptors:
+    sf: 2
+    query: 9
+    repeat: 2
+  role_hint: history
+  runtime_basis: estimated
+  runtime_note: Q9 unmeasured on the cluster; 1.25x Q1 at equal SF
+- point_id: f5-sf3-q1-r2
+  family: duckdb-tpch
+  params:
+    THREADS: 2
+    sf: 3
+    query: 1
+    repeat: 2
+  descriptors:
+    sf: 3
+    query: 1
+    repeat: 2
+  role_hint: heldout-extrapolation
+  resource_overrides:
+    memory: 5Gi
+  runtime_basis: measured
+- point_id: f5-sf3-q21-r2
+  family: duckdb-tpch
+  params:
+    THREADS: 2
+    sf: 3
+    query: 21
+    repeat: 2
+  descriptors:
+    sf: 3
+    query: 21
+    repeat: 2
+  role_hint: heldout-extrapolation
+  resource_overrides:
+    memory: 5Gi
+  runtime_basis: estimated
+  runtime_note: Q21 unmeasured on the cluster; deliberately taken as 2.5x Q1 at equal SF
+- point_id: f9-startup-null
+  family: startup-calibration
+  params:
+    THREADS: 1
+  descriptors:
+    threads: 1
+  role_hint: startup-calibration
+  runtime_basis: estimated
+  runtime_note: start-up of the forecast-workloads image plus a probe of a few sysfs files; excluded from
+    every result, used only to subtract start-up from the Job label
+images:
+  forecast-workloads:
+    repository: registry.nicolfo.it/lelexdrugo/forecast-workloads
+    index_digest: sha256:04dbd934b37b9ee85200b5bb81dd06c6014010c1b63f26a5ea5b167f2fa1e4fb
+    platform_digests:
+      linux/amd64: sha256:b146f1feeb0c8e81d68a5016126ae0272fa8be715103b6f1f7bc85c3dd335725
+      linux/arm64: sha256:c3895da1c8ea5073abbbbb44b2c4b3e2ddeeb5f166b2d52fed27e827e2ce8b18
+  stress-ng-control:
+    repository: registry.nicolfo.it/lelexdrugo/stress-ng-runner
+    index_digest: sha256:698c236e7b79002cac071353d08e4fbed5ebb1f0c710da9151987ba9d1b8c2e4
+    platform_digests:
+      linux/amd64: sha256:baa673f3f68cacb4f22fcfdb6e57ef9832a76a758a6e8cbb5233ee2a9fb631a2
+      linux/arm64: sha256:3a7ea8d1acd162aff7e6b772ad5e8631c00ba4022432c3cdbcfb3cb8984945d7
+namespace: delphi-experiments
+mode: dry-render-only
+source_mode: controlled-all-target-v4
+dataset_id: delphi-target-conditional-runtime-v4
+registry:
+  path: experiments/specs/cluster-registry.yaml
+  sha256: e4f60b11cca17f7c4669b2efd41485ed2ec7a5872dc05187fadd78e31f8dae04
+dry_render:
+  run_id: fcast-exp-replay-v4
+  forecast_origin_anchor_utc: '2026-09-23T06:00:00Z'
+  block_spacing_seconds: 43200
+  origin_spacing_seconds: 2400
+  timestamps_are_synthetic_plan_values: true
+  raw_measurements_present: false
+snapshot_contract:
+  planned_capture_lead_seconds: 10
+  max_age_seconds_at_origin: 60
+  candidate_coverage: all-targets
+deployment_contract:
+  manifest_paths:
+  - code/delphi-system/controller/deploy/controller_deployment.yaml
+  - code/delphi-system/controller/deploy/nats_listener_deployment.yaml
+  - code/delphi-system/decision-maker/deploy/deployment.yaml
+  - code/delphi-system/placing-management-crew/deployment/deployment-without-secret.yaml
+  required_live_revisions:
+  - job-scheduler-controller
+  - decision-maker
+  - webhook-service
+  - nats-listener
+  - sidecar-collector
+builder_contract:
+  required_run_artifacts:
+  - run-manifest.json
+  - origin-manifest.json
+  - target-order-manifest.json
+  - repetition-manifest.json
+  - snapshot-manifest.json
+  - outcome-manifest.json
+  - support-manifest.json
+  - failure-manifest.json
+  - image-manifest.json
+  - registry-manifest.json
+  - deployment-manifest.json
+  - provenance-manifest.json
+acquisition:
+  repetitions: 2
+  ordering_critical_repetitions: 3
+  ordering_critical_families:
+  - onnx-inference-int8
+  - compress-encrypt
+  job_timeout_seconds: 900
+  completion_gate_fraction: 0.95
+  randomization_seed: 20260921
+  per_origin_target_order: sha256-derived
+  serialization:
+    foreground_concurrency: 1
+    targets_within_origin: true
+    repetitions_within_target: true
+  cooldowns:
+    after_repetition_seconds: 15
+    after_target_seconds: 45
+  expected_runtime_basis: Each cell is the idle anchor-derived estimate for (point, target) multiplied
+    by the largest contention factor among the regimes that point is assigned anywhere in this plan, evaluated
+    for that target's architecture and the point's family class (memory-bandwidth-bound or CPU-bound).
+    Cells are therefore deliberate upper bounds, not expectations of the modal idle run, and the derived
+    wall-time budget is an upper bound too. See README-v3.md.
+  expected_runtime_seconds:
+    f0-cpu-45k:
+      public-cloud: 20
+      on-prem: 22
+      edge-1: 84
+      edge-2: 149
+    f0-cpu-70k:
+      public-cloud: 29
+      on-prem: 32
+      edge-1: 143
+      edge-2: 257
+    f0-cpu-110k:
+      public-cloud: 42
+      on-prem: 47
+      edge-1: 216
+      edge-2: 396
+    f1-x264-720p-testsrc2-med-800:
+      public-cloud: 18
+      on-prem: 21
+      edge-1: 26
+      edge-2: 63
+    f1-x264-720p-testsrc2-med-1400:
+      public-cloud: 27
+      on-prem: 32
+      edge-1: 38
+      edge-2: 101
+    f1-x264-720p-testsrc2-med-2400:
+      public-cloud: 40
+      on-prem: 49
+      edge-1: 56
+      edge-2: 164
+    f1-x264-480p-testsrc2-med-2000:
+      public-cloud: 22
+      on-prem: 26
+      edge-1: 33
+      edge-2: 80
+    f1-x264-720p-noise-med-1000:
+      public-cloud: 84
+      on-prem: 106
+      edge-1: 113
+      edge-2: 362
+    f1-x264-720p-testsrc2-veryfast-2400:
+      public-cloud: 22
+      on-prem: 26
+      edge-1: 32
+      edge-2: 80
+    f1-x264-720p-testsrc2-med-1100:
+      public-cloud: 26
+      on-prem: 30
+      edge-1: 37
+      edge-2: 94
+    f1-x264-720p-testsrc2-med-3600:
+      public-cloud: 58
+      on-prem: 71
+      edge-1: 78
+      edge-2: 241
+    f1-x265-720p-testsrc2-med-400:
+      public-cloud: 23
+      on-prem: 32
+      edge-1: 50
+      edge-2: 98
+    f1-x265-720p-testsrc2-med-700:
+      public-cloud: 31
+      on-prem: 44
+      edge-1: 66
+      edge-2: 141
+    f1-x265-720p-testsrc2-med-1100:
+      public-cloud: 45
+      on-prem: 66
+      edge-1: 97
+      edge-2: 214
+    f1-x265-720p-testsrc2-med-900:
+      public-cloud: 43
+      on-prem: 61
+      edge-1: 94
+      edge-2: 203
+    f1-x265-720p-testsrc2-med-1500:
+      public-cloud: 59
+      on-prem: 86
+      edge-1: 127
+      edge-2: 286
+    f1-x265-720p-mandelbrot-med-500:
+      public-cloud: 48
+      on-prem: 69
+      edge-1: 104
+      edge-2: 231
+    f2-random-zstd1-aes-768:
+      public-cloud: 12
+      on-prem: 15
+      edge-1: 24
+      edge-2: 52
+    f2-random-zstd1-chacha-768:
+      public-cloud: 12
+      on-prem: 15
+      edge-1: 23
+      edge-2: 44
+    f2-random-zstd1-aes-1152:
+      public-cloud: 15
+      on-prem: 18
+      edge-1: 30
+      edge-2: 72
+    f2-random-zstd1-chacha-1152:
+      public-cloud: 15
+      on-prem: 18
+      edge-1: 27
+      edge-2: 60
+    f2-text-zstd12-aes-512:
+      public-cloud: 39
+      on-prem: 59
+      edge-1: 111
+      edge-2: 373
+    f2-text-zstd12-chacha-512:
+      public-cloud: 39
+      on-prem: 59
+      edge-1: 111
+      edge-2: 373
+    f2-mixed-zstd1-aes-1024:
+      public-cloud: 24
+      on-prem: 31
+      edge-1: 50
+      edge-2: 143
+    f3-r50-fp32-224-128:
+      public-cloud: 14
+      on-prem: 20
+      edge-1: 36
+      edge-2: 107
+    f3-r50-fp32-224-192:
+      public-cloud: 20
+      on-prem: 30
+      edge-1: 55
+      edge-2: 177
+    f3-r50-fp32-224-288:
+      public-cloud: 23
+      on-prem: 37
+      edge-1: 66
+      edge-2: 225
+    f3-r50-fp32-224-224:
+      public-cloud: 20
+      on-prem: 30
+      edge-1: 54
+      edge-2: 178
+    f3-r50-fp32-224-384:
+      public-cloud: 32
+      on-prem: 52
+      edge-1: 95
+      edge-2: 341
+    f3-r50-fp32-160-256:
+      public-cloud: 15
+      on-prem: 21
+      edge-1: 37
+      edge-2: 109
+    f3-r50-fp32-288-96:
+      public-cloud: 18
+      on-prem: 27
+      edge-1: 49
+      edge-2: 150
+    f3-mnv2-fp32-224-1500:
+      public-cloud: 16
+      on-prem: 24
+      edge-1: 42
+      edge-2: 134
+    f3-mnv2-fp32-224-2500:
+      public-cloud: 25
+      on-prem: 40
+      edge-1: 72
+      edge-2: 246
+    f3-r50-int8-224-128:
+      public-cloud: 14
+      on-prem: 27
+      edge-1: 24
+      edge-2: 56
+    f3-r50-int8-224-192:
+      public-cloud: 18
+      on-prem: 37
+      edge-1: 30
+      edge-2: 78
+    f3-r50-int8-224-288:
+      public-cloud: 23
+      on-prem: 53
+      edge-1: 39
+      edge-2: 111
+    f3-mnv2-int8-224-1500:
+      public-cloud: 16
+      on-prem: 33
+      edge-1: 28
+      edge-2: 68
+    f3-mnv2-int8-224-2000:
+      public-cloud: 19
+      on-prem: 41
+      edge-1: 32
+      edge-2: 88
+    f4-bfs-kron-21-n4:
+      public-cloud: 15
+      on-prem: 16
+      edge-1: 23
+      edge-2: 48
+    f4-bfs-kron-22-n4:
+      public-cloud: 24
+      on-prem: 26
+      edge-1: 35
+      edge-2: 91
+    f4-bfs-kron-21-n8:
+      public-cloud: 17
+      on-prem: 20
+      edge-1: 28
+      edge-2: 63
+    f4-bfs-kron-22-n6:
+      public-cloud: 26
+      on-prem: 29
+      edge-1: 38
+      edge-2: 103
+    f4-pr-kron-21-n1:
+      public-cloud: 15
+      on-prem: 18
+      edge-1: 26
+      edge-2: 70
+    f4-pr-kron-22-n1:
+      public-cloud: 24
+      on-prem: 32
+      edge-1: 42
+      edge-2: 145
+    f4-cc-kron-21-n1:
+      public-cloud: 17
+      on-prem: 18
+      edge-1: 26
+      edge-2: 56
+    f4-tc-kron-20-n1:
+      public-cloud: 43
+      on-prem: 48
+      edge-1: 60
+      edge-2: 187
+    f4-bfs-uniform-21-n4:
+      public-cloud: 15
+      on-prem: 16
+      edge-1: 24
+      edge-2: 51
+    f4-pr-uniform-21-n1:
+      public-cloud: 15
+      on-prem: 18
+      edge-1: 26
+      edge-2: 70
+    f5-sf1-q1-r2:
+      public-cloud: 19
+      on-prem: 18
+      edge-1: 20
+      edge-2: 46
+    f5-sf1-q9-r2:
+      public-cloud: 23
+      on-prem: 22
+      edge-1: 24
+      edge-2: 56
+    f5-sf2-q1-r2:
+      public-cloud: 29
+      on-prem: 27
+      edge-1: 26
+      edge-2: 72
+    f5-sf2-q9-r2:
+      public-cloud: 35
+      on-prem: 33
+      edge-1: 31
+      edge-2: 90
+    f5-sf3-q1-r2:
+      public-cloud: 38
+      on-prem: 36
+      edge-1: 31
+      edge-2: 98
+    f5-sf3-q21-r2:
+      public-cloud: 86
+      on-prem: 78
+      edge-1: 61
+      edge-2: 233
+    f9-startup-null:
+      public-cloud: 10
+      on-prem: 10
+      edge-1: 15
+      edge-2: 20
+analysis_masking:
+  family_target_pairs: []
+  removed_from_v3:
+  - pair: onnx-inference-int8::edge-1
+    reason: carries the only observed departure from the dominant target ordering
+  - pair: duckdb-tpch::on-prem
+    reason: the unseen-pair subgroup is dropped with its partner
+portfolio:
+  origins_by_family:
+    compress-encrypt: 12
+    duckdb-tpch: 8
+    graph-kernel: 10
+    onnx-inference-fp32: 10
+    onnx-inference-int8: 12
+    stress-ng-cpu: 6
+    video-transcode: 12
+  family_mechanisms:
+    stress-ng-cpu: 'drift monitor: one byte-identical control origin in every block. A pure CPU kernel
+      repeated unchanged, so if its idle target ratio moves across blocks the instrument moved, not the
+      world. It is the only stress-ng point in the enumeration, which gives up the size-invariance reading
+      the family also offered: that trade is what makes the monitor exact'
+    compress-encrypt: 'the cipher selects a hardware path on three targets and a software path on one:
+      AES has an instruction on public-cloud and on-prem (aes) and on edge-1 (the ARMv8 aes/pmull/sha1/sha2
+      set), and none on edge-2, while ChaCha20 has no hardware path anywhere. So the AES-versus-ChaCha
+      contrast is near-flat on three targets and large on edge-2 -- a workload-by-target interaction carried
+      by one measured feature rather than by architecture'
+    onnx-inference-int8: 'quantized dot-product kernels have a hardware path on exactly two targets and
+      not the two an architecture split would predict: edge-1 has asimddp, public-cloud has avx2, and
+      edge-2 (no asimddp) and on-prem (no avx2, no avx512_vnni) have neither. Paired with fp32 because
+      precision changes the cost structure rather than its scale, so the pair reads as a 2x2 rather than
+      as a single ordering'
+    onnx-inference-fp32: dense floating-point kernels, the fp32 half of the precision pair against which
+      the int8 ordering is read. Neither target pair has a quantized integer advantage here, so any int8-specific
+      ordering must show up as the difference between the two families and not in either alone
+    graph-kernel: memory-latency and bandwidth bound rather than compute bound, so it separates targets
+      by memory subsystem rather than by clock -- including the two single-board targets from each other,
+      which differ in memory generation as well as in core
+    video-transcode: encoder and preset change the balance through SIMD codec paths; the split is per-target
+      and not per-architecture, since the two arm64 targets differ by core generation (Cortex-A76 against
+      Cortex-A72) and clock
+    duckdb-tpch: vectorized scan and join; memory bandwidth with a compute tail
+  test_allocation:
+    compress-encrypt: 5
+    duckdb-tpch: 2
+    graph-kernel: 3
+    onnx-inference-fp32: 4
+    onnx-inference-int8: 5
+    video-transcode: 5
+  drift_monitor:
+    family: stress-ng-cpu
+    point_id: f0-cpu-45k
+    origins_per_block: 1
+    blocks:
+    - block-01
+    - block-02
+    - block-03
+    - block-04
+    - block-05
+    - block-06
+    note: the drift monitor costs three of the twenty-seven test origins; generalization subgroups must
+      exclude them, because a byte-identical control repeat is a memorization probe and not a generalization
+      test
+  test_block_requirements:
+    must_contain_families:
+    - onnx-inference-int8
+    - compress-encrypt
+    minimum_origins_per_required_family: 3
+    exact_drift_monitor_origins: 3
+  point_repetition_policy: points cycle within a family, so that with seventy origins over the point catalogue
+    some points recur across blocks and the seen-point contrast gains the support the pilot lacked
+contention:
+  layout: multi-target
+  origins_by_loaded_target_count:
+    0: 8
+    1: 12
+    2: 27
+    3: 23
+  heavy_on_dominant_target_origins: 23
+  dominant_target_at_design_time: public-cloud
+  contended_regime_quotas:
+    r3_cells_per_target: 10
+    r2_extra_cells_per_non_dominant_target: 9
+    r2_minimum_cells_per_target: 8
+    rationale: 'quotas rather than a rotation: the earlier rotation weighted r3 above r2, which inverted
+      the evidence. r2-heavy is where the pilot located the collapse in the constant-rule ceiling; r3
+      is a repair whose value is argued rather than observed, so it sits at its declared minimum'
+  heavy_on_dominant_per_test_block: 4
+  coverage_trade: where coverage had to be traded it is traded away from the fully idle stratum and toward
+    heavy load on the dominant target, because the paper's core is that ordering and magnitude are two
+    problems coupled by contention, and the contended region has to be sampled densely enough to locate
+    that coupling rather than merely to estimate a mean
+selection:
+  method: k-fold-within-training
+  folds: 5
+  fold_unit: origin
+  note: no separate model-selection block; its origins return to training
+interaction_comparator:
+  registered: bilinear
+  alpha_search:
+  - 100.0
+  - 1000.0
+  - 10000.0
+  second_reading: random_forest
+  second_reading_role: 'a second reading of the same question, not a second comparator: a forest beating
+    rank-one shows only that the surface is not rank-one, while the bilinear model is the direct negation
+    of the hypothesis the paper states'
+intent:
+  decision: DEC-F25
+  recorded_per_origin: true
+  costs_no_additional_execution: the all-target paired replay already measures every candidate at every
+    origin, so the intent layer is scored on the same executions
+  latency_budget:
+    basis: declared estimate for the fastest target at this workload point
+    never_a_measured_quantity: true
+    tiers:
+    - name: tight
+      multiplier: 1.25
+    - name: moderate
+      multiplier: 1.75
+    - name: generous
+      multiplier: 3.0
+    pilot_distribution_motivating_the_tiers:
+      source: 45 pilot origins with all four targets measured
+      ratio_to_origin_fastest:
+        second_fastest_median: 1.21
+        third_median: 1.89
+        slowest_median: 4.44
+      feasible_target_count_at_each_tier:
+        tight-1.25:
+          '1': 19
+          '2': 21
+          '3': 5
+          '4': 0
+        moderate-1.75:
+          '1': 3
+          '2': 24
+          '3': 18
+          '4': 0
+        generous-3.00:
+          '1': 0
+          '2': 11
+          '3': 30
+          '4': 4
+      chosen_so_that: the feasible set is neither empty nor all four targets at any tier, which is what
+        makes the choice non-trivial
+    never_refitted_after_v4_data_exists: true
+  superseded:
+    cost_model: 'removed with DEC-F25''s cost layer: a declared per-target rate, a crossover ratio and
+      a nine-point relative-rate sweep, none of which this study measures'
+    decision_layers.intent_constrained.oracle: was 'cheapest target that actually met the latency budget';
+      the oracle is now the measured outcome and the objective is the deadline alone
+    rules:
+    - constant-cheapest-target
+    - constant-fastest-target
+    - argmin-cost-among-predicted-feasible
+    - argmin-cost-among-conformal-feasible
+    - oracle-cheapest-feasible
+    why: 'no claim in the article rests on price, and the objection the design has to survive -- ''the
+      biggest machine wins everything'' -- is answered by two measured mechanisms that need no cost model:
+      headroom, and the fact that capability is not monotone in capacity'
+  decision_layer:
+    objective: meet the declared deadline, and run fast subject to meeting it
+    oracle: 'the measured outcome: the fastest target that actually completed'
+    rules:
+    - deadline-feasible-point-forecast
+    - deadline-feasible-conformal-upper-bound
+    - constant-large-tier
+    - constant-fixed-tier
+    reported_as: deadline violations against runtime regret, both axes always
+    reporting_note: a rule that is fast because it misses deadlines is then visibly so, and a rule that
+      never misses because it is always slow is equally visible
+    primary_result_is_a_contrast: the comparison is structured so a reader can see WHEN the risk-aware
+      rule wins and when it merely costs runtime; a single regret number cannot tell a rule that prevented
+      deadline misses apart from one that just ran slower, and those are opposite findings
+  interval_width_has_decision_meaning: 'this is why the intervals are in the paper. Under a deadline a
+    point forecast that is accurate on average can still be unsafe, and the interval is what expresses
+    that: under the risk-aware rule a wider interval disqualifies a fast target and forces a slower admissible
+    one, so width is paid in runtime -- the currency the study actually measures'
+label_decomposition:
+  job_scoped_label: execution_runtime_seconds
+  work_scoped_label: work_runtime_seconds
+  work_label_method: subtraction-from-startup-calibration
+  work_label_transport: none-required
+  self_reported_interval_role: validation-not-mechanism
+  projected_from_the_driver:
+  - k8s_start_time_utc
+  - completion_time_seconds
+startup_calibration:
+  role_hint: startup-calibration
+  point_id: f9-startup-null
+  per:
+  - target
+  - regime
+  repetitions: 3
+  excluded_from_results: true
+contention_materialization_gate:
+  heavy_regime: r2-heavy
+  minimum_heavy_slowdown_ratio: 1.25
+  reference: same-workload-point-same-target-idle-cells
+  on_violation: abort
+r3_repair:
+  disposition: repaired
+  minimum_cells: 40
+  minimum_targets: 4
+  minimum_families: 4
+  removal_condition: fails the contention-materialization gate
+platform_fingerprint:
+  captured_per: execution
+  source: node .status.nodeInfo and .metadata.uid
+  fields:
+  - kubeletVersion
+  - kernelVersion
+  - osImage
+  - containerRuntimeVersion
+  - architecture
+  - bootID
+  - machineID
+  - metadata.uid
+state_sensing:
+  record: one per candidate target per origin
+  built_from: three samples over 60 seconds
+  emits:
+  - mean
+  - max
+  note: one row carrying mean and max, not three rows
+  window_amended_from_15_seconds:
+    measured_scrape_floor_seconds: 10
+    worst_observed_gap_seconds: 21
+    evidence: ten reads over fifty seconds returned four distinct scrape windows on both readable targets,
+      so three samples over fifteen seconds would be one or two reads of the same scrape
+  removed_field:
+    name: cpu_utilisation_ratio_15s
+    reason: metrics-server aggregates over roughly ten seconds, so a fifteen-second ratio asserts a precision
+      the source cannot produce
+  coverage:
+    push_targets: observed utilisation available
+    pull_targets: metrics.k8s.io is absent from Cluster.status.apiEnablements on edge-1 and edge-2, so
+      metrics-server is not registered there and the data source does not exist; this is a deployment
+      gap, not a read-path gap
+enumeration_summary:
+  drift_monitor_origins_by_block:
+    block-01: 1
+    block-02: 1
+    block-03: 1
+    block-04: 1
+    block-05: 1
+    block-06: 1
+  drift_monitor_test_origins: 3
+  origin_count: 70
+  origins_by_family:
+    compress-encrypt: 12
+    duckdb-tpch: 8
+    graph-kernel: 10
+    onnx-inference-fp32: 10
+    onnx-inference-int8: 12
+    stress-ng-cpu: 6
+    video-transcode: 12
+  origins_by_block:
+    block-01: 12
+    block-02: 12
+    block-03: 19
+    block-04: 9
+    block-05: 9
+    block-06: 9
+  origins_by_role:
+    calibration: 19
+    test: 27
+    training: 24
+  test_origins_by_family:
+    compress-encrypt: 5
+    duckdb-tpch: 2
+    graph-kernel: 3
+    onnx-inference-fp32: 4
+    onnx-inference-int8: 5
+    stress-ng-cpu: 3
+    video-transcode: 5
+  regime_cells:
+    none: 145
+    r1-moderate: 45
+    r2-heavy: 50
+    r3-cpu-pressure: 40
+  regime_target_coverage:
+    none:
+    - edge-1
+    - edge-2
+    - on-prem
+    - public-cloud
+    r1-moderate:
+    - edge-1
+    - edge-2
+    - on-prem
+    - public-cloud
+    r2-heavy:
+    - edge-1
+    - edge-2
+    - on-prem
+    - public-cloud
+    r3-cpu-pressure:
+    - edge-1
+    - edge-2
+    - on-prem
+    - public-cloud
+  regime_family_coverage:
+    none: 7
+    r1-moderate: 7
+    r2-heavy: 7
+    r3-cpu-pressure: 7
+  origins_by_loaded_target_count:
+    0: 8
+    1: 12
+    2: 27
+    3: 23
+  heavy_on_dominant_target_origins: 23
+  heavy_on_dominant_target_share: 0.32857142857142857
+  heavy_on_dominant_by_block:
+    block-01: 3
+    block-02: 3
+    block-03: 5
+    block-04: 4
+    block-05: 4
+    block-06: 4
+  heavy_on_dominant_test_origins: 12
+  r2_heavy_cells_by_target:
+    edge-1: 9
+    edge-2: 9
+    on-prem: 9
+    public-cloud: 23
+  intent_tiers:
+    generous: 23
+    moderate: 23
+    tight: 24
+  intent_tiers_by_block:
+    block-01:
+      generous: 4
+      moderate: 4
+      tight: 4
+    block-02:
+      generous: 4
+      moderate: 4
+      tight: 4
+    block-03:
+      generous: 6
+      moderate: 6
+      tight: 7
+    block-04:
+      generous: 3
+      moderate: 3
+      tight: 3
+    block-05:
+      generous: 3
+      moderate: 3
+      tight: 3
+    block-06:
+      generous: 3
+      moderate: 3
+      tight: 3
+  test_families_by_block:
+    block-04:
+      compress-encrypt: 2
+      graph-kernel: 1
+      onnx-inference-fp32: 2
+      onnx-inference-int8: 2
+      stress-ng-cpu: 1
+      video-transcode: 1
+    block-05:
+      compress-encrypt: 2
+      duckdb-tpch: 1
+      graph-kernel: 1
+      onnx-inference-fp32: 1
+      onnx-inference-int8: 1
+      stress-ng-cpu: 1
+      video-transcode: 2
+    block-06:
+      compress-encrypt: 1
+      duckdb-tpch: 1
+      graph-kernel: 1
+      onnx-inference-fp32: 1
+      onnx-inference-int8: 2
+      stress-ng-cpu: 1
+      video-transcode: 2
+  idle_cells: 145
+  loaded_cells: 135
+  distinct_points: 50
+  points_appearing_more_than_once: 14
+  measured_executions: 656
+  origins_without_latency_budget: 0
+blocks:
+- id: startup-cal-1
+  role: startup-calibration
+  origins:
+  - origin_id: v4-cal1-none
+    point_id: f9-startup-null
+    family: startup-calibration
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 1
+    excluded_from_results: true
+  - origin_id: v4-cal1-r1-moderate
+    point_id: f9-startup-null
+    family: startup-calibration
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r1-moderate
+      edge-1: r1-moderate
+      edge-2: r1-moderate
+    repetitions: 1
+    excluded_from_results: true
+  - origin_id: v4-cal1-r2-heavy
+    point_id: f9-startup-null
+    family: startup-calibration
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: r2-heavy
+      edge-1: r2-heavy
+      edge-2: r2-heavy
+    repetitions: 1
+    excluded_from_results: true
+  - origin_id: v4-cal1-r3-cpu-pressure
+    point_id: f9-startup-null
+    family: startup-calibration
+    regime_by_target:
+      public-cloud: r3-cpu-pressure
+      on-prem: r3-cpu-pressure
+      edge-1: r3-cpu-pressure
+      edge-2: r3-cpu-pressure
+    repetitions: 1
+    excluded_from_results: true
+- id: block-01
+  role: training
+  origins:
+  - origin_id: v4-01-f2-mixed-zstd1-aes-1024
+    point_id: f2-mixed-zstd1-aes-1024
+    family: compress-encrypt
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r1-moderate
+      edge-1: none
+      edge-2: r1-moderate
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 30.0
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 24.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-02-f3-mnv2-fp32-224-1500
+    point_id: f3-mnv2-fp32-224-1500
+    family: onnx-inference-fp32
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r3-cpu-pressure
+      edge-1: none
+      edge-2: r1-moderate
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 28.0
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 16.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-03-f3-mnv2-int8-224-1500
+    point_id: f3-mnv2-int8-224-1500
+    family: onnx-inference-int8
+    regime_by_target:
+      public-cloud: none
+      on-prem: r1-moderate
+      edge-1: r1-moderate
+      edge-2: r2-heavy
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 20.0
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 16.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-04-f4-bfs-kron-21-n4
+    point_id: f4-bfs-kron-21-n4
+    family: graph-kernel
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r2-heavy
+      edge-1: r1-moderate
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 18.8
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 15.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-05-f0-cpu-45k
+    point_id: f0-cpu-45k
+    family: stress-ng-cpu
+    regime_by_target:
+      public-cloud: r3-cpu-pressure
+      on-prem: r3-cpu-pressure
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 60.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 20.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-06-f2-random-zstd1-aes-1152
+    point_id: f2-random-zstd1-aes-1152
+    family: compress-encrypt
+    regime_by_target:
+      public-cloud: none
+      on-prem: r2-heavy
+      edge-1: r1-moderate
+      edge-2: r3-cpu-pressure
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 45.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 15.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-07-f2-random-zstd1-aes-768
+    point_id: f2-random-zstd1-aes-768
+    family: compress-encrypt
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: r2-heavy
+      edge-2: r3-cpu-pressure
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 36.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 12.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-08-f1-x264-480p-testsrc2-med-2000
+    point_id: f1-x264-480p-testsrc2-med-2000
+    family: video-transcode
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 27.5
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 22.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-09-f4-bfs-kron-21-n8
+    point_id: f4-bfs-kron-21-n8
+    family: graph-kernel
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 51.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 17.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-10-f5-sf1-q1-r2
+    point_id: f5-sf1-q1-r2
+    family: duckdb-tpch
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: none
+      edge-1: r2-heavy
+      edge-2: r1-moderate
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 31.5
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 18.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-11-f3-mnv2-fp32-224-2500
+    point_id: f3-mnv2-fp32-224-2500
+    family: onnx-inference-fp32
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 43.8
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 25.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-12-f2-random-zstd1-chacha-1152
+    point_id: f2-random-zstd1-chacha-1152
+    family: compress-encrypt
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r3-cpu-pressure
+      edge-1: r3-cpu-pressure
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 26.2
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 15.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+- id: block-02
+  role: training
+  origins:
+  - origin_id: v4-13-f3-mnv2-int8-224-2000
+    point_id: f3-mnv2-int8-224-2000
+    family: onnx-inference-int8
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: r1-moderate
+      edge-1: none
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 33.2
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 19.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-14-f4-bfs-kron-22-n4
+    point_id: f4-bfs-kron-22-n4
+    family: graph-kernel
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r2-heavy
+      edge-1: none
+      edge-2: r3-cpu-pressure
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 42.0
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 24.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-15-f1-x264-720p-noise-med-1000
+    point_id: f1-x264-720p-noise-med-1000
+    family: video-transcode
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 252.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 84.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-16-f1-x264-720p-testsrc2-med-1100
+    point_id: f1-x264-720p-testsrc2-med-1100
+    family: video-transcode
+    regime_by_target:
+      public-cloud: none
+      on-prem: r2-heavy
+      edge-1: r3-cpu-pressure
+      edge-2: r1-moderate
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 32.5
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 26.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-17-f1-x264-720p-testsrc2-med-1400
+    point_id: f1-x264-720p-testsrc2-med-1400
+    family: video-transcode
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 47.2
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 27.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-18-f0-cpu-45k
+    point_id: f0-cpu-45k
+    family: stress-ng-cpu
+    regime_by_target:
+      public-cloud: none
+      on-prem: r1-moderate
+      edge-1: r1-moderate
+      edge-2: r2-heavy
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 25.0
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 20.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-19-f3-r50-fp32-160-256
+    point_id: f3-r50-fp32-160-256
+    family: onnx-inference-fp32
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: none
+      edge-1: none
+      edge-2: r3-cpu-pressure
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 18.8
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 15.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-20-f5-sf1-q9-r2
+    point_id: f5-sf1-q9-r2
+    family: duckdb-tpch
+    regime_by_target:
+      public-cloud: none
+      on-prem: r2-heavy
+      edge-1: none
+      edge-2: r1-moderate
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 66.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 22.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-21-f2-random-zstd1-chacha-768
+    point_id: f2-random-zstd1-chacha-768
+    family: compress-encrypt
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 21.0
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 12.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-22-f1-x264-720p-testsrc2-med-2400
+    point_id: f1-x264-720p-testsrc2-med-2400
+    family: video-transcode
+    regime_by_target:
+      public-cloud: none
+      on-prem: r3-cpu-pressure
+      edge-1: none
+      edge-2: r2-heavy
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 50.0
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 40.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-23-f3-r50-int8-224-128
+    point_id: f3-r50-int8-224-128
+    family: onnx-inference-int8
+    regime_by_target:
+      public-cloud: r3-cpu-pressure
+      on-prem: none
+      edge-1: r3-cpu-pressure
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 42.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 14.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-24-f5-sf2-q1-r2
+    point_id: f5-sf2-q1-r2
+    family: duckdb-tpch
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r2-heavy
+      edge-1: r3-cpu-pressure
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 78.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 26.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+- id: startup-cal-2
+  role: startup-calibration
+  origins:
+  - origin_id: v4-cal2-none
+    point_id: f9-startup-null
+    family: startup-calibration
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 1
+    excluded_from_results: true
+  - origin_id: v4-cal2-r1-moderate
+    point_id: f9-startup-null
+    family: startup-calibration
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r1-moderate
+      edge-1: r1-moderate
+      edge-2: r1-moderate
+    repetitions: 1
+    excluded_from_results: true
+  - origin_id: v4-cal2-r2-heavy
+    point_id: f9-startup-null
+    family: startup-calibration
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: r2-heavy
+      edge-1: r2-heavy
+      edge-2: r2-heavy
+    repetitions: 1
+    excluded_from_results: true
+  - origin_id: v4-cal2-r3-cpu-pressure
+    point_id: f9-startup-null
+    family: startup-calibration
+    regime_by_target:
+      public-cloud: r3-cpu-pressure
+      on-prem: r3-cpu-pressure
+      edge-1: r3-cpu-pressure
+      edge-2: r3-cpu-pressure
+    repetitions: 1
+    excluded_from_results: true
+- id: block-03
+  role: calibration
+  origins:
+  - origin_id: v4-25-f3-r50-fp32-224-128
+    point_id: f3-r50-fp32-224-128
+    family: onnx-inference-fp32
+    regime_by_target:
+      public-cloud: r3-cpu-pressure
+      on-prem: none
+      edge-1: none
+      edge-2: r2-heavy
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 42.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 14.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-26-f5-sf2-q9-r2
+    point_id: f5-sf2-q9-r2
+    family: duckdb-tpch
+    regime_by_target:
+      public-cloud: none
+      on-prem: r3-cpu-pressure
+      edge-1: none
+      edge-2: r2-heavy
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 38.8
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 31.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-27-f4-bfs-kron-22-n6
+    point_id: f4-bfs-kron-22-n6
+    family: graph-kernel
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 32.5
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 26.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-28-f2-text-zstd12-aes-512
+    point_id: f2-text-zstd12-aes-512
+    family: compress-encrypt
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r1-moderate
+      edge-1: none
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 117.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 39.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-29-f4-bfs-uniform-21-n4
+    point_id: f4-bfs-uniform-21-n4
+    family: graph-kernel
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: r1-moderate
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 26.2
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 15.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-30-f1-x264-720p-testsrc2-med-3600
+    point_id: f1-x264-720p-testsrc2-med-3600
+    family: video-transcode
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r1-moderate
+      edge-1: r2-heavy
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 174.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 58.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-31-f3-r50-int8-224-192
+    point_id: f3-r50-int8-224-192
+    family: onnx-inference-int8
+    regime_by_target:
+      public-cloud: r3-cpu-pressure
+      on-prem: none
+      edge-1: r1-moderate
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 22.5
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 18.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-32-f2-text-zstd12-chacha-512
+    point_id: f2-text-zstd12-chacha-512
+    family: compress-encrypt
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: none
+      edge-1: none
+      edge-2: r3-cpu-pressure
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 68.2
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 39.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-33-f3-r50-fp32-224-192
+    point_id: f3-r50-fp32-224-192
+    family: onnx-inference-fp32
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 35.0
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 20.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-34-f3-r50-int8-224-288
+    point_id: f3-r50-int8-224-288
+    family: onnx-inference-int8
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: r1-moderate
+      edge-2: r2-heavy
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 28.8
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 23.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-35-f3-mnv2-int8-224-1500
+    point_id: f3-mnv2-int8-224-1500
+    family: onnx-inference-int8
+    regime_by_target:
+      public-cloud: r3-cpu-pressure
+      on-prem: r3-cpu-pressure
+      edge-1: none
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 48.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 16.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-36-f5-sf3-q1-r2
+    point_id: f5-sf3-q1-r2
+    family: duckdb-tpch
+    regime_by_target:
+      public-cloud: none
+      on-prem: r3-cpu-pressure
+      edge-1: r3-cpu-pressure
+      edge-2: r3-cpu-pressure
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 38.8
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 31.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-37-f3-r50-fp32-224-224
+    point_id: f3-r50-fp32-224-224
+    family: onnx-inference-fp32
+    regime_by_target:
+      public-cloud: none
+      on-prem: r1-moderate
+      edge-1: r3-cpu-pressure
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 35.0
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 20.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-38-f1-x264-720p-testsrc2-med-800
+    point_id: f1-x264-720p-testsrc2-med-800
+    family: video-transcode
+    regime_by_target:
+      public-cloud: r3-cpu-pressure
+      on-prem: none
+      edge-1: r1-moderate
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 22.5
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 18.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-39-f4-cc-kron-21-n1
+    point_id: f4-cc-kron-21-n1
+    family: graph-kernel
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r3-cpu-pressure
+      edge-1: r3-cpu-pressure
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 51.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 17.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-40-f4-pr-kron-21-n1
+    point_id: f4-pr-kron-21-n1
+    family: graph-kernel
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: r2-heavy
+      edge-2: r3-cpu-pressure
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 26.2
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 15.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-41-f5-sf3-q21-r2
+    point_id: f5-sf3-q21-r2
+    family: duckdb-tpch
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 183.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 61.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-42-f3-mnv2-int8-224-2000
+    point_id: f3-mnv2-int8-224-2000
+    family: onnx-inference-int8
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: r1-moderate
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 33.2
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 19.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-43-f0-cpu-45k
+    point_id: f0-cpu-45k
+    family: stress-ng-cpu
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 25.0
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 20.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+- id: block-04
+  role: test
+  origins:
+  - origin_id: v4-44-f0-cpu-45k
+    point_id: f0-cpu-45k
+    family: stress-ng-cpu
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r3-cpu-pressure
+      edge-1: r3-cpu-pressure
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 25.0
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 20.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-45-f3-r50-int8-224-128
+    point_id: f3-r50-int8-224-128
+    family: onnx-inference-int8
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: r3-cpu-pressure
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 24.5
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 14.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-46-f3-r50-int8-224-192
+    point_id: f3-r50-int8-224-192
+    family: onnx-inference-int8
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 54.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 18.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-47-f3-r50-fp32-224-288
+    point_id: f3-r50-fp32-224-288
+    family: onnx-inference-fp32
+    regime_by_target:
+      public-cloud: r3-cpu-pressure
+      on-prem: none
+      edge-1: r2-heavy
+      edge-2: r1-moderate
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 69.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 23.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-48-f1-x264-720p-testsrc2-veryfast-2400
+    point_id: f1-x264-720p-testsrc2-veryfast-2400
+    family: video-transcode
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 27.5
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 22.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-49-f4-pr-kron-22-n1
+    point_id: f4-pr-kron-22-n1
+    family: graph-kernel
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 42.0
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 24.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-50-f2-mixed-zstd1-aes-1024
+    point_id: f2-mixed-zstd1-aes-1024
+    family: compress-encrypt
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: r3-cpu-pressure
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 30.0
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 24.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-51-f2-random-zstd1-aes-1152
+    point_id: f2-random-zstd1-aes-1152
+    family: compress-encrypt
+    regime_by_target:
+      public-cloud: none
+      on-prem: r3-cpu-pressure
+      edge-1: r1-moderate
+      edge-2: r3-cpu-pressure
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 26.2
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 15.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-52-f3-r50-fp32-224-384
+    point_id: f3-r50-fp32-224-384
+    family: onnx-inference-fp32
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: r2-heavy
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 96.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 32.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+- id: block-05
+  role: test
+  origins:
+  - origin_id: v4-53-f0-cpu-45k
+    point_id: f0-cpu-45k
+    family: stress-ng-cpu
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: r1-moderate
+      edge-1: none
+      edge-2: r2-heavy
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 60.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 20.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-54-f5-sf1-q1-r2
+    point_id: f5-sf1-q1-r2
+    family: duckdb-tpch
+    regime_by_target:
+      public-cloud: r3-cpu-pressure
+      on-prem: none
+      edge-1: r2-heavy
+      edge-2: r2-heavy
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 22.5
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 18.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-55-f3-r50-fp32-288-96
+    point_id: f3-r50-fp32-288-96
+    family: onnx-inference-fp32
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 31.5
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 18.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-56-f1-x265-720p-mandelbrot-med-500
+    point_id: f1-x265-720p-mandelbrot-med-500
+    family: video-transcode
+    regime_by_target:
+      public-cloud: r3-cpu-pressure
+      on-prem: none
+      edge-1: r2-heavy
+      edge-2: r1-moderate
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 60.0
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 48.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-57-f2-random-zstd1-aes-768
+    point_id: f2-random-zstd1-aes-768
+    family: compress-encrypt
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 21.0
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 12.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-58-f3-r50-int8-224-288
+    point_id: f3-r50-int8-224-288
+    family: onnx-inference-int8
+    regime_by_target:
+      public-cloud: none
+      on-prem: r1-moderate
+      edge-1: r1-moderate
+      edge-2: r2-heavy
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 28.8
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 23.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-59-f4-pr-uniform-21-n1
+    point_id: f4-pr-uniform-21-n1
+    family: graph-kernel
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r2-heavy
+      edge-1: none
+      edge-2: r3-cpu-pressure
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 45.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 15.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-60-f1-x265-720p-testsrc2-med-1100
+    point_id: f1-x265-720p-testsrc2-med-1100
+    family: video-transcode
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: r2-heavy
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 135.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 45.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-61-f2-random-zstd1-chacha-1152
+    point_id: f2-random-zstd1-chacha-1152
+    family: compress-encrypt
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 26.2
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 15.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+- id: startup-cal-3
+  role: startup-calibration
+  origins:
+  - origin_id: v4-cal3-none
+    point_id: f9-startup-null
+    family: startup-calibration
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 1
+    excluded_from_results: true
+  - origin_id: v4-cal3-r1-moderate
+    point_id: f9-startup-null
+    family: startup-calibration
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r1-moderate
+      edge-1: r1-moderate
+      edge-2: r1-moderate
+    repetitions: 1
+    excluded_from_results: true
+  - origin_id: v4-cal3-r2-heavy
+    point_id: f9-startup-null
+    family: startup-calibration
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: r2-heavy
+      edge-1: r2-heavy
+      edge-2: r2-heavy
+    repetitions: 1
+    excluded_from_results: true
+  - origin_id: v4-cal3-r3-cpu-pressure
+    point_id: f9-startup-null
+    family: startup-calibration
+    regime_by_target:
+      public-cloud: r3-cpu-pressure
+      on-prem: r3-cpu-pressure
+      edge-1: r3-cpu-pressure
+      edge-2: r3-cpu-pressure
+    repetitions: 1
+    excluded_from_results: true
+- id: block-06
+  role: test
+  origins:
+  - origin_id: v4-62-f5-sf1-q9-r2
+    point_id: f5-sf1-q9-r2
+    family: duckdb-tpch
+    regime_by_target:
+      public-cloud: r3-cpu-pressure
+      on-prem: none
+      edge-1: r1-moderate
+      edge-2: r1-moderate
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 38.5
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 22.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-63-f1-x265-720p-testsrc2-med-1500
+    point_id: f1-x265-720p-testsrc2-med-1500
+    family: video-transcode
+    regime_by_target:
+      public-cloud: r1-moderate
+      on-prem: r2-heavy
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 177.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 59.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-64-f1-x265-720p-testsrc2-med-400
+    point_id: f1-x265-720p-testsrc2-med-400
+    family: video-transcode
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 28.8
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 23.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-65-f3-mnv2-int8-224-1500
+    point_id: f3-mnv2-int8-224-1500
+    family: onnx-inference-int8
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 48.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 16.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-66-f4-tc-kron-20-n1
+    point_id: f4-tc-kron-20-n1
+    family: graph-kernel
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: r1-moderate
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 75.2
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 43.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-67-f3-mnv2-fp32-224-1500
+    point_id: f3-mnv2-fp32-224-1500
+    family: onnx-inference-fp32
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: r2-heavy
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 20.0
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 16.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-68-f3-mnv2-int8-224-2000
+    point_id: f3-mnv2-int8-224-2000
+    family: onnx-inference-int8
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: r3-cpu-pressure
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 23.8
+      latency_budget_tier: tight
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.25
+        declared_fastest_estimate_seconds: 19.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-69-f0-cpu-45k
+    point_id: f0-cpu-45k
+    family: stress-ng-cpu
+    regime_by_target:
+      public-cloud: none
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 2
+    intent:
+      latency_budget_seconds: 60.0
+      latency_budget_tier: generous
+      derivation:
+        multiplier_of_declared_fastest_estimate: 3.0
+        declared_fastest_estimate_seconds: 20.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute
+  - origin_id: v4-70-f2-random-zstd1-chacha-768
+    point_id: f2-random-zstd1-chacha-768
+    family: compress-encrypt
+    regime_by_target:
+      public-cloud: r2-heavy
+      on-prem: none
+      edge-1: none
+      edge-2: none
+    repetitions: 3
+    intent:
+      latency_budget_seconds: 21.0
+      latency_budget_tier: moderate
+      derivation:
+        multiplier_of_declared_fastest_estimate: 1.75
+        declared_fastest_estimate_seconds: 12.0
+        why_relative_derivation: workload points span roughly 10 s to 400 s, so one absolute figure applied
+          to every point would leave some origins with no feasible target and others with all four; deriving
+          per point keeps the feasible set non-trivial everywhere, and the figure the rule reads is absolute

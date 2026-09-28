@@ -1,0 +1,132 @@
+{
+  "bootstrap_contract": {
+    "common_random_numbers_across_comparisons": true,
+    "confidence_level": 0.95,
+    "draws": 10000,
+    "estimand": "unweighted mean of per-origin mean paired differences",
+    "estimands_coincide_only_when": "every origin contributes the same number of complete rows",
+    "hierarchy": [
+      "origin"
+    ],
+    "naming": "origin-clustered paired bootstrap; blocks are never resampled, so between-block variation is absent from every interval and this is not a block bootstrap",
+    "point_estimate_beside_it": "mae_seconds is an unweighted mean over rows",
+    "random_seed": 20260921,
+    "resamples_blocks": false,
+    "resampling_unit": "origin"
+  },
+  "bootstrap_hierarchy": [
+    "origin"
+  ],
+  "comparison_count": 6,
+  "comparison_family": "selected-model-vs-each-selected-baseline",
+  "comparisons": {
+    "family-median": {
+      "draws": 10000,
+      "estimate": -10.93940692770717,
+      "hierarchy": [
+        "origin"
+      ],
+      "holm_adjusted_p_value": 8.940696716308594e-08,
+      "lower": -14.371862259628939,
+      "origin_count": 27,
+      "raw_p_value": 1.4901161193847656e-08,
+      "resampling_unit": "origin",
+      "seeded": true,
+      "status": "evaluated",
+      "upper": -8.06551172359394
+    },
+    "family-target-log-log-size": {
+      "draws": 10000,
+      "estimate": 1.5995033678333614,
+      "hierarchy": [
+        "origin"
+      ],
+      "holm_adjusted_p_value": 0.743365690112114,
+      "lower": -4.035486396789295,
+      "origin_count": 27,
+      "raw_p_value": 0.24778856337070465,
+      "resampling_unit": "origin",
+      "seeded": true,
+      "status": "evaluated",
+      "upper": 6.293441377580459
+    },
+    "family-target-median": {
+      "draws": 10000,
+      "estimate": 3.201025171058264,
+      "hierarchy": [
+        "origin"
+      ],
+      "holm_adjusted_p_value": 0.20895594358444214,
+      "lower": 0.3928267541241947,
+      "origin_count": 27,
+      "raw_p_value": 0.052238985896110535,
+      "resampling_unit": "origin",
+      "seeded": true,
+      "status": "evaluated",
+      "upper": 6.213061418254353
+    },
+    "global-median": {
+      "draws": 10000,
+      "estimate": -12.92088840918865,
+      "hierarchy": [
+        "origin"
+      ],
+      "holm_adjusted_p_value": 2.086162567138672e-06,
+      "lower": -16.039012532423985,
+      "origin_count": 27,
+      "raw_p_value": 4.172325134277344e-07,
+      "resampling_unit": "origin",
+      "seeded": true,
+      "status": "evaluated",
+      "upper": -10.247579607869554
+    },
+    "rank1-target-speed-factor": {
+      "draws": 10000,
+      "estimate": -4.395891766264593,
+      "hierarchy": [
+        "origin"
+      ],
+      "holm_adjusted_p_value": 0.743365690112114,
+      "lower": -12.004389495935461,
+      "origin_count": 27,
+      "raw_p_value": 0.24778856337070465,
+      "resampling_unit": "origin",
+      "seeded": true,
+      "status": "evaluated",
+      "upper": 1.3817906256585344
+    },
+    "recency-last": {
+      "draws": 10000,
+      "estimate": -5.217184705484944,
+      "hierarchy": [
+        "origin"
+      ],
+      "holm_adjusted_p_value": 0.743365690112114,
+      "lower": -18.03986134162546,
+      "origin_count": 27,
+      "raw_p_value": 0.44206833839416504,
+      "resampling_unit": "origin",
+      "seeded": true,
+      "status": "evaluated",
+      "upper": 6.44528453034292
+    }
+  },
+  "effect_definition": "absolute error(selected learned) - absolute error(baseline)",
+  "multiplicity_contract": {
+    "decision_quantity": "paired-origin-clustered-bootstrap-confidence-interval",
+    "declared_family_size": 6,
+    "executed_family_size": 6,
+    "family_members": [
+      "family-median",
+      "family-target-log-log-size",
+      "family-target-median",
+      "global-median",
+      "rank1-target-speed-factor",
+      "recency-last"
+    ],
+    "holm_corrects": "paired-sign-test-on-per-origin-mean-absolute-error-difference",
+    "note": "the Holm-adjusted p-values correct a paired sign test on per-origin mean differences, which discards magnitude; the claim rules read the bootstrap interval, so the two can disagree and the interval is the declared decision quantity",
+    "test_statistic": "paired-sign-test-on-per-origin-mean-absolute-error-difference"
+  },
+  "multiplicity_correction": "Holm"
+}

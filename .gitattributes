@@ -1,0 +1,2 @@
+# Keep every file byte for byte, so that SHA256SUMS holds on any platform.
+* -text

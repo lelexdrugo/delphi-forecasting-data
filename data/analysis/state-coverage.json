@@ -1,0 +1,40 @@
+{
+  "acquisition_behaviour": "alert-and-continue",
+  "analysis_behaviour": "gate-the-state-group-for-that-target",
+  "by_target": {
+    "edge-1": {
+      "origins_with_state": 27,
+      "rq2_status": "reported",
+      "state_coverage": 1.0,
+      "state_group_usable": true,
+      "test_origin_count": 27
+    },
+    "edge-2": {
+      "origins_with_state": 27,
+      "rq2_status": "reported",
+      "state_coverage": 1.0,
+      "state_group_usable": true,
+      "test_origin_count": 27
+    },
+    "on-prem": {
+      "origins_with_state": 27,
+      "rq2_status": "reported",
+      "state_coverage": 1.0,
+      "state_group_usable": true,
+      "test_origin_count": 27
+    },
+    "public-cloud": {
+      "origins_with_state": 27,
+      "rq2_status": "reported",
+      "state_coverage": 1.0,
+      "state_group_usable": true,
+      "test_origin_count": 27
+    }
+  },
+  "decision": "DEC-F24-section-1-amended",
+  "minimum_state_coverage_per_target": 0.9,
+  "moment": "analysis",
+  "note": "a degraded target does not fail the campaign; it makes RQ2 partial for that target and the manuscript must say so rather than report a state group with a hole in it",
+  "status": "pass",
+  "targets_with_unusable_state_group": []
+}

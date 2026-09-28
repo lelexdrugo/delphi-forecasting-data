@@ -1,0 +1,797 @@
+{
+  "all_targets_measured_gate": "evaluated-origins-retained-in-denominator",
+  "axes": [
+    "deadline_violation_rate",
+    "runtime_regret_seconds"
+  ],
+  "censoring": {
+    "adversarial_oracle_sensitivity": {
+      "definition": "regret recomputed against an oracle in which every failed or administratively lost cell is imputed at the most favourable runtime the data permit; an upper bound on the understatement, never the base figure",
+      "rules": {
+        "constant-fixed-tier": {
+          "mean_regret_seconds": 7.651851851851853,
+          "median_regret_seconds": 3.5
+        },
+        "constant-large-tier": {
+          "mean_regret_seconds": 0.6481481481481481,
+          "median_regret_seconds": 0.0
+        },
+        "deadline-feasible-conformal-upper-bound": {
+          "mean_regret_seconds": 1.0555555555555556,
+          "median_regret_seconds": 0.0
+        },
+        "deadline-feasible-point-forecast": {
+          "mean_regret_seconds": 0.6481481481481481,
+          "median_regret_seconds": 0.0
+        }
+      }
+    },
+    "governing_decision": "DEC-F20",
+    "oracle_checks": {
+      "adversarial_imputation_order": [
+        "family-size-target-minimum",
+        "family-target-minimum"
+      ],
+      "adversarial_imputed_cell_count": 0,
+      "adversarial_un_imputable_cell_count": 0,
+      "adversarial_un_imputable_cells": [],
+      "deadline_seconds": 900.0,
+      "grounded_in_sizing_budget": false,
+      "timed_out_cells_checked": 0,
+      "timed_out_cells_oracle_unaffected": 0,
+      "timed_out_cells_requiring_review": [],
+      "timed_out_checks": []
+    }
+  },
+  "deadline_column": "latency_budget_seconds",
+  "decision_denominator": {
+    "all_targets_reference": "declared-acquisition-spec-targets",
+    "all_targets_reference_target_count": 4,
+    "all_targets_reference_target_ids": [
+      "edge-1",
+      "edge-2",
+      "on-prem",
+      "public-cloud"
+    ],
+    "definition": "all held-out test origins",
+    "dropped_by_reason": {},
+    "dropped_origin_count": 0,
+    "failed_or_censored_selected_target": "deadline-violation",
+    "origins_failing_all_targets_gate": 0,
+    "origins_failing_all_targets_gate_ids": [],
+    "scored_origin_count": 27,
+    "test_origin_count": 27
+  },
+  "large_tier_target": "public-cloud",
+  "large_tier_target_source": "declared",
+  "measured_feasibility": {
+    "by_latency_budget_tier": {
+      "generous": {
+        "by_feasible_set": {
+          "complete": 0,
+          "empty": 0,
+          "multiple": 9,
+          "single": 0
+        },
+        "by_feasible_target_count": {
+          "0": 0,
+          "1": 0,
+          "2": 4,
+          "3": 5,
+          "4": 0
+        },
+        "fraction_large_tier_contended": 0.6666666666666666,
+        "fraction_more_than_one_feasible": 1.0,
+        "origins": 9
+      },
+      "moderate": {
+        "by_feasible_set": {
+          "complete": 1,
+          "empty": 0,
+          "multiple": 8,
+          "single": 0
+        },
+        "by_feasible_target_count": {
+          "0": 0,
+          "1": 0,
+          "2": 2,
+          "3": 6,
+          "4": 1
+        },
+        "fraction_large_tier_contended": 0.7777777777777778,
+        "fraction_more_than_one_feasible": 1.0,
+        "origins": 9
+      },
+      "tight": {
+        "by_feasible_set": {
+          "complete": 0,
+          "empty": 0,
+          "multiple": 8,
+          "single": 1
+        },
+        "by_feasible_target_count": {
+          "0": 0,
+          "1": 1,
+          "2": 6,
+          "3": 2,
+          "4": 0
+        },
+        "fraction_large_tier_contended": 0.6666666666666666,
+        "fraction_more_than_one_feasible": 0.8888888888888888,
+        "origins": 9
+      }
+    },
+    "deadline_column": "latency_budget_seconds",
+    "definition": "per held-out test origin, the targets whose MEASURED runtime (median of repetitions; a target with an incomplete repetition is not feasible) meets the declared latency budget",
+    "large_tier_target": "public-cloud",
+    "origins_without_a_declared_deadline": [],
+    "overall": {
+      "by_feasible_set": {
+        "complete": 1,
+        "empty": 0,
+        "multiple": 25,
+        "single": 1
+      },
+      "by_feasible_target_count": {
+        "0": 0,
+        "1": 1,
+        "2": 12,
+        "3": 13,
+        "4": 1
+      },
+      "fraction_large_tier_contended": 0.7037037037037037,
+      "fraction_more_than_one_feasible": 0.9629629629629629,
+      "origins": 27
+    },
+    "per_origin": [
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 2,
+        "feasible_targets": [
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r1-moderate",
+        "latency_budget_seconds": 25.0,
+        "latency_budget_tier": "tight",
+        "origin_id": "v4-44-f0-cpu-45k",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 2,
+        "feasible_targets": [
+          "edge-1",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r2-heavy",
+        "latency_budget_seconds": 24.5,
+        "latency_budget_tier": "moderate",
+        "origin_id": "v4-45-f3-r50-int8-224-128",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 3,
+        "feasible_targets": [
+          "edge-1",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": false,
+        "large_tier_regime": "none",
+        "latency_budget_seconds": 54.0,
+        "latency_budget_tier": "generous",
+        "origin_id": "v4-46-f3-r50-int8-224-192",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 2,
+        "feasible_targets": [
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r3-cpu-pressure",
+        "latency_budget_seconds": 69.0,
+        "latency_budget_tier": "generous",
+        "origin_id": "v4-47-f3-r50-fp32-224-288",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 2,
+        "feasible_targets": [
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": false,
+        "large_tier_regime": "none",
+        "latency_budget_seconds": 27.5,
+        "latency_budget_tier": "tight",
+        "origin_id": "v4-48-f1-x264-720p-testsrc2-veryfast-2400",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 3,
+        "feasible_targets": [
+          "edge-1",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r2-heavy",
+        "latency_budget_seconds": 42.0,
+        "latency_budget_tier": "moderate",
+        "origin_id": "v4-49-f4-pr-kron-22-n1",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 3,
+        "feasible_targets": [
+          "edge-1",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r2-heavy",
+        "latency_budget_seconds": 30.0,
+        "latency_budget_tier": "tight",
+        "origin_id": "v4-50-f2-mixed-zstd1-aes-1024",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 3,
+        "feasible_targets": [
+          "edge-1",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": false,
+        "large_tier_regime": "none",
+        "latency_budget_seconds": 26.2,
+        "latency_budget_tier": "moderate",
+        "origin_id": "v4-51-f2-random-zstd1-aes-1152",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 2,
+        "feasible_targets": [
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r2-heavy",
+        "latency_budget_seconds": 96.0,
+        "latency_budget_tier": "generous",
+        "origin_id": "v4-52-f3-r50-fp32-224-384",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 2,
+        "feasible_targets": [
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r2-heavy",
+        "latency_budget_seconds": 60.0,
+        "latency_budget_tier": "generous",
+        "origin_id": "v4-53-f0-cpu-45k",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 3,
+        "feasible_targets": [
+          "edge-1",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r3-cpu-pressure",
+        "latency_budget_seconds": 22.5,
+        "latency_budget_tier": "tight",
+        "origin_id": "v4-54-f5-sf1-q1-r2",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 2,
+        "feasible_targets": [
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r2-heavy",
+        "latency_budget_seconds": 31.5,
+        "latency_budget_tier": "moderate",
+        "origin_id": "v4-55-f3-r50-fp32-288-96",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 2,
+        "feasible_targets": [
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r3-cpu-pressure",
+        "latency_budget_seconds": 60.0,
+        "latency_budget_tier": "tight",
+        "origin_id": "v4-56-f1-x265-720p-mandelbrot-med-500",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 3,
+        "feasible_targets": [
+          "edge-1",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r2-heavy",
+        "latency_budget_seconds": 21.0,
+        "latency_budget_tier": "moderate",
+        "origin_id": "v4-57-f2-random-zstd1-aes-768",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 2,
+        "feasible_targets": [
+          "edge-1",
+          "public-cloud"
+        ],
+        "large_tier_contended": false,
+        "large_tier_regime": "none",
+        "latency_budget_seconds": 28.8,
+        "latency_budget_tier": "tight",
+        "origin_id": "v4-58-f3-r50-int8-224-288",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 3,
+        "feasible_targets": [
+          "edge-1",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r1-moderate",
+        "latency_budget_seconds": 45.0,
+        "latency_budget_tier": "generous",
+        "origin_id": "v4-59-f4-pr-uniform-21-n1",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 3,
+        "feasible_targets": [
+          "edge-1",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r2-heavy",
+        "latency_budget_seconds": 135.0,
+        "latency_budget_tier": "generous",
+        "origin_id": "v4-60-f1-x265-720p-testsrc2-med-1100",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 3,
+        "feasible_targets": [
+          "edge-1",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": false,
+        "large_tier_regime": "none",
+        "latency_budget_seconds": 26.2,
+        "latency_budget_tier": "moderate",
+        "origin_id": "v4-61-f2-random-zstd1-chacha-1152",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 3,
+        "feasible_targets": [
+          "edge-1",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r3-cpu-pressure",
+        "latency_budget_seconds": 38.5,
+        "latency_budget_tier": "moderate",
+        "origin_id": "v4-62-f5-sf1-q9-r2",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 3,
+        "feasible_targets": [
+          "edge-1",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r1-moderate",
+        "latency_budget_seconds": 177.0,
+        "latency_budget_tier": "generous",
+        "origin_id": "v4-63-f1-x265-720p-testsrc2-med-1500",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 2,
+        "feasible_targets": [
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": false,
+        "large_tier_regime": "none",
+        "latency_budget_seconds": 28.8,
+        "latency_budget_tier": "tight",
+        "origin_id": "v4-64-f1-x265-720p-testsrc2-med-400",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 3,
+        "feasible_targets": [
+          "edge-1",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": false,
+        "large_tier_regime": "none",
+        "latency_budget_seconds": 48.0,
+        "latency_budget_tier": "generous",
+        "origin_id": "v4-65-f3-mnv2-int8-224-1500",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "complete",
+        "feasible_target_count": 4,
+        "feasible_targets": [
+          "edge-1",
+          "edge-2",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r2-heavy",
+        "latency_budget_seconds": 75.2,
+        "latency_budget_tier": "moderate",
+        "origin_id": "v4-66-f4-tc-kron-20-n1",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "single",
+        "feasible_target_count": 1,
+        "feasible_targets": [
+          "on-prem"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r2-heavy",
+        "latency_budget_seconds": 20.0,
+        "latency_budget_tier": "tight",
+        "origin_id": "v4-67-f3-mnv2-fp32-224-1500",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 2,
+        "feasible_targets": [
+          "edge-1",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r2-heavy",
+        "latency_budget_seconds": 23.8,
+        "latency_budget_tier": "tight",
+        "origin_id": "v4-68-f3-mnv2-int8-224-2000",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 2,
+        "feasible_targets": [
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": false,
+        "large_tier_regime": "none",
+        "latency_budget_seconds": 60.0,
+        "latency_budget_tier": "generous",
+        "origin_id": "v4-69-f0-cpu-45k",
+        "unmeasured_targets": []
+      },
+      {
+        "feasible_set": "multiple",
+        "feasible_target_count": 3,
+        "feasible_targets": [
+          "edge-1",
+          "on-prem",
+          "public-cloud"
+        ],
+        "large_tier_contended": true,
+        "large_tier_regime": "r2-heavy",
+        "latency_budget_seconds": 21.0,
+        "latency_budget_tier": "moderate",
+        "origin_id": "v4-70-f2-random-zstd1-chacha-768",
+        "unmeasured_targets": []
+      }
+    ],
+    "targets": [
+      "edge-1",
+      "edge-2",
+      "on-prem",
+      "public-cloud"
+    ]
+  },
+  "objective": "deadline-constrained-target-selection",
+  "reported_failed_origins": [],
+  "risk_aware_contrast": {
+    "compared": {
+      "interval_rule": "deadline-feasible-conformal-upper-bound",
+      "point_rule": "deadline-feasible-point-forecast"
+    },
+    "display_minimum_observations": 20,
+    "overall": {
+      "below_display_minimum": false,
+      "both_met_deadline": 2,
+      "both_violated": 0,
+      "origins": 27,
+      "origins_where_the_interval_changed_the_choice": 2,
+      "runtime_paid_seconds_mean": 5.5,
+      "runtime_paid_seconds_median": 5.5,
+      "violations_avoided_by_interval": 0,
+      "violations_introduced_by_interval": 0
+    },
+    "reading": "the interval earns its keep where it avoids violations and costs runtime where it does not; a single regret number cannot tell those two apart, which is why this block and not that number is the reported result",
+    "status": "evaluated",
+    "strata": {
+      "declared_state_regime": {
+        "none": {
+          "below_display_minimum": true,
+          "both_met_deadline": 0,
+          "both_violated": 0,
+          "origins": 6,
+          "origins_where_the_interval_changed_the_choice": 0,
+          "runtime_paid_seconds_mean": null,
+          "runtime_paid_seconds_median": null,
+          "violations_avoided_by_interval": 0,
+          "violations_introduced_by_interval": 0
+        },
+        "unattributed": {
+          "below_display_minimum": false,
+          "both_met_deadline": 2,
+          "both_violated": 0,
+          "origins": 21,
+          "origins_where_the_interval_changed_the_choice": 2,
+          "runtime_paid_seconds_mean": 5.5,
+          "runtime_paid_seconds_median": 5.5,
+          "violations_avoided_by_interval": 0,
+          "violations_introduced_by_interval": 0
+        }
+      },
+      "large_tier_regime": {
+        "none": {
+          "below_display_minimum": true,
+          "both_met_deadline": 0,
+          "both_violated": 0,
+          "origins": 8,
+          "origins_where_the_interval_changed_the_choice": 0,
+          "runtime_paid_seconds_mean": null,
+          "runtime_paid_seconds_median": null,
+          "violations_avoided_by_interval": 0,
+          "violations_introduced_by_interval": 0
+        },
+        "r1-moderate": {
+          "below_display_minimum": true,
+          "both_met_deadline": 0,
+          "both_violated": 0,
+          "origins": 3,
+          "origins_where_the_interval_changed_the_choice": 0,
+          "runtime_paid_seconds_mean": null,
+          "runtime_paid_seconds_median": null,
+          "violations_avoided_by_interval": 0,
+          "violations_introduced_by_interval": 0
+        },
+        "r2-heavy": {
+          "below_display_minimum": true,
+          "both_met_deadline": 2,
+          "both_violated": 0,
+          "origins": 12,
+          "origins_where_the_interval_changed_the_choice": 2,
+          "runtime_paid_seconds_mean": 5.5,
+          "runtime_paid_seconds_median": 5.5,
+          "violations_avoided_by_interval": 0,
+          "violations_introduced_by_interval": 0
+        },
+        "r3-cpu-pressure": {
+          "origins": 4,
+          "reason": "withdrawn as contention: the registered contention-materialization gate did not pass on this regime, or did not assess a target whose rows this cell includes (r3_repair completed by FCAST-V4-DEV-02); no claim reads it as contention",
+          "status": "withdrawn"
+        }
+      },
+      "latency_budget_tier": {
+        "generous": {
+          "below_display_minimum": true,
+          "both_met_deadline": 1,
+          "both_violated": 0,
+          "origins": 9,
+          "origins_where_the_interval_changed_the_choice": 1,
+          "runtime_paid_seconds_mean": 12.0,
+          "runtime_paid_seconds_median": 12.0,
+          "violations_avoided_by_interval": 0,
+          "violations_introduced_by_interval": 0
+        },
+        "moderate": {
+          "below_display_minimum": true,
+          "both_met_deadline": 1,
+          "both_violated": 0,
+          "origins": 9,
+          "origins_where_the_interval_changed_the_choice": 1,
+          "runtime_paid_seconds_mean": -1.0,
+          "runtime_paid_seconds_median": -1.0,
+          "violations_avoided_by_interval": 0,
+          "violations_introduced_by_interval": 0
+        },
+        "tight": {
+          "below_display_minimum": true,
+          "both_met_deadline": 0,
+          "both_violated": 0,
+          "origins": 9,
+          "origins_where_the_interval_changed_the_choice": 0,
+          "runtime_paid_seconds_mean": null,
+          "runtime_paid_seconds_median": null,
+          "violations_avoided_by_interval": 0,
+          "violations_introduced_by_interval": 0
+        }
+      },
+      "loaded_target_count": {
+        "0": {
+          "below_display_minimum": true,
+          "both_met_deadline": 0,
+          "both_violated": 0,
+          "origins": 6,
+          "origins_where_the_interval_changed_the_choice": 0,
+          "runtime_paid_seconds_mean": null,
+          "runtime_paid_seconds_median": null,
+          "violations_avoided_by_interval": 0,
+          "violations_introduced_by_interval": 0
+        },
+        "1": {
+          "below_display_minimum": true,
+          "both_met_deadline": 1,
+          "both_violated": 0,
+          "origins": 4,
+          "origins_where_the_interval_changed_the_choice": 1,
+          "runtime_paid_seconds_mean": -1.0,
+          "runtime_paid_seconds_median": -1.0,
+          "violations_avoided_by_interval": 0,
+          "violations_introduced_by_interval": 0
+        },
+        "2": {
+          "below_display_minimum": true,
+          "both_met_deadline": 1,
+          "both_violated": 0,
+          "origins": 5,
+          "origins_where_the_interval_changed_the_choice": 1,
+          "runtime_paid_seconds_mean": 12.0,
+          "runtime_paid_seconds_median": 12.0,
+          "violations_avoided_by_interval": 0,
+          "violations_introduced_by_interval": 0
+        },
+        "3": {
+          "below_display_minimum": true,
+          "both_met_deadline": 0,
+          "both_violated": 0,
+          "origins": 2,
+          "origins_where_the_interval_changed_the_choice": 0,
+          "runtime_paid_seconds_mean": null,
+          "runtime_paid_seconds_median": null,
+          "violations_avoided_by_interval": 0,
+          "violations_introduced_by_interval": 0
+        },
+        "withdrawn-regime-present": {
+          "origins": 10,
+          "reason": "withdrawn as contention: the registered contention-materialization gate did not pass on this regime, or did not assess a target whose rows this cell includes (r3_repair completed by FCAST-V4-DEV-02); no claim reads it as contention",
+          "status": "withdrawn"
+        }
+      }
+    },
+    "strata_are_descriptive_only": true,
+    "withdrawn_contention_regimes": [
+      "r3-cpu-pressure"
+    ]
+  },
+  "risk_rule_interval_source": "cqr",
+  "risk_rule_width_varies_across_targets": true,
+  "rules": {
+    "constant-fixed-tier": {
+      "deadline_violation_rate": 0.1111111111111111,
+      "empty_feasible_set_fallback": null,
+      "mean_feasible_target_count": null,
+      "mean_regret_seconds": 7.651851851851853,
+      "median_regret_seconds": 3.5,
+      "origin_count": 27,
+      "origins_dropped": 0,
+      "origins_dropped_by_reason": {},
+      "origins_failing_all_targets_gate": 0,
+      "origins_scored": 27,
+      "origins_with_empty_feasible_set": 0,
+      "origins_with_unmeasured_selected_target": 0,
+      "test_origin_count": 27
+    },
+    "constant-large-tier": {
+      "deadline_violation_rate": 0.037037037037037035,
+      "empty_feasible_set_fallback": null,
+      "mean_feasible_target_count": null,
+      "mean_regret_seconds": 0.6481481481481481,
+      "median_regret_seconds": 0.0,
+      "origin_count": 27,
+      "origins_dropped": 0,
+      "origins_dropped_by_reason": {},
+      "origins_failing_all_targets_gate": 0,
+      "origins_scored": 27,
+      "origins_with_empty_feasible_set": 0,
+      "origins_with_unmeasured_selected_target": 0,
+      "test_origin_count": 27
+    },
+    "deadline-feasible-conformal-upper-bound": {
+      "deadline_violation_rate": 0.037037037037037035,
+      "empty_feasible_set_fallback": "least-upper-bound-when-no-target-is-interval-feasible",
+      "mean_feasible_target_count": 0.0,
+      "mean_regret_seconds": 1.0555555555555556,
+      "median_regret_seconds": 0.0,
+      "origin_count": 27,
+      "origins_dropped": 0,
+      "origins_dropped_by_reason": {},
+      "origins_failing_all_targets_gate": 0,
+      "origins_scored": 27,
+      "origins_with_empty_feasible_set": 27,
+      "origins_with_unmeasured_selected_target": 0,
+      "test_origin_count": 27
+    },
+    "deadline-feasible-point-forecast": {
+      "deadline_violation_rate": 0.037037037037037035,
+      "empty_feasible_set_fallback": null,
+      "mean_feasible_target_count": 2.7777777777777777,
+      "mean_regret_seconds": 0.6481481481481481,
+      "median_regret_seconds": 0.0,
+      "origin_count": 27,
+      "origins_dropped": 0,
+      "origins_dropped_by_reason": {},
+      "origins_failing_all_targets_gate": 0,
+      "origins_scored": 27,
+      "origins_with_empty_feasible_set": 0,
+      "origins_with_unmeasured_selected_target": 0,
+      "test_origin_count": 27
+    }
+  },
+  "status": "evaluated",
+  "superseded_rule_names": {
+    "constant-fixed-tier": "target-independent-default",
+    "constant-large-tier": "constant-best-training-target",
+    "deadline-feasible-conformal-upper-bound": "argmin-conformal-upper-bound",
+    "deadline-feasible-point-forecast": "argmin-point-forecast"
+  },
+  "supersession_note": "the superseded ids denote UNCONSTRAINED argmin selection, under which the point rule and the interval rule almost always agree because both pick the fastest. They are retired rather than reused so that no earlier artifact citing them becomes ambiguous about which rule it reported"
+}

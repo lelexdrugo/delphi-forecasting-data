@@ -1,0 +1,805 @@
+{
+  "calibration_origin_count": 19,
+  "calibration_row_count": 176,
+  "calibration_unit": "origin",
+  "coverage": 0.9,
+  "history_count_bin_edges": [
+    0,
+    1,
+    2,
+    4
+  ],
+  "methods": {
+    "cqr": {
+      "calibration_adjustment_seconds": 227.69567743978763,
+      "calibration_score_count": 19,
+      "censored_coverage_sensitivity": {
+        "deadline_seconds": 900.0,
+        "empirical_coverage_with_exact_misses": 1.0,
+        "imputed": false,
+        "interpretation": "an upper bound on empirical coverage: the added rows are known misses, while indeterminate censored rows are in neither the numerator nor the denominator",
+        "method": "exact-miss-for-censored-rows-whose-interval-ends-below-the-deadline",
+        "n_censored_exact_misses": 0,
+        "n_censored_indeterminate": 0,
+        "n_rows_excluded_by_reason": {
+          "driver-interrupted": 0,
+          "failed": 0,
+          "not-run": 0,
+          "timed_out": 0
+        },
+        "n_with_exact_misses": 256,
+        "primary_empirical_coverage": 1.0,
+        "primary_n": 256,
+        "status": "evaluated"
+      },
+      "exclusion_accounting": {
+        "n_origins_eligible": 27,
+        "n_origins_fully_excluded": 0,
+        "n_origins_scored": 27,
+        "n_rows_eligible": 256,
+        "n_rows_excluded": 0,
+        "n_rows_excluded_by_reason": {
+          "driver-interrupted": 0,
+          "failed": 0,
+          "not-run": 0,
+          "timed_out": 0
+        },
+        "n_rows_scored": 256,
+        "reconciled": true
+      },
+      "governing_decision": "DEC-F22",
+      "method_id": "origin-respecting-conformalized-quantile-regression",
+      "quantile_diagnostics": {
+        "attainable_nominal_coverage_levels": [
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.0,
+            "nominal_coverage_upto_inclusive": 0.05,
+            "order_statistic": 1
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.05,
+            "nominal_coverage_upto_inclusive": 0.1,
+            "order_statistic": 2
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.1,
+            "nominal_coverage_upto_inclusive": 0.15,
+            "order_statistic": 3
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.15,
+            "nominal_coverage_upto_inclusive": 0.2,
+            "order_statistic": 4
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.2,
+            "nominal_coverage_upto_inclusive": 0.25,
+            "order_statistic": 5
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.25,
+            "nominal_coverage_upto_inclusive": 0.3,
+            "order_statistic": 6
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.3,
+            "nominal_coverage_upto_inclusive": 0.35,
+            "order_statistic": 7
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.35,
+            "nominal_coverage_upto_inclusive": 0.4,
+            "order_statistic": 8
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.4,
+            "nominal_coverage_upto_inclusive": 0.45,
+            "order_statistic": 9
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.45,
+            "nominal_coverage_upto_inclusive": 0.5,
+            "order_statistic": 10
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.5,
+            "nominal_coverage_upto_inclusive": 0.55,
+            "order_statistic": 11
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.55,
+            "nominal_coverage_upto_inclusive": 0.6,
+            "order_statistic": 12
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.6,
+            "nominal_coverage_upto_inclusive": 0.65,
+            "order_statistic": 13
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.65,
+            "nominal_coverage_upto_inclusive": 0.7,
+            "order_statistic": 14
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.7,
+            "nominal_coverage_upto_inclusive": 0.75,
+            "order_statistic": 15
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.75,
+            "nominal_coverage_upto_inclusive": 0.8,
+            "order_statistic": 16
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.8,
+            "nominal_coverage_upto_inclusive": 0.85,
+            "order_statistic": 17
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.85,
+            "nominal_coverage_upto_inclusive": 0.9,
+            "order_statistic": 18
+          },
+          {
+            "is_sample_maximum": true,
+            "nominal_coverage_above_exclusive": 0.9,
+            "nominal_coverage_upto_inclusive": 0.95,
+            "order_statistic": 19
+          }
+        ],
+        "highest_attainable_nominal_coverage": 0.95,
+        "index_clamped_to_n": false,
+        "interval_is_sample_maximum": false,
+        "n": 19,
+        "negative_adjustment_clamped_to_zero": false,
+        "nominal_coverage_range_returning_this_order_statistic": {
+          "above_exclusive": 0.85,
+          "upto_inclusive": 0.9
+        },
+        "note": "the reported nominal level is a label, not a parameter of the procedure at this support: every nominal coverage inside the range above returns this same order statistic, and a level above the highest attainable one is served by the clamp",
+        "order_statistic_formula": "ordered[min(n, ceil((n + 1) * coverage)) - 1]",
+        "order_statistic_used": 18,
+        "requested_coverage": 0.9,
+        "sample_maximum_seconds": 375.4511188809786,
+        "status": "evaluated",
+        "unclamped_adjustment_seconds": 227.69567743978763,
+        "unclamped_order_statistic": 18,
+        "value_seconds": 227.69567743978763
+      },
+      "quantile_estimator": "gradient-boosting",
+      "quantile_set_by_origin": {
+        "calibration_origin_count": 19,
+        "origin_ids": [
+          "v4-28-f2-text-zstd12-aes-512"
+        ],
+        "selected_score_seconds": 227.69567743978763
+      },
+      "status": "evaluated",
+      "subgroups": {
+        "candidate_cluster": {
+          "edge-1": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 289.7210656694703,
+            "mean_width_seconds": 289.7210656694703,
+            "median_width_seconds": 284.66488877060533,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 64,
+            "origin_count": 27,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 64
+          },
+          "edge-2": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 367.29411833902856,
+            "mean_width_seconds": 367.29411833902856,
+            "median_width_seconds": 364.2007880298565,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 64,
+            "origin_count": 27,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 64
+          },
+          "on-prem": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 267.8400413837568,
+            "mean_width_seconds": 267.8400413837568,
+            "median_width_seconds": 263.5510150713154,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 64,
+            "origin_count": 27,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 64
+          },
+          "public-cloud": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 264.1635758831199,
+            "mean_width_seconds": 264.1635758831199,
+            "median_width_seconds": 261.0446433854166,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 64,
+            "origin_count": 27,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 64
+          }
+        },
+        "declared_state_regime": {
+          "none": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 302.5882623985809,
+            "mean_width_seconds": 302.5882623985809,
+            "median_width_seconds": 282.32733306714914,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 148,
+            "origin_count": 27,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 148
+          },
+          "r1-moderate": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 298.7394450232869,
+            "mean_width_seconds": 298.7394450232869,
+            "median_width_seconds": 275.0746797936563,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 27,
+            "origin_count": 10,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 27
+          },
+          "r2-heavy": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 282.10351945257014,
+            "mean_width_seconds": 282.10351945257014,
+            "median_width_seconds": 262.0035928344549,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 52,
+            "origin_count": 18,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 52
+          },
+          "r3-cpu-pressure": {
+            "n": 29,
+            "origin_count": 10,
+            "reason": "withdrawn as contention: the registered contention-materialization gate did not pass on this regime, or did not assess a target whose rows this cell includes (r3_repair completed by FCAST-V4-DEV-02); no claim reads it as contention",
+            "status": "withdrawn"
+          }
+        },
+        "family": {
+          "compress-encrypt": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 287.3193003562965,
+            "mean_width_seconds": 287.3193003562965,
+            "median_width_seconds": 270.92677167786917,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 60,
+            "origin_count": 5,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 60
+          },
+          "duckdb-tpch": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 283.1955107934612,
+            "mean_width_seconds": 283.1955107934612,
+            "median_width_seconds": 266.6766158053522,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 16,
+            "origin_count": 2,
+            "pooled_into_other_subgroup": false,
+            "status": "unsupported",
+            "support_count": 16
+          },
+          "graph-kernel": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 297.8906857395713,
+            "mean_width_seconds": 297.8906857395713,
+            "median_width_seconds": 279.3682173968863,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 24,
+            "origin_count": 3,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 24
+          },
+          "onnx-inference-fp32": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 304.3431669060323,
+            "mean_width_seconds": 304.3431669060323,
+            "median_width_seconds": 270.73616283060295,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 32,
+            "origin_count": 4,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 32
+          },
+          "onnx-inference-int8": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 297.3637859436853,
+            "mean_width_seconds": 297.3637859436853,
+            "median_width_seconds": 271.3956442609538,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 60,
+            "origin_count": 5,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 60
+          },
+          "stress-ng-cpu": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 290.8768899274323,
+            "mean_width_seconds": 290.8768899274323,
+            "median_width_seconds": 276.3085185175356,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 24,
+            "origin_count": 3,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 24
+          },
+          "video-transcode": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 315.3921693482156,
+            "mean_width_seconds": 315.3921693482156,
+            "median_width_seconds": 316.6849058366794,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 40,
+            "origin_count": 5,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 40
+          }
+        },
+        "history_count_bin": {
+          "k>=4": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 297.2547003188439,
+            "mean_width_seconds": 297.2547003188439,
+            "median_width_seconds": 275.2941567601893,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 256,
+            "origin_count": 27,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 256
+          }
+        }
+      },
+      "test": {
+        "empirical_coverage": 1.0,
+        "mean_interval_score": 297.2547003188439,
+        "mean_width_seconds": 297.2547003188439,
+        "median_width_seconds": 275.2941567601893,
+        "n": 256,
+        "origin_count": 27
+      }
+    },
+    "split-conformal": {
+      "calibration_score_count": 19,
+      "censored_coverage_sensitivity": {
+        "deadline_seconds": 900.0,
+        "empirical_coverage_with_exact_misses": 1.0,
+        "imputed": false,
+        "interpretation": "an upper bound on empirical coverage: the added rows are known misses, while indeterminate censored rows are in neither the numerator nor the denominator",
+        "method": "exact-miss-for-censored-rows-whose-interval-ends-below-the-deadline",
+        "n_censored_exact_misses": 0,
+        "n_censored_indeterminate": 0,
+        "n_rows_excluded_by_reason": {
+          "driver-interrupted": 0,
+          "failed": 0,
+          "not-run": 0,
+          "timed_out": 0
+        },
+        "n_with_exact_misses": 256,
+        "primary_empirical_coverage": 1.0,
+        "primary_n": 256,
+        "status": "evaluated"
+      },
+      "exclusion_accounting": {
+        "n_origins_eligible": 27,
+        "n_origins_fully_excluded": 0,
+        "n_origins_scored": 27,
+        "n_rows_eligible": 256,
+        "n_rows_excluded": 0,
+        "n_rows_excluded_by_reason": {
+          "driver-interrupted": 0,
+          "failed": 0,
+          "not-run": 0,
+          "timed_out": 0
+        },
+        "n_rows_scored": 256,
+        "reconciled": true
+      },
+      "governing_decision": "DEC-F22",
+      "method_id": "pooled-origin-respecting-split-conformal",
+      "quantile_diagnostics": {
+        "attainable_nominal_coverage_levels": [
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.0,
+            "nominal_coverage_upto_inclusive": 0.05,
+            "order_statistic": 1
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.05,
+            "nominal_coverage_upto_inclusive": 0.1,
+            "order_statistic": 2
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.1,
+            "nominal_coverage_upto_inclusive": 0.15,
+            "order_statistic": 3
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.15,
+            "nominal_coverage_upto_inclusive": 0.2,
+            "order_statistic": 4
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.2,
+            "nominal_coverage_upto_inclusive": 0.25,
+            "order_statistic": 5
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.25,
+            "nominal_coverage_upto_inclusive": 0.3,
+            "order_statistic": 6
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.3,
+            "nominal_coverage_upto_inclusive": 0.35,
+            "order_statistic": 7
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.35,
+            "nominal_coverage_upto_inclusive": 0.4,
+            "order_statistic": 8
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.4,
+            "nominal_coverage_upto_inclusive": 0.45,
+            "order_statistic": 9
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.45,
+            "nominal_coverage_upto_inclusive": 0.5,
+            "order_statistic": 10
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.5,
+            "nominal_coverage_upto_inclusive": 0.55,
+            "order_statistic": 11
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.55,
+            "nominal_coverage_upto_inclusive": 0.6,
+            "order_statistic": 12
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.6,
+            "nominal_coverage_upto_inclusive": 0.65,
+            "order_statistic": 13
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.65,
+            "nominal_coverage_upto_inclusive": 0.7,
+            "order_statistic": 14
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.7,
+            "nominal_coverage_upto_inclusive": 0.75,
+            "order_statistic": 15
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.75,
+            "nominal_coverage_upto_inclusive": 0.8,
+            "order_statistic": 16
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.8,
+            "nominal_coverage_upto_inclusive": 0.85,
+            "order_statistic": 17
+          },
+          {
+            "is_sample_maximum": false,
+            "nominal_coverage_above_exclusive": 0.85,
+            "nominal_coverage_upto_inclusive": 0.9,
+            "order_statistic": 18
+          },
+          {
+            "is_sample_maximum": true,
+            "nominal_coverage_above_exclusive": 0.9,
+            "nominal_coverage_upto_inclusive": 0.95,
+            "order_statistic": 19
+          }
+        ],
+        "highest_attainable_nominal_coverage": 0.95,
+        "index_clamped_to_n": false,
+        "interval_is_sample_maximum": false,
+        "n": 19,
+        "nominal_coverage_range_returning_this_order_statistic": {
+          "above_exclusive": 0.85,
+          "upto_inclusive": 0.9
+        },
+        "note": "the reported nominal level is a label, not a parameter of the procedure at this support: every nominal coverage inside the range above returns this same order statistic, and a level above the highest attainable one is served by the clamp",
+        "order_statistic_formula": "ordered[min(n, ceil((n + 1) * coverage)) - 1]",
+        "order_statistic_used": 18,
+        "requested_coverage": 0.9,
+        "sample_maximum_seconds": 374.2415923475065,
+        "status": "evaluated",
+        "unclamped_order_statistic": 18,
+        "value_seconds": 365.31552849751733
+      },
+      "quantile_set_by_origin": {
+        "calibration_origin_count": 19,
+        "origin_ids": [
+          "v4-28-f2-text-zstd12-aes-512"
+        ],
+        "selected_score_seconds": 365.31552849751733
+      },
+      "radius_seconds": 365.31552849751733,
+      "risk_aware_rule_note": "a constant-radius band shifts every target equally, so under this method the registered risk-aware rule is provably identical to the point rule",
+      "status": "evaluated",
+      "subgroups": {
+        "candidate_cluster": {
+          "edge-1": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 392.12603693281915,
+            "mean_width_seconds": 392.12603693281915,
+            "median_width_seconds": 386.44871746296883,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 64,
+            "origin_count": 27,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 64
+          },
+          "edge-2": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 425.51489637076804,
+            "mean_width_seconds": 425.51489637076804,
+            "median_width_seconds": 418.4774487482381,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 64,
+            "origin_count": 27,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 64
+          },
+          "on-prem": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 386.5842178564799,
+            "mean_width_seconds": 386.5842178564799,
+            "median_width_seconds": 387.4009656123262,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 64,
+            "origin_count": 27,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 64
+          },
+          "public-cloud": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 381.36171257500314,
+            "mean_width_seconds": 381.36171257500314,
+            "median_width_seconds": 378.80450209903125,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 64,
+            "origin_count": 27,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 64
+          }
+        },
+        "declared_state_regime": {
+          "none": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 398.7271825130251,
+            "mean_width_seconds": 398.7271825130251,
+            "median_width_seconds": 390.19969407853955,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 148,
+            "origin_count": 27,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 148
+          },
+          "r1-moderate": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 394.70322335448947,
+            "mean_width_seconds": 394.70322335448947,
+            "median_width_seconds": 387.4009656123262,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 27,
+            "origin_count": 10,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 27
+          },
+          "r2-heavy": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 391.2467721531056,
+            "mean_width_seconds": 391.2467721531056,
+            "median_width_seconds": 385.6751626128922,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 52,
+            "origin_count": 18,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 52
+          },
+          "r3-cpu-pressure": {
+            "n": 29,
+            "origin_count": 10,
+            "reason": "withdrawn as contention: the registered contention-materialization gate did not pass on this regime, or did not assess a target whose rows this cell includes (r3_repair completed by FCAST-V4-DEV-02); no claim reads it as contention",
+            "status": "withdrawn"
+          }
+        },
+        "family": {
+          "compress-encrypt": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 385.056469075893,
+            "mean_width_seconds": 385.056469075893,
+            "median_width_seconds": 379.78319089586284,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 60,
+            "origin_count": 5,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 60
+          },
+          "duckdb-tpch": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 390.2821508653295,
+            "mean_width_seconds": 390.2821508653295,
+            "median_width_seconds": 384.57067240809573,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 16,
+            "origin_count": 2,
+            "pooled_into_other_subgroup": false,
+            "status": "unsupported",
+            "support_count": 16
+          },
+          "graph-kernel": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 394.10047954036446,
+            "mean_width_seconds": 394.10047954036446,
+            "median_width_seconds": 389.15300620628966,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 24,
+            "origin_count": 3,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 24
+          },
+          "onnx-inference-fp32": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 400.3096179799818,
+            "mean_width_seconds": 400.3096179799818,
+            "median_width_seconds": 389.0172048684042,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 32,
+            "origin_count": 4,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 32
+          },
+          "onnx-inference-int8": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 391.01852900306386,
+            "mean_width_seconds": 391.01852900306386,
+            "median_width_seconds": 385.4160522543035,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 60,
+            "origin_count": 5,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 60
+          },
+          "stress-ng-cpu": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 418.8837130998166,
+            "mean_width_seconds": 418.8837130998166,
+            "median_width_seconds": 408.7035475875629,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 24,
+            "origin_count": 3,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 24
+          },
+          "video-transcode": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 408.6754145434513,
+            "mean_width_seconds": 408.6754145434513,
+            "median_width_seconds": 398.6602641404525,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 40,
+            "origin_count": 5,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 40
+          }
+        },
+        "history_count_bin": {
+          "k>=4": {
+            "empirical_coverage": 1.0,
+            "mean_interval_score": 396.3967159337675,
+            "mean_width_seconds": 396.3967159337675,
+            "median_width_seconds": 388.4046663002858,
+            "minimum_test_observations_per_displayed_subgroup": 20,
+            "n": 256,
+            "origin_count": 27,
+            "pooled_into_other_subgroup": false,
+            "status": "evaluated",
+            "support_count": 256
+          }
+        }
+      },
+      "test": {
+        "empirical_coverage": 1.0,
+        "mean_interval_score": 396.3967159337675,
+        "mean_width_seconds": 396.3967159337675,
+        "median_width_seconds": 388.4046663002858,
+        "n": 256,
+        "origin_count": 27
+      }
+    }
+  },
+  "minimum_independent_calibration_origins": 19,
+  "minimum_test_observations_per_displayed_subgroup": 20,
+  "pooling": "pooled-origin-respecting",
+  "schema_version": 3,
+  "subgroup_columns": [
+    "declared_state_regime",
+    "family",
+    "candidate_cluster",
+    "history_count_bin"
+  ],
+  "unsupported_subgroup_policy": "reported-as-unsupported-never-pooled",
+  "withdrawn_contention_regimes": [
+    "r3-cpu-pressure"
+  ],
+  "within_origin_aggregation": "max-nonconformity-score"
+}

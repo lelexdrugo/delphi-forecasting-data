@@ -1,0 +1,342 @@
+{
+  "coverage": {
+    "by_target": {
+      "edge-1": {
+        "coverage": 1.0,
+        "eligible_rows": 164,
+        "rows_with_label": 164
+      },
+      "edge-2": {
+        "coverage": 1.0,
+        "eligible_rows": 164,
+        "rows_with_label": 164
+      },
+      "on-prem": {
+        "coverage": 1.0,
+        "eligible_rows": 163,
+        "rows_with_label": 163
+      },
+      "public-cloud": {
+        "coverage": 1.0,
+        "eligible_rows": 164,
+        "rows_with_label": 164
+      }
+    },
+    "complete_across_targets": true,
+    "decision": "DEC-F24-addendum-item-2",
+    "label": "work_runtime_seconds",
+    "minimum_per_target_coverage": 1.0,
+    "status": "pass",
+    "targets_below_minimum_coverage": [],
+    "targets_with_label": [
+      "edge-1",
+      "edge-2",
+      "on-prem",
+      "public-cloud"
+    ],
+    "targets_without_label": [],
+    "transport": "none-required"
+  },
+  "derivation": {
+    "decision": "DEC-F24-addendum-2",
+    "floor_seconds": 0.5,
+    "method": "subtraction-from-startup-calibration",
+    "overhead_statistic": "median_overhead_seconds",
+    "rows_floored_at_minimum": 0,
+    "rows_with_derived_label": 655,
+    "target_regime_keys_without_calibration": {},
+    "validity_argument": "the calibration container is the same image on the same node under the same regime, so it incurs the same layer preparation and container start and differs only in doing no work"
+  },
+  "startup_calibration": {
+    "by_target": {
+      "edge-1": {
+        "none": {
+          "max": 6.0,
+          "mean_overhead_seconds": 5.0,
+          "median_overhead_seconds": 5.0,
+          "min": 4.0,
+          "n": 3
+        },
+        "r1-moderate": {
+          "max": 6.0,
+          "mean_overhead_seconds": 5.0,
+          "median_overhead_seconds": 5.0,
+          "min": 4.0,
+          "n": 3
+        },
+        "r2-heavy": {
+          "max": 6.0,
+          "mean_overhead_seconds": 5.666666666666667,
+          "median_overhead_seconds": 6.0,
+          "min": 5.0,
+          "n": 3
+        },
+        "r3-cpu-pressure": {
+          "max": 5.0,
+          "mean_overhead_seconds": 4.333333333333333,
+          "median_overhead_seconds": 4.0,
+          "min": 4.0,
+          "n": 3
+        }
+      },
+      "edge-2": {
+        "none": {
+          "max": 10.0,
+          "mean_overhead_seconds": 9.333333333333334,
+          "median_overhead_seconds": 9.0,
+          "min": 9.0,
+          "n": 3
+        },
+        "r1-moderate": {
+          "max": 10.0,
+          "mean_overhead_seconds": 9.333333333333334,
+          "median_overhead_seconds": 9.0,
+          "min": 9.0,
+          "n": 3
+        },
+        "r2-heavy": {
+          "max": 10.0,
+          "mean_overhead_seconds": 10.0,
+          "median_overhead_seconds": 10.0,
+          "min": 10.0,
+          "n": 3
+        },
+        "r3-cpu-pressure": {
+          "max": 10.0,
+          "mean_overhead_seconds": 9.0,
+          "median_overhead_seconds": 9.0,
+          "min": 8.0,
+          "n": 3
+        }
+      },
+      "on-prem": {
+        "none": {
+          "max": 6.0,
+          "mean_overhead_seconds": 5.333333333333333,
+          "median_overhead_seconds": 5.0,
+          "min": 5.0,
+          "n": 3
+        },
+        "r1-moderate": {
+          "max": 5.0,
+          "mean_overhead_seconds": 5.0,
+          "median_overhead_seconds": 5.0,
+          "min": 5.0,
+          "n": 3
+        },
+        "r2-heavy": {
+          "max": 6.0,
+          "mean_overhead_seconds": 5.333333333333333,
+          "median_overhead_seconds": 5.0,
+          "min": 5.0,
+          "n": 3
+        },
+        "r3-cpu-pressure": {
+          "max": 5.0,
+          "mean_overhead_seconds": 5.0,
+          "median_overhead_seconds": 5.0,
+          "min": 5.0,
+          "n": 3
+        }
+      },
+      "public-cloud": {
+        "none": {
+          "max": 5.0,
+          "mean_overhead_seconds": 4.666666666666667,
+          "median_overhead_seconds": 5.0,
+          "min": 4.0,
+          "n": 3
+        },
+        "r1-moderate": {
+          "max": 5.0,
+          "mean_overhead_seconds": 5.0,
+          "median_overhead_seconds": 5.0,
+          "min": 5.0,
+          "n": 3
+        },
+        "r2-heavy": {
+          "max": 6.0,
+          "mean_overhead_seconds": 5.333333333333333,
+          "median_overhead_seconds": 5.0,
+          "min": 5.0,
+          "n": 3
+        },
+        "r3-cpu-pressure": {
+          "max": 6.0,
+          "mean_overhead_seconds": 5.333333333333333,
+          "median_overhead_seconds": 5.0,
+          "min": 5.0,
+          "n": 3
+        }
+      }
+    },
+    "decision": "DEC-F24-addendum-item-3",
+    "excluded_diagnostic": true,
+    "idle_overhead_seconds_by_target": {
+      "edge-1": 5.0,
+      "edge-2": 9.0,
+      "on-prem": 5.0,
+      "public-cloud": 5.0
+    },
+    "overhead_is_target_correlated": true,
+    "overhead_spread_seconds": 4.0,
+    "role_hint": "startup-calibration",
+    "status": "evaluated"
+  },
+  "structural_claim": {
+    "by_label": {
+      "execution_runtime_seconds": {
+        "interaction_rank": {
+          "classification": "unresolved",
+          "classification_inputs": {
+            "lower": -12.004389495935461,
+            "upper": 1.3817906256585344
+          },
+          "classification_rule": {
+            "rank-resolved-high": "upper < 0",
+            "rank-resolved-low": "lower > 0",
+            "unresolved": "lower <= 0 <= upper"
+          },
+          "comparator_selection_rule": "the declared bilinear workload-by-target model, compared unconditionally and independently of which family the primary selection picks; if the bilinear family is unavailable the comparison is reported as unsupported and is never substituted by another model",
+          "computed_unconditionally": true,
+          "effect_definition": "absolute-error(registered comparator) - absolute-error(rank-one baseline)",
+          "multiplicity": "none-descriptive-outside-the-declared-holm-family",
+          "paired_difference_absolute_error_seconds": {
+            "draws": 10000,
+            "estimate": -4.395891766264593,
+            "hierarchy": [
+              "origin"
+            ],
+            "lower": -12.004389495935461,
+            "origin_count": 27,
+            "resampling_unit": "origin",
+            "seeded": true,
+            "status": "evaluated",
+            "upper": 1.3817906256585344
+          },
+          "reference_model": "rank1-target-speed-factor",
+          "registered_comparator": "bilinear",
+          "status": "evaluated"
+        },
+        "ordering": {
+          "family_count": 8,
+          "kendall_coefficient_of_concordance_W": 0.84375,
+          "label": "execution_runtime_seconds",
+          "max_fold_range_across_targets": 4.383928571428571,
+          "per_target_speed_ratio_spread": {
+            "edge-1": {
+              "fold_range": 4.383928571428571,
+              "max_ratio": 4.383928571428571,
+              "min_ratio": 1.0
+            },
+            "edge-2": {
+              "fold_range": 4.363938053097344,
+              "max_ratio": 8.218749999999998,
+              "min_ratio": 1.8833333333333333
+            },
+            "on-prem": {
+              "fold_range": 2.080038232482906,
+              "max_ratio": 2.144039408866995,
+              "min_ratio": 1.0307692307692307
+            },
+            "public-cloud": {
+              "fold_range": 1.0166666666666666,
+              "max_ratio": 1.0166666666666666,
+              "min_ratio": 1.0
+            }
+          },
+          "status": "evaluated"
+        },
+        "row_count": 703
+      },
+      "work_runtime_seconds": {
+        "interaction_rank": {
+          "classification": "unresolved",
+          "classification_inputs": {
+            "lower": -12.51564177968537,
+            "upper": 0.2980713342338105
+          },
+          "classification_rule": {
+            "rank-resolved-high": "upper < 0",
+            "rank-resolved-low": "lower > 0",
+            "unresolved": "lower <= 0 <= upper"
+          },
+          "comparator_selection_rule": "the declared bilinear workload-by-target model, compared unconditionally and independently of which family the primary selection picks; if the bilinear family is unavailable the comparison is reported as unsupported and is never substituted by another model",
+          "computed_unconditionally": true,
+          "effect_definition": "absolute-error(registered comparator) - absolute-error(rank-one baseline)",
+          "multiplicity": "none-descriptive-outside-the-declared-holm-family",
+          "paired_difference_absolute_error_seconds": {
+            "draws": 10000,
+            "estimate": -5.087416807803071,
+            "hierarchy": [
+              "origin"
+            ],
+            "lower": -12.51564177968537,
+            "origin_count": 27,
+            "resampling_unit": "origin",
+            "seeded": true,
+            "status": "evaluated",
+            "upper": 0.2980713342338105
+          },
+          "reference_model": "rank1-target-speed-factor",
+          "registered_comparator": "bilinear",
+          "status": "evaluated"
+        },
+        "ordering": {
+          "family_count": 7,
+          "kendall_coefficient_of_concordance_W": 0.9510204081632653,
+          "label": "work_runtime_seconds",
+          "max_fold_range_across_targets": 4.6467186321347755,
+          "per_target_speed_ratio_spread": {
+            "edge-1": {
+              "fold_range": 4.6467186321347755,
+              "max_ratio": 5.634146341463415,
+              "min_ratio": 1.2125
+            },
+            "edge-2": {
+              "fold_range": 2.4149495374264087,
+              "max_ratio": 10.54268292682927,
+              "min_ratio": 4.365591397849463
+            },
+            "on-prem": {
+              "fold_range": 2.554588235294118,
+              "max_ratio": 2.6588571428571433,
+              "min_ratio": 1.0408163265306123
+            },
+            "public-cloud": {
+              "fold_range": 1.0,
+              "max_ratio": 1.0,
+              "min_ratio": 1.0
+            }
+          },
+          "status": "evaluated"
+        },
+        "row_count": 655
+      }
+    },
+    "classification_agrees_across_labels": true,
+    "decision": "DEC-F24-addendum-item-4",
+    "labels": [
+      "execution_runtime_seconds",
+      "work_runtime_seconds"
+    ],
+    "reading": "a claim about workload-by-target interaction that holds only on a label containing target-correlated overhead is a claim about the overhead; if the two labels disagree, that disagreement is the result"
+  },
+  "validation": {
+    "by_target": {},
+    "decision": "DEC-F24-addendum-2-item-3",
+    "declared_tolerance_seconds": 2.0,
+    "definition": "subtraction estimate minus the container's self-reported work interval, on rows where both exist",
+    "pooled": {
+      "mean_absolute_difference_seconds": null,
+      "mean_signed_difference_seconds": null,
+      "n": 0,
+      "standard_deviation_seconds": null,
+      "validation_targets": []
+    },
+    "reading": "the magnitude and spread are the evidence; if the mean absolute difference approaches the size of the correction itself, subtraction is not reliable and the per-execution transport recorded as a future refinement should be taken",
+    "role": "validates the subtraction method on the targets that can be measured directly",
+    "status": "unsupported",
+    "within_declared_tolerance": null
+  }
+}

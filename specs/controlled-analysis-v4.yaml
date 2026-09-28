@@ -1,0 +1,696 @@
+schema_version: 4
+spec_id: fcast-controlled-analysis-v4
+# The v4 confirmatory analysis contract (DEC-F24). Written before any v4
+# execution exists. DEC-F22 binds this contract unchanged; DEC-F20's epoch
+# apparatus is retired with the dataset it described and does not appear here.
+acquisition_spec:
+  path: experiments/forecasting/specs/controlled-replay-v4.yaml
+  # Re-frozen 2026-09-21. The reduction verifies this at run time and fails
+  # closed, exactly as the v3 contract does. Recorded in three places that must
+  # agree: here, `experiments/forecasting/manifest.yaml`, and the header of
+  # `controlled-replay-v4-review.md`, which is the document the author reads.
+  sha256: 48ccdf6d199180fb0e57ef2435d27aab40b46e9270e38803bcdf739c15b9d234
+  # RETIRED, never to be cited: e30b339bc3de025e007353a9035f3ec7784d7283e899189427b4214dc7883937.
+  # Its background Jobs lived 3000 s and carried the webhook sidecar: at gate 3
+  # they expired mid-origin and, with the agent's own sidecar, put a loaded Pi at
+  # 4020m of 4000m, so edge runs pended or ran uncontended while labelled
+  # contended. Re-frozen with a 7200 s background lifetime and the sidecar
+  # opted out on backgrounds only; the design is otherwise unchanged.
+  # RETIRED, never to be cited: 969fc8da7654aaefefb47102c558d9a9b81699fe42a9a0a2babf4d22f95306f1.
+  # It named a spec that could not be executed -- no start-up calibration point
+  # although 48 calibration executions were declared, no drift monitor in the
+  # final test block, and none of the execution settings the renderer and the
+  # driver need. The re-freeze fixes those three and changes nothing else about
+  # the design: same seventy origins, same 656 measured executions, same
+  # contention layout, budgets and targets.
+  superseded_sha256: [969fc8da7654aaefefb47102c558d9a9b81699fe42a9a0a2babf4d22f95306f1, e30b339bc3de025e007353a9035f3ec7784d7283e899189427b4214dc7883937]
+  verification: required-at-run-time
+  on_mismatch: fail-closed
+
+selection:
+  # DEC-F24 section 4. Model selection on a single twelve-origin block did not
+  # transfer: the selected primary won selection and finished third-worst on
+  # test, and the selected baseline was beaten by a size-scaled median. The
+  # separate block is merged into training and selection is k-fold inside it,
+  # which both frees its origins and stops one arbitrary split deciding the model.
+  method: k-fold-within-training
+  folds: 5
+  # Folds are grouped by forecast origin. An origin's four targets and its
+  # repetitions share issue-time state, so splitting them across folds would leak
+  # within-origin information into selection.
+  fold_unit: origin
+  fitting_split: train
+  calibration_split: calibration
+  final_test_split: test
+  refit_splits: [train]
+  selection_metric: mae-seconds
+  test_access_during_selection: forbidden
+
+random_seed: 20260921
+target_transforms: [direct-seconds, log1p-seconds]
+feature_ladder: [W, W+H, W+H+C, W+H+C+S]
+history_budgets: [0, 1, 2, 4]
+
+# DEC-F24 section 2. Every feature carries a deployment-admissibility class.
+# The leakage audit asks whether a feature was knowable *before the origin*; it
+# never asked whether a feature is computable *at a production origin*. The
+# declared regime label passes the first test and fails the second, and in the
+# pilot it recovered the entire selection benefit attributed to sensed state
+# while the sensed numerics recovered none of it.
+feature_contract:
+  deployment_admissibility: enforced
+  on_violation: abort
+  groups:
+    W:
+      prefixes: [descriptor_, log_descriptor_]
+      # `role_hint` and `point_id` are NOT here, and were until the v4
+      # amendment window. Both are the experimenter's annotations: role_hint
+      # carries `heldout-*`, `startup-calibration` and `control`, and point_id
+      # is a catalogue label. No production request carries either -- a request
+      # carries its family and parameters, which already determine the point.
+      # That is the deployment-admissibility leak this audit exists to catch,
+      # and it had been in W since v3.
+      names: [family, primary_size, requested_cpu_mcores, requested_memory_bytes]
+    H:
+      prefixes: [prior_, runtime_]
+      names: []
+    C:
+      prefixes: [target_]
+      names: [candidate_cluster, architecture]
+      # The `target_` prefix also sweeps in `target_model_name`, which this same
+      # contract classifies as experimental metadata: a free-text label whose
+      # measured content is carried by the structured descriptors (cores,
+      # clock, CPU features), and which was factually wrong for both edges until
+      # measured. Found by running the admissibility audit on the 368 pilot
+      # rows: it FAILED, so the v4 reduction would have refused to run on the
+      # first real dataset. Excluded by name, rather than left to the prefix.
+      exclude: [target_model_name]
+    S:
+      # DEC-F24 section 1 as amended. Observed utilisation measured by the
+      # first-party node agent reading /proc at 1 Hz on all four targets.
+      #
+      # RETIRED, with the measurement that earned it:
+      #   - the 60 s sampling window, forced by metrics-server's ~10 s
+      #     aggregation floor, is withdrawn: the agent owns the cadence and both
+      #     declared ratios came back real and non-warmup on all four targets
+      #     (edge-1 15s=0.0513 / 60s=0.0480 among them);
+      #   - `cpu_utilisation_ratio_15s` is restored to the declared set, because
+      #     a 1 Hz ring buffer produces a true fifteen-second ratio. It was
+      #     removed only because metrics-server could not produce it.
+      #
+      # `background_running_pod_count` and `background_observed_cpu_mcores` are
+      # gone (DEC-F25 addendum): the agent cannot list pods, and the privilege
+      # that would let it is the privilege that would let it count itself.
+      prefixes: [observed_]
+      names: []
+      # Thermal state is projected under the names state_coverage_gate
+      # registers, and EXCLUDED here. The contract's own thermal_reading_rule
+      # says the three thermal zones are different sensors and cross-target
+      # temperature comparison is not computed -- which a pooled S feature
+      # would do. Exclusion implements that declared rule; it amends nothing.
+      exclude:
+        - observed_node_temperature_celsius
+        - observed_node_temperature_celsius_max_in_window
+        - observed_cpu_current_ghz
+        - observed_frequency_ratio_to_nominal
+        - observed_throttled_in_window
+        - observed_throttle
+  observable:
+    prefixes: [descriptor_, log_descriptor_, prior_, runtime_, target_, observed_]
+    names:
+      - family
+      - primary_size
+      - requested_cpu_mcores
+      - requested_memory_bytes
+      - candidate_cluster
+      - architecture
+  experimental_metadata:
+    # Permitted as stratifier, validity check and reporting field. Never a feature.
+    prefixes: [declared_, provenance_, validity_, platform_]
+    names:
+      - declared_state_regime
+      # Annotations and catalogue labels: stratifiers and provenance only.
+      - role_hint
+      - point_id
+      - origin_id
+      - execution_id
+      - job_id
+      - block_id
+      - split
+      - repetition
+      - workload_signature
+      - params_json
+      - source_artifact_sha256
+      - outcome_status
+      - completed
+      - failure_or_censoring_reason
+      - execution_runtime_seconds
+      - completion_time_seconds
+      - job_deadline_seconds
+      - k8s_start_time_utc
+      - k8s_completion_time_utc
+      - forecast_origin_utc
+      - state_snapshot_utc
+      - primary_size_descriptor
+      - target_model_name
+      - allocated_cpu_mcores
+      - allocated_memory_bytes
+      - cpu_headroom_fraction
+      - memory_headroom_fraction
+      - realized_background_population
+    reason: >-
+      computable only because the harness ran the experiment; a production
+      forecaster has no access to it at the moment it must forecast
+
+# DEC-F24 section 6. Recorded per target per origin from the node read the
+# driver already performs, at no additional API call.
+platform_fingerprint:
+  required: true
+  on_violation: abort
+  # Six measured, not eight declared and four populated. node_uid and
+  # container_runtime_version are removed: no mechanism available to this
+  # harness populates them on the Pull-mode targets, and a declared-but-empty
+  # field is the pattern this design has spent its revisions removing.
+  reported_fields:
+    - platform_kubelet_version
+    - platform_kernel_version
+    - platform_os_image
+    - platform_architecture
+    - platform_boot_id
+    - platform_machine_id
+  # A benign restart changes bootID without changing the platform, so bootID is
+  # reported as a restart counter and never gated on.
+  gated_fields:
+    - platform_kubelet_version
+    - platform_kernel_version
+    - platform_machine_id
+  # Recorded where the platform offers them -- both Push-mode members do -- and
+  # never consulted when deciding whether a dataset is admissible. The
+  # distinction between RECORDED and GATED is deliberate and must not be
+  # "fixed" later by gating on fields half the federation cannot produce.
+  supplementary_fields:
+    - platform_container_runtime_version
+    - platform_node_uid
+  supplementary_rule: recorded-where-available-never-gated
+  removed_from_the_gate:
+    platform_node_uid: >-
+      a weak detector: it catches "same machine, re-registered", and machine_id
+      already catches "different machine"
+    platform_container_runtime_version: >-
+      removed from the GATE, not from the record, and it retains a behavioural backstop. The start-up
+      calibration point measures container start-up, which is exactly what a
+      container-runtime change moves: a runtime upgrade that changed nothing
+      measurable in start-up is one this study does not care about, and one that
+      changed it appears in the calibration point. The gate loses a declarative
+      detector and keeps a behavioural one.
+  limitations_note: >-
+    state in the manuscript's limitations that container-runtime drift is
+    detected behaviourally rather than declaratively, and why
+
+# DEC-F24 addendum. The Job-scoped label contains image preparation and container
+# start-up as well as the work, and a target-correlated additive offset is
+# exactly the shape that would manufacture the speed-ratio spread section 9
+# reads as its finding. The label is therefore decomposed, and the structural
+# claim is computed against both labels.
+label_decomposition:
+  job_scoped_label: execution_runtime_seconds
+  work_scoped_label: work_runtime_seconds
+  # DEC-F24 addendum 2: the decomposition mechanism is subtraction of the
+  # measured start-up overhead, which works on all four targets today. The
+  # container's self-reported interval is retained as the validation of that
+  # method on the two targets where it is readable for free.
+  work_label_method: subtraction-from-startup-calibration
+  work_label_transport: none-required
+  overhead_statistic: median_overhead_seconds
+  self_reported_interval_role: validation-not-mechanism
+  # The correction is of the order of several seconds; agreement must be well
+  # inside that for subtraction to be the mechanism rather than a guess.
+  validation_tolerance_seconds: 2.0
+  transport_note: >-
+    Karmada aggregates batch/v1 JobStatus back to the control plane, which is how
+    the Job-scoped label reaches the driver for the Pull-mode targets today.
+    JobStatus has no carrier for a container termination message, and Pods are
+    not propagated back, so a termination-message route reaches exactly the two
+    Push-mode targets that are already readable and would rebuild the defect it
+    is meant to repair. No transport is therefore adopted: the decomposition is
+    arithmetic on quantities every target already reports. A per-execution
+    collector is recorded as a future refinement, to be taken only if the
+    validation below shows the subtraction estimate is unreliable.
+  # Every target or none: a decomposition that exists only where the topology is
+  # convenient is the defect this addendum repairs.
+  minimum_per_target_coverage: 1.0
+  on_partial_coverage: abort
+  # DEC-F24 addendum item 3. Acquired inside the campaign, not as a pre-flight,
+  # because the quantity drifts with the platform.
+  startup_calibration:
+    role_hint: startup-calibration
+    definition: a trivial container from the same image doing no work
+    per: [target, regime]
+    # Whole-second quantisation against a correction of a few seconds: one
+    # repetition would estimate the correction at its own resolution.
+    repetitions: 3
+    excluded_diagnostic: true
+  # DEC-F24 addendum item 4.
+  structural_claim_labels: [execution_runtime_seconds, work_runtime_seconds]
+  structural_claim_statistics:
+    - interaction_rank_classification
+    - per_target_speed_ratio_spread
+    - kendall_coefficient_of_concordance_W
+  on_disagreement: report-as-the-result
+
+
+# DEC-F24 section 1 as amended. The node agent measures its clock offset against
+# the collector rather than presuming NTP; this is the rule that decides when a
+# measured offset makes an origin's state read inadmissible.
+clock_skew_gate:
+  # Comfortably inside the 34 s median gap the pilot measured between a forecast
+  # origin and its job start, and achievable by any roughly synchronised clock.
+  maximum_offset_seconds: 5.0
+  # Beyond this share on any single target, the state group has a hole rather
+  # than a measurement, and reporting it would be worse than not having it.
+  maximum_excluded_origin_share: 0.10
+  on_violation: abort
+  excluded_state_counted_by: DEC-F22-exclusion-accounting
+  rationale: >-
+    an origin whose bounded offset exceeds the tolerance cannot distinguish
+    state-at-origin from state-after-the-job-started, so its state fields are
+    excluded and counted rather than silently used
+
+
+# DEC-F24 section 1 as amended, refinement 2 and 3. Two mechanisms at two
+# moments, because aborting a 31-hour campaign at hour 28 over a dead agent is
+# worse than the gap it leaves.
+state_coverage_gate:
+  minimum_state_coverage_per_target: 0.90
+  coverage_column: observed_cpu_utilisation_ratio_60s
+  # During acquisition a dead agent alerts so it can be restarted while the
+  # campaign continues; it never aborts a run retrospectively.
+  acquisition_behaviour: alert-and-continue
+  agent_stale_after_seconds: 60
+  # At analysis time the threshold gates the state group for that target, which
+  # makes RQ2 partial for it and says so.
+  analysis_behaviour: gate-the-state-group-for-that-target
+  declared_targets: [public-cloud, on-prem, edge-1, edge-2]
+  # The scheduling-slot cancellation in the state-deviation check depends on the
+  # agent being present in both the origin baseline and the measurement, so this
+  # one refuses rather than alerts.
+  precondition_before_first_origin: true
+  # Thermal state, registered rather than left to default. Under the feature
+  # contract an unclassified field defaults to experimental-metadata and is
+  # excluded fail-closed, so an emitted-but-undeclared field is an inert field --
+  # the defect the cost posture was removed for. Split by what the targets
+  # actually support, measured rather than assumed:
+  #
+  #   * temperature IS available on all four (`acpitz` on public-cloud,
+  #     `x86_pkg_temp` on on-prem, `cpu-thermal` on both Pis), so it joins the
+  #     coverage denominator;
+  #   * the `get_throttled` firmware bitmask exists on edge-2 and NOWHERE else.
+  #     The agent searched for it and recorded the listing; the Pi 5 does not
+  #     expose it. It therefore cannot be in the denominator, or a 0.90 gate
+  #     would trip on three targets for a file that was never there.
+  universal_state_fields:
+    - observed_cpu_utilisation_ratio_60s
+    - observed_node_temperature_celsius
+    - observed_cpu_current_ghz
+    - observed_frequency_ratio_to_nominal
+  # Names match what the agent emits, under the observed_X <- X convention. A
+  # declared name with no producer resolves to nothing forever and, being the
+  # field excluded from the denominator, would do so silently.
+  target_conditional_state_fields:
+    observed_throttle:
+      supported_on: [edge-2]
+      excluded_from_coverage_denominator: true
+      why: >-
+        the Pi 4 firmware publishes get_throttled and the Pi 5 does not; absence
+        of the file is not absence of throttling, and the two must not be
+        recorded as the same thing
+    observed_throttled_in_window:
+      supported_on: [edge-2]
+      excluded_from_coverage_denominator: true
+      why: >-
+        the same bitmask, sampled across the push window so a cap between two
+        pushes is not lost to the sampling grid
+  thermal_reading_rule: >-
+    within-target drift only. The three thermal zones are different sensors
+    (`acpitz`, `x86_pkg_temp`, `cpu-thermal`) measuring different things, so a
+    cross-target temperature comparison is meaningless and is not computed. The
+    quantity of interest is a target's own trajectory across a ~31 h campaign.
+  frequency_capping_rule: >-
+    `observed_frequency_ratio_to_nominal` below 1 while
+    `observed_cpu_utilisation_ratio_60s` is high is a clock cap, computable on
+    all four targets without any firmware support. This is what makes the
+    missing get_throttled bitmask on edge-1 tolerable rather than a hole.
+    BUT the rule is exact only on arm64 and merely conservative on x86, because
+    `nominal_clock_ghz` is the cpufreq maximum on the Pis and the base clock on
+    the Xeons: a Xeon dragged from its 4.5 GHz turbo ceiling to 3.4 GHz still
+    reads above 1 and registers no cap. Measured at idle, the ratio is 1.00 on
+    edge-2, 0.67 on edge-1, 0.59 on public-cloud and 0.32 on on-prem, which is
+    governor behaviour and not capping -- the rule is a busy-time reading only.
+    x86 capping, if it is ever the question, must be read against
+    `cpufreq_max_ghz` in the descriptor provenance rather than against nominal.
+    The requirement lives on the Pis, and there the rule is exact. The asymmetry
+    also runs the safe way: edge-1 carries an active cooler (`cooling_fan` is
+    present among its platform devices and absent from edge-2's), so the target
+    at greater thermal risk is the passively cooled edge-2 -- which is the one
+    that does publish the bitmask.
+
+
+# DEC-F24 section 3. Checked before the acquisition is used for anything.
+contention_materialization_gate:
+  heavy_regime: r2-heavy
+  # The pilot measured x2.01 on edge-1 under heavy load and x1.11 on
+  # public-cloud, with several medians below 1.0. A slowdown below this
+  # threshold means the injector did not bite, and a null RQ2 would then be a
+  # statement about our instrumentation rather than about the world.
+  # LOWERED 2026-09-27, from 1.25, after the v4 acquisition and dataset were
+  # sealed and before any analysis artifact existed. The pilot value 1.25 was
+  # set from a pilot in which edge-1 read x2.01. The v4 measurement is that the
+  # mechanism tops out near x1.20 and cannot be raised by sizing: a probe on
+  # edge-1 over five background configurations found the campaign's own setting
+  # the strongest of the five (1.204, against 1.185 at limit 3000m, 1.179 at
+  # 3x512M, 1.167 at 8x128M, 1.160 at 16x64M), and under load the node was
+  # saturated -- cpu_utilisation 0.96-1.00, run queue 24-43 on four cores --
+  # while the foreground lost only 16-20% because its Guaranteed 2000m quota is
+  # honoured by Kubernetes QoS. So 1.25 asks for a slowdown this apparatus
+  # cannot produce against a Guaranteed foreground, not for a contention that
+  # bit. 1.10 is a materialisation floor, not a target: the floor is set above
+  # 1.0, which is all the validator requires of it, and below the x1.20 the
+  # mechanism reaches. It is NOT set from the verdict it produces. Measured
+  # consequence, recorded separately from the reason: r3-cpu-pressure's per-target
+  # medians on this dataset are 0.978, 1.007, 1.025 and 1.057, so r3 still fails
+  # the gate and stays withdrawn.
+  # `on_violation` stays `abort` and `minimum_paired_cells_per_target` stays 2.
+  # NOT lowered to admit a target: the registered minimum of 2 is unchanged, so
+  # on-prem stays `not-assessed` on its single pair, which is the outcome DEC-F18
+  # enumerated in advance.
+  # The frozen acquisition spec still records the pilot's 1.25 at its own
+  # `contention_materialization_gate`; it is pinned by sha256 and not edited.
+  # The gate is evaluated from this contract, which is the analysis contract.
+  minimum_heavy_slowdown_ratio: 1.10
+  # Paired within a workload point, which removes the size confound that made
+  # the pilot's family-level ratios ambiguous.
+  reference: same-workload-point-same-target-idle-cells
+  # DOCUMENTED DEVIATION (DEC-F18 registry, 2026-09-22; declared after the v4
+  # acquisition began and before any v4 reduction was run). A target is
+  # assessed only with at least this many paired cells (a loaded cell whose
+  # point was also measured idle on the same target). Below it the target is
+  # `not-assessed: insufficient paired support`: neither passed nor failed, and
+  # its contention-materialisation claim is withdrawn rather than decided. The
+  # rule can only remove claims. Pairable cells in the enumeration: public-cloud
+  # 3 of 20, edge-1 2 of 8, edge-2 2 of 7, on-prem 1 of 9. Two, not three: the
+  # objection is to a single pair deciding a target, which two removes; three
+  # would also withdraw both edge targets, where the pilot's effect was
+  # strongest (x2.01 on edge-1), and each edge pair already averages 2-8
+  # executions per side. The cost of two is that the median of two pairs is
+  # their mean, so one aberrant point weighs half the verdict. With no target
+  # assessable the gate is `not-assessed` and still aborts.
+  # UNCHANGED 2026-09-27. The enumeration above counts the null-free pool: the
+  # start-up calibration point is an excluded diagnostic, so it is not a pairable
+  # cell. Until 2026-09-27 the gate's implementation did include those rows,
+  # which read on-prem as 2 of 10 pairable and assessed it; excluding them
+  # restores the pool this minimum was sized against, and on-prem returns to the
+  # 1 of 9 recorded here and to `not-assessed`. That is this rule working, not a
+  # cost discovered afterwards, so the minimum is NOT lowered to 1.
+  minimum_paired_cells_per_target: 2
+  on_violation: abort
+
+# DEC-F24 section 7. Error and selection are reported together everywhere.
+reporting_axes:
+  required: [error, selection]
+  error_metrics: [mae_seconds, median_absolute_error_seconds, rmse_seconds]
+  selection_metrics: [top1_target_hit_rate, mean_kendall_tau, mean_regret_seconds]
+  single_axis_feature_decisions: forbidden
+  rationale: >-
+    in the pilot the history group cost 25 s of MAE while buying 22 s of regret
+    and half a point of top-1 accuracy; a single-axis ladder would have supported
+    deleting the group that most improves the decision
+  # CAVEAT (DEC-F18 registry, 2026-09-22). The pilot figures above were computed
+  # with the history columns broken: `_frame` one-hot encoded them whenever a
+  # fitting row had no history, and the encoder then ignored their values at
+  # prediction. They are not a property of history features and are not to be
+  # cited as one. The pilot is excluded from every result; the two-axis rule
+  # stands on its own reasoning, and nothing confirmatory changes.
+
+model_search:
+  ridge:
+    alpha: [0.1, 1.0, 10.0]
+  random_forest:
+    max_depth: [4, 8, null]
+    n_estimators: 200
+    min_samples_leaf: 2
+  xgboost:
+    max_depth: [2, 3, 4]
+    n_estimators: 200
+    learning_rate: 0.05
+  bilinear:
+    # DEC-F24 section 8. The v3 grid stopped at alpha 10 on a ~1020-column design
+    # fitted on 192 rows and the comparator lost to rank-one by 61.9 s. The grid
+    # now reaches the regularisation that a p >> n design needs.
+    alpha: [100.0, 1000.0, 10000.0]
+  rank1-target-speed-factor:
+    alpha: [0.1, 1.0, 10.0]
+    target_transforms: [log-seconds, log1p-seconds]
+
+# `recency-last-two-mean` is removed. Nobody could say in one sentence what it
+# answered that `recency-last` did not: both are "use the recent past", and the
+# two-point mean is a smoothing choice rather than a distinct hypothesis. The
+# family is therefore six, not seven, which makes the Holm correction LESS
+# conservative -- so it is recorded here and validated against the declared
+# list, not left to be noticed later.
+baselines:
+  - global-median
+  - family-median
+  - family-target-median
+  - family-target-log-log-size
+  - rank1-target-speed-factor
+  - recency-last
+
+uncertainty:
+  coverage: 0.9
+  # DEC-F24 section 4: nineteen is the first support at which the 90% conformal
+  # quantile is not the sample maximum. ceil(20 * 0.9) = 18 of 19.
+  minimum_independent_calibration_origins: 19
+  methods: [pooled-origin-respecting-split-conformal, cqr]
+  cqr_quantile_estimator: gradient-boosting
+  subgroup_columns: [declared_state_regime, family, candidate_cluster, history_count_bin]
+  minimum_test_observations_per_displayed_subgroup: 20
+  history_count_bin_edges: [0, 1, 2, 4]
+  calibration_unit: origin
+  within_origin_aggregation: max-nonconformity-score
+
+feature_ladder_intervals:
+  adjacent_steps_only: true
+  interval_method: statistics.bootstrap
+  effect_definition: absolute-error-later-rung-minus-earlier-rung
+  multiplicity: none-descriptive-outside-the-declared-holm-family
+  per_row_predictions: fold-predictions.csv
+
+scarcity:
+  reference_budget: 0
+  interval_method: statistics.bootstrap
+  interval_scope: [selected-learned-model, strongest-selected-baseline]
+  paired_difference: against-reference-budget
+  multiplicity: none-descriptive-outside-the-declared-holm-family
+  per_row_predictions: scarcity-predictions.csv
+
+# DEC-F24 section 8. Named before acquisition and not revised afterwards.
+interaction_rank:
+  registered_comparator: bilinear
+  comparator_selection_rule: >-
+    the declared bilinear workload-by-target model, compared unconditionally and
+    independently of which family the primary selection picks; if the bilinear
+    family is unavailable the comparison is reported as unsupported and is never
+    substituted by another model
+  comparator_choice_rationale: >-
+    The organizing question is structural: does the workload-by-target surface
+    factorize into one difficulty per workload point and one speed factor per
+    target. The bilinear model is the direct negation of that hypothesis, so a
+    comparison against it tests the claim the paper makes. A tree ensemble beat
+    rank-one in the pilot and would be the empirically stronger comparator, but
+    it answers a weaker question: a forest beating rank-one shows the surface is
+    not rank-one without showing that the departure is a workload-by-target
+    interaction rather than any other nonlinearity. The bilinear model is
+    therefore retained and its regularisation repaired, which is a bet that the
+    alpha grid above reaches what a p >> n design needs; the random forest is
+    registered below as a secondary comparator so that the bet is checkable.
+  secondary_comparator: random_forest
+  secondary_comparator_reading: >-
+    reported beside the primary comparison; it establishes whether the surface
+    departs from rank-one at all, not whether the departure is an interaction
+  reference_model: rank1-target-speed-factor
+  effect_definition: absolute-error(registered comparator) - absolute-error(rank-one baseline)
+  interval_method: statistics.bootstrap
+  classification:
+    rank-resolved-high: upper < 0
+    rank-resolved-low: lower > 0
+    unresolved: lower <= 0 <= upper
+  multiplicity: none-descriptive-outside-the-declared-holm-family
+
+# DEC-F22, binding unchanged.
+censoring_accounting:
+  decision: DEC-F22
+  deadline_seconds: 900
+  class_of_outcome_status:
+    completed: completed
+    timeout: timed_out
+    failed: failed
+    censored: driver-interrupted
+  classes:
+    timed_out:
+      treatment: right-censored-label-lower-bound-only
+      imputable: true
+      reachable: true
+      note: the job ran and was killed at the deadline, so its true runtime is at least D
+    failed:
+      treatment: excluded-never-imputed
+      imputable: false
+      reachable: true
+      note: the declared work never completed, so no runtime exists to bound
+    driver-interrupted:
+      treatment: excluded-complete-case
+      imputable: false
+      reachable: true
+      assumption: weakly-length-biased
+      note: administrative loss external to the workload
+    not-run:
+      treatment: excluded-complete-case
+      imputable: false
+      reachable: false
+      assumption: weakly-length-biased
+      note: >-
+        declared so the taxonomy is complete; absence of a declared cell is a
+        dataset-gate failure rather than an exclusion, so it cannot reach a metric
+  exclusion_reasons: [timed_out, failed, driver-interrupted, not-run]
+  identity: scored-plus-excluded-equals-eligible
+  on_identity_violation: abort
+  identity_scope: rows-present-in-slice
+  declared_matrix_completeness_owner: dataset_gate
+  declared_matrix_completeness_note: >-
+    absence of a declared cell is a dataset-gate failure, not an exclusion class
+  point_metric_sensitivity:
+    method: impute-timed-out-rows-at-the-deadline
+    bound: lower
+    upper_bound_reported: false
+    exclude_rows_where_prediction_exceeds_deadline: true
+  interval_sensitivity:
+    method: exact-miss-when-a-timed-out-row-upper-endpoint-is-below-the-deadline
+    imputed: false
+    report_indeterminate_count: true
+  oracle_check:
+    timed_out: per-origin-minimum-completed-runtime-versus-deadline
+    grounded_in_sizing_budget: false
+    adversarial_oracle_classes: [failed, driver-interrupted, not-run]
+    adversarial_imputation: [family-size-target-minimum, family-target-minimum]
+    report_un_imputable_count: true
+  governing_decisions:
+    point_error: DEC-F22
+    interval: DEC-F22
+    ranking: DEC-F22-section-6
+    decision_replay: DEC-F20
+
+leakage_checks:
+  inventory_required: true
+  v1_auditor_runs_on_v3: false
+  v1_auditor_incompatibility: schema-mismatch-campaign-id-split-manifest-shape-feature-columns
+
+# C4, as registered at the start. A job arrives with a DEADLINE and the question
+# is which target can meet it. This is the reason the intervals are in the paper:
+# under a deadline a point forecast that is accurate on average can still be
+# unsafe, and the interval is what expresses that.
+#
+# The v3 rules took an unconstrained argmin, under which the point rule and the
+# interval rule almost always agree -- both pick the fastest -- so the interval
+# had nothing to do. They are RETIRED rather than redefined, because the old ids
+# appear in pilot artifacts with the unconstrained meaning.
+decision_replay:
+  objective: deadline-constrained-target-selection
+  axes: [deadline_violation_rate, runtime_regret_seconds]
+  # PROTOCOL, fixed before the confirmatory campaign: the risk-aware rule reads
+  # CQR upper bounds, and nothing else. Under plain split conformal the band has
+  # the same width for every target (additive in seconds, or multiplicative
+  # under the log transform), which preserves the forecast ordering: the
+  # fastest target is either inside the interval-feasible set or the set is
+  # empty and the fallback picks it anyway. The two rules would then agree at
+  # every origin, and the disagreement contrast -- the C4 result -- would have
+  # zero rows by construction. CQR's width varies by target, so it can reorder.
+  interval_source: cqr
+  interval_source_fallback: forbidden
+  interval_source_note: >-
+    if the declared CQR interval is not produced, the risk-aware rule is not
+    scored and the report says so; it never silently falls back to split
+    conformal, whose result is known in advance
+  deadline_source: origin.intent.latency_budget_seconds
+  rules:
+    # feasible = {t : point[t] <= deadline}; then the fastest of those.
+    - deadline-feasible-point-forecast
+    # feasible = {t : conformal upper[t] <= deadline}; then the fastest of those
+    # BY POINT FORECAST. The upper bound decides admission, the point forecast
+    # orders the admitted. Taking the smallest upper bound instead would answer
+    # a different question -- safest, rather than fastest-among-safe.
+    - deadline-feasible-conformal-upper-bound
+    - constant-large-tier
+    - constant-fixed-tier
+  superseded_rules:
+    deadline-feasible-point-forecast: argmin-point-forecast
+    deadline-feasible-conformal-upper-bound: argmin-conformal-upper-bound
+    constant-large-tier: constant-best-training-target
+    constant-fixed-tier: target-independent-default
+  oracle: measured-outcome-fastest-completed-target
+  # Declared, not improvised at analysis time. When no target is admissible the
+  # rule must still choose, and which fallback it takes moves the headline
+  # violation rate -- so both the fallback and how often it fired are reported.
+  empty_feasible_set_fallback:
+    deadline-feasible-point-forecast: fastest-predicted-when-no-target-is-predicted-feasible
+    deadline-feasible-conformal-upper-bound: least-upper-bound-when-no-target-is-interval-feasible
+  report_empty_feasible_set_count: true
+  # "Always the large tier" names the tier. Letting training medians pick it
+  # would make the rule's identity move when the training data moves.
+  large_tier_target: public-cloud
+  fixed_tier_target: on-prem
+  # The result is a CONTRAST, not a regret number. A single figure cannot tell
+  # a risk-aware rule that prevented four deadline misses apart from one that
+  # merely ran slower, and those are opposite findings.
+  risk_aware_contrast:
+    compared_on: origins-where-the-two-forecast-rules-choose-differently
+    classes:
+      - violation-avoided-by-interval
+      - violation-introduced-by-interval
+      - both-violated
+      - both-met-deadline
+    runtime_paid_reported_as: [mean, median]
+    strata: [latency_budget_tier, declared_state_regime]
+    strata_are_descriptive_only: true
+    strata_note: >-
+      with twenty-seven held-out origins most cells fall below
+      minimum_test_observations_per_displayed_subgroup; a cell that does is
+      marked rather than reported as if it were powered. No claim rule reads a
+      stratum.
+  default_target: on-prem
+  all_targets_measured_gate: required
+  denominator: all-held-out-test-origins
+  all_targets_measured_gate_action: retain-origin-in-denominator
+  failed_or_censored_selected_target: deadline-violation
+  regret_cap: job-deadline
+  minimum_complete_targets_for_top1_hit: 2
+  all_targets_measured_reference: declared-acquisition-spec-targets
+
+statistics:
+  decision_quantity: paired-origin-clustered-bootstrap-confidence-interval
+  test_statistic: paired-sign-test-on-per-origin-mean-absolute-error-difference
+  bootstrap:
+    draws: 10000
+    confidence_level: 0.95
+    hierarchy: [origin]
+    resampling_unit: origin
+    resamples_blocks: false
+  multiplicity:
+    correction: holm
+    family: selected-model-vs-each-selected-baseline
+    family_size: 6
+    corrects: paired-sign-test-on-per-origin-mean-absolute-error-difference
+
+offline_contract:
+  cluster_contact: forbidden
+  registry_contact: forbidden
+  subprocesses: forbidden
+  synthetic_tests_only: true

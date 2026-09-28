@@ -1,0 +1,220 @@
+{
+  "action_taken": "r3 withdrawn as a contention regime: its regime-keyed strata are marked withdrawn and carry no claim; every row is kept",
+  "contention_status": "withdrawn",
+  "coverage": {
+    "completed_cells": 40,
+    "declared_minimum": {
+      "cells": 40,
+      "families": 4,
+      "targets": 4
+    },
+    "families": [
+      "compress-encrypt",
+      "duckdb-tpch",
+      "graph-kernel",
+      "onnx-inference-fp32",
+      "onnx-inference-int8",
+      "stress-ng-cpu",
+      "video-transcode"
+    ],
+    "minimum_met": true,
+    "targets": [
+      "edge-1",
+      "edge-2",
+      "on-prem",
+      "public-cloud"
+    ]
+  },
+  "gate_status": "fail",
+  "materialization": {
+    "by_target": {
+      "edge-1": {
+        "heavy_cell_count": 9,
+        "max": 1.004594180704441,
+        "median_slowdown_ratio": 0.9777777777777777,
+        "meets_threshold": false,
+        "min": 0.9743589743589743,
+        "minimum_paired_cells_per_target": 2,
+        "paired_point_count": 3,
+        "status": "fail"
+      },
+      "edge-2": {
+        "heavy_cell_count": 9,
+        "max": 1.03125,
+        "median_slowdown_ratio": 1.0068530701754386,
+        "meets_threshold": false,
+        "min": 0.9824561403508772,
+        "minimum_paired_cells_per_target": 2,
+        "paired_point_count": 2,
+        "status": "fail"
+      },
+      "on-prem": {
+        "heavy_cell_count": 9,
+        "max": 1.035294117647059,
+        "median_slowdown_ratio": 1.0250156347717323,
+        "meets_threshold": false,
+        "min": 0.9882352941176471,
+        "minimum_paired_cells_per_target": 2,
+        "paired_point_count": 4,
+        "status": "fail"
+      },
+      "public-cloud": {
+        "heavy_cell_count": 10,
+        "max": 1.075,
+        "median_slowdown_ratio": 1.056841046277666,
+        "meets_threshold": false,
+        "min": 1.0256410256410258,
+        "minimum_paired_cells_per_target": 2,
+        "paired_point_count": 4,
+        "status": "fail"
+      }
+    },
+    "decision": "DEC-F24-section-3",
+    "heavy_regime": "r3-cpu-pressure",
+    "materialisation_claim_withdrawn_for": [],
+    "minimum_heavy_slowdown_ratio": 1.1,
+    "minimum_paired_cells_per_target": 2,
+    "reference": "same workload point, same target, declared regime none",
+    "status": "fail",
+    "targets_assessed": [
+      "edge-1",
+      "edge-2",
+      "on-prem",
+      "public-cloud"
+    ],
+    "targets_failing_the_gate": [
+      "edge-1",
+      "edge-2",
+      "on-prem",
+      "public-cloud"
+    ],
+    "targets_not_assessed_insufficient_paired_support": [],
+    "unpaired_loaded_cells": [
+      {
+        "candidate_cluster": "edge-1",
+        "point_id": "f1-x264-720p-testsrc2-med-1100"
+      },
+      {
+        "candidate_cluster": "on-prem",
+        "point_id": "f1-x264-720p-testsrc2-med-2400"
+      },
+      {
+        "candidate_cluster": "public-cloud",
+        "point_id": "f1-x264-720p-testsrc2-med-800"
+      },
+      {
+        "candidate_cluster": "public-cloud",
+        "point_id": "f1-x265-720p-mandelbrot-med-500"
+      },
+      {
+        "candidate_cluster": "edge-2",
+        "point_id": "f2-random-zstd1-aes-1152"
+      },
+      {
+        "candidate_cluster": "on-prem",
+        "point_id": "f2-random-zstd1-aes-1152"
+      },
+      {
+        "candidate_cluster": "edge-2",
+        "point_id": "f2-text-zstd12-chacha-512"
+      },
+      {
+        "candidate_cluster": "edge-2",
+        "point_id": "f3-r50-fp32-160-256"
+      },
+      {
+        "candidate_cluster": "public-cloud",
+        "point_id": "f3-r50-fp32-224-128"
+      },
+      {
+        "candidate_cluster": "edge-1",
+        "point_id": "f3-r50-fp32-224-224"
+      },
+      {
+        "candidate_cluster": "public-cloud",
+        "point_id": "f3-r50-fp32-224-288"
+      },
+      {
+        "candidate_cluster": "edge-1",
+        "point_id": "f3-r50-int8-224-128"
+      },
+      {
+        "candidate_cluster": "public-cloud",
+        "point_id": "f3-r50-int8-224-128"
+      },
+      {
+        "candidate_cluster": "edge-2",
+        "point_id": "f4-bfs-kron-22-n4"
+      },
+      {
+        "candidate_cluster": "edge-1",
+        "point_id": "f4-cc-kron-21-n1"
+      },
+      {
+        "candidate_cluster": "on-prem",
+        "point_id": "f4-cc-kron-21-n1"
+      },
+      {
+        "candidate_cluster": "edge-2",
+        "point_id": "f4-pr-kron-21-n1"
+      },
+      {
+        "candidate_cluster": "edge-2",
+        "point_id": "f4-pr-uniform-21-n1"
+      },
+      {
+        "candidate_cluster": "public-cloud",
+        "point_id": "f5-sf1-q1-r2"
+      },
+      {
+        "candidate_cluster": "edge-1",
+        "point_id": "f5-sf2-q1-r2"
+      },
+      {
+        "candidate_cluster": "on-prem",
+        "point_id": "f5-sf2-q9-r2"
+      },
+      {
+        "candidate_cluster": "edge-1",
+        "point_id": "f5-sf3-q1-r2"
+      },
+      {
+        "candidate_cluster": "edge-2",
+        "point_id": "f5-sf3-q1-r2"
+      },
+      {
+        "candidate_cluster": "on-prem",
+        "point_id": "f5-sf3-q1-r2"
+      }
+    ]
+  },
+  "pooled_regime_strata_status": "withdrawn",
+  "regime": "r3-cpu-pressure",
+  "retained_in": [
+    "the dataset: no row is deleted",
+    "RQ1 point accuracy",
+    "the interaction-rank comparison",
+    "the pooled decision replay"
+  ],
+  "rule": {
+    "disposition": "repaired",
+    "minimum_cells": 40,
+    "minimum_families": 4,
+    "minimum_targets": 4,
+    "removal_condition": "fails the contention-materialization gate"
+  },
+  "target_rule": "a target whose r3 gate cell is not assessed (insufficient paired support) has its r3 cells withdrawn even when the regime passes (FCAST-V4-DEV-02)",
+  "targets_withdrawn": [
+    "edge-1",
+    "edge-2",
+    "on-prem",
+    "public-cloud"
+  ],
+  "verdict": "withdrawn",
+  "verdict_rule": "withdrawn as a contention regime iff the registered contention-materialization gate on r3 is fail or not-assessed (FCAST-V4-DEV-02, 2026-09-22); retained iff it passes",
+  "withdrawn_from": [
+    "every contended stratum keyed by declared regime (uncertainty subgroups)",
+    "the RQ4 disagreement contrast by regime (origin regime, large-tier regime, and the loaded-target count at any origin where r3 is present)",
+    "the RQ2 state increment by regime"
+  ]
+}

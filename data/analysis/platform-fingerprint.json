@@ -1,0 +1,169 @@
+{
+  "by_target": {
+    "edge-1": {
+      "distinct_boot_ids": 1,
+      "execution_count": 176,
+      "fingerprint": {
+        "platform_architecture": [
+          "aarch64"
+        ],
+        "platform_boot_id": [
+          "boot-edge-1"
+        ],
+        "platform_kernel_version": [
+          "6.12.109+rpt-rpi-2712"
+        ],
+        "platform_kubelet_version": [
+          "v1.36.4"
+        ],
+        "platform_machine_id": [
+          "machine-edge-1"
+        ],
+        "platform_os_image": [
+          "Debian GNU/Linux 12 (bookworm)"
+        ]
+      },
+      "gated_fields_absent_on_completed_rows": [],
+      "gated_fields_unstable": [],
+      "restart_count_from_boot_id": 0,
+      "rows_without_fingerprint_not_completed": 0,
+      "status": "pass",
+      "supplementary_is_never_gated": true,
+      "supplementary_provenance": {
+        "platform_container_runtime_version": null,
+        "platform_node_uid": null
+      }
+    },
+    "edge-2": {
+      "distinct_boot_ids": 1,
+      "execution_count": 176,
+      "fingerprint": {
+        "platform_architecture": [
+          "aarch64"
+        ],
+        "platform_boot_id": [
+          "boot-edge-2"
+        ],
+        "platform_kernel_version": [
+          "6.1.21-v8+"
+        ],
+        "platform_kubelet_version": [
+          "v1.36.4"
+        ],
+        "platform_machine_id": [
+          "machine-edge-2"
+        ],
+        "platform_os_image": [
+          "Debian GNU/Linux 11 (bullseye)"
+        ]
+      },
+      "gated_fields_absent_on_completed_rows": [],
+      "gated_fields_unstable": [],
+      "restart_count_from_boot_id": 0,
+      "rows_without_fingerprint_not_completed": 0,
+      "status": "pass",
+      "supplementary_is_never_gated": true,
+      "supplementary_provenance": {
+        "platform_container_runtime_version": null,
+        "platform_node_uid": null
+      }
+    },
+    "on-prem": {
+      "distinct_boot_ids": 1,
+      "execution_count": 176,
+      "fingerprint": {
+        "platform_architecture": [
+          "x86_64"
+        ],
+        "platform_boot_id": [
+          "boot-on-prem"
+        ],
+        "platform_kernel_version": [
+          "6.8.0-139-generic"
+        ],
+        "platform_kubelet_version": [
+          "v1.36.4"
+        ],
+        "platform_machine_id": [
+          "machine-on-prem"
+        ],
+        "platform_os_image": [
+          "Ubuntu 24.04.5 LTS"
+        ]
+      },
+      "gated_fields_absent_on_completed_rows": [],
+      "gated_fields_unstable": [],
+      "restart_count_from_boot_id": 0,
+      "rows_without_fingerprint_not_completed": 0,
+      "status": "pass",
+      "supplementary_is_never_gated": true,
+      "supplementary_provenance": {
+        "platform_container_runtime_version": null,
+        "platform_node_uid": null
+      }
+    },
+    "public-cloud": {
+      "distinct_boot_ids": 1,
+      "execution_count": 176,
+      "fingerprint": {
+        "platform_architecture": [
+          "x86_64"
+        ],
+        "platform_boot_id": [
+          "boot-public-cloud"
+        ],
+        "platform_kernel_version": [
+          "5.15.0-191-generic"
+        ],
+        "platform_kubelet_version": [
+          "v1.36.4"
+        ],
+        "platform_machine_id": [
+          "machine-public-cloud"
+        ],
+        "platform_os_image": [
+          "Ubuntu 22.04.5 LTS"
+        ]
+      },
+      "gated_fields_absent_on_completed_rows": [],
+      "gated_fields_unstable": [],
+      "restart_count_from_boot_id": 0,
+      "rows_without_fingerprint_not_completed": 0,
+      "status": "pass",
+      "supplementary_is_never_gated": true,
+      "supplementary_provenance": {
+        "platform_container_runtime_version": null,
+        "platform_node_uid": null
+      }
+    }
+  },
+  "container_runtime_version": {
+    "behavioural_backstop": "container-runtime change is detected behaviourally by the start-up calibration point rather than declaratively by a version string",
+    "declaratively_gated": false,
+    "reason": "unavailable on the Pull-mode targets: the agent's ServiceAccount cannot read the node API on a member and the Karmada Cluster CR does not carry it"
+  },
+  "decision": "DEC-F24-section-6",
+  "fields_absent_from_dataset": [],
+  "gate_rule": "kubeletVersion, kernelVersion and machineID must each be constant within a target across the campaign; bootID is reported as a restart counter and is never gated",
+  "gated_fields": [
+    "platform_kubelet_version",
+    "platform_kernel_version",
+    "platform_machine_id"
+  ],
+  "reported_fields": [
+    "platform_kubelet_version",
+    "platform_kernel_version",
+    "platform_os_image",
+    "platform_architecture",
+    "platform_boot_id",
+    "platform_machine_id"
+  ],
+  "schema_version": 4,
+  "status": "pass",
+  "supplementary_fields": [
+    "platform_container_runtime_version",
+    "platform_node_uid"
+  ],
+  "supplementary_rule": "recorded where available and never gated; the gate stays uniform at the fields every target can produce, because a gate that checks more on some targets than others would fail a Pull-mode member for lacking a field it can never have",
+  "violations": []
+}

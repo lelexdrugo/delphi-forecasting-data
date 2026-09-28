@@ -1,0 +1,30 @@
+{
+  "grouping_key": [
+    "block_id",
+    "origin_id"
+  ],
+  "schema_version": 3,
+  "splits": {
+    "calibration": {
+      "origin_count": 19,
+      "row_count": 176
+    },
+    "model-selection": {
+      "origin_count": 0,
+      "row_count": 0
+    },
+    "startup-calibration": {
+      "origin_count": 12,
+      "row_count": 48
+    },
+    "test": {
+      "origin_count": 27,
+      "row_count": 256
+    },
+    "train": {
+      "origin_count": 24,
+      "row_count": 224
+    }
+  },
+  "strategy": "chronological-declared-blocks"
+}
