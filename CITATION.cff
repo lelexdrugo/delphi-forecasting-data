@@ -3,6 +3,7 @@ message: "If you use this dataset, please cite it as below, together with the ar
 type: dataset
 title: "Paired runtime dataset: which machine meets the deadline? (FCAST-EXP-REPLAY-V4)"
 version: 1.0.0
+doi: 10.5281/zenodo.23025059
 license: CC-BY-4.0
 authors:
   - family-names: Scaffidi Militone

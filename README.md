@@ -1,5 +1,7 @@
 # Paired runtime dataset: which machine meets the deadline?
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23025059.svg)](https://doi.org/10.5281/zenodo.23025059)
+
 This archive holds the data behind the article *Which Machine Meets the Deadline? Runtime
 Forecasting for Computation Placement in the Cloud–Edge Continuum* by Gabriele Scaffidi Militone,
 Daniele Apiletti and Giovanni Malnati (Politecnico di Torino), submitted to *Forecasting* (MDPI).
@@ -241,8 +243,22 @@ sha256sum -c SHA256SUMS
 ## How to cite
 
 Please cite the article and this archive. The article reference will be added here once it is
-published. The archive's DOI is shown on its Zenodo record; `CITATION.cff` gives the citation
-metadata.
+published. The archive is:
+
+> Scaffidi Militone, G., Apiletti, D., and Malnati, G. (2026). *Paired runtime dataset: which machine
+> meets the deadline? (FCAST-EXP-REPLAY-V4)*, version 1.0.0. Zenodo. https://doi.org/10.5281/zenodo.23025059
+
+```bibtex
+@misc{scaffidimilitone2026data,
+  author       = {Scaffidi Militone, Gabriele and Apiletti, Daniele and Malnati, Giovanni},
+  title        = {Paired Runtime Dataset: Which Machine Meets the Deadline? ({FCAST-EXP-REPLAY-V4})},
+  howpublished = {Zenodo, version 1.0.0},
+  year         = {2026},
+  doi          = {10.5281/zenodo.23025059}
+}
+```
+
+`CITATION.cff` carries the same metadata for GitHub's "Cite this repository".
 
 ## Licence
 
